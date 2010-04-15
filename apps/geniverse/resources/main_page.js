@@ -14,7 +14,7 @@ Geniverse.mainPage = SC.Page.design({
     childViews: 'breedView'.w(),
     
     breedView: Geniverse.BreedDragonView.design({
-      layout: { centerX: 0, centerY: 0, width: 205, height: 255 }
+      layout: { centerX: 0, centerY: 0, width: 400, height: 450 }
     })
   })
 

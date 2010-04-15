@@ -13,13 +13,13 @@
 */
 Geniverse.Dragon = SC.Record.extend(
 /** @scope Geniverse.Dragon.prototype */ {
-	gOrganism: null,
-  name: 'No name',
-	sex: -1,
-	alleles: null,
-	imageURL: null,
-	characteristics: [],
-	metaInfo: {},
+	gOrganism: SC.Record.attr(Object),
+  name: SC.Record.attr(String),
+	sex: SC.Record.attr(Number),
+	alleles: SC.Record.attr(String),
+	imageURL: SC.Record.attr(String),
+	characteristics: SC.Record.attr(Array),
+	metaInfo: SC.Record.attr(Object),
 	
 	setAttributes: function() {
 		var gOrg = this.get('gOrganism');
@@ -29,5 +29,14 @@ Geniverse.Dragon = SC.Record.extend(
 		this.set('imageURL', gOrg.imageURL);
 		this.set('characteristics', gOrg.characteristics);
 		this.set('metaInfo', gOrg.metaInfo);
-	}.observes('*gOrganism')
+		
+		// alert('set organism attributes:' +
+		//   ' name: ' + this.get('name') +
+		//   ', sex: ' + this.get('sex') +
+		//   ', alleles: ' + this.get('alleles') +
+		//   ', imageURL: ' + this.get('imageURL') +
+		//   ', characteristics: ' + this.get('characteristics') +
+		//   ', metaInfo: ' + this.get('metaInfo')
+		// );
+	}.observes('gOrganism')
 }) ;

@@ -12,7 +12,7 @@
 */
 Geniverse.OrganismView = SC.View.extend(
 /** @scope Geniverse.OrganismView.prototype */ {
-	organism: 'Organism',
+	organism: null,
 	
 	organismDidChange: function() {
 		this.set('layerNeedsUpdate', YES);
@@ -20,7 +20,10 @@ Geniverse.OrganismView = SC.View.extend(
 
   // TODO: Add your own code here.
   render: function(context) {
-			context.push("<div style='border: 1px solid #cccccc; width: 99%; height: 99%;'>" + this.get('organism') + "</div>");
+			context.push("<div style='border: 1px solid #cccccc; width: 99%; height: 99%;'>" + 
+			  '<img src="' + this.getPath('organism.imageURL') + '" />' +
+			  "</div>"
+			);
   }
 
 });
