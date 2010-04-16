@@ -40,30 +40,35 @@ Geniverse.BreedDragonView = SC.View.extend(
 	childViews: 'motherView fatherView childView breedButtonView'.w(),
 	
 	fatherView: Geniverse.OrganismView.design({
-	  layout: { left: 0, top: 0, width: 200, height: 200 },
-	  organismBinding: "*parentView.father"
+	  layout: { right: 0, top: 0, width: 188, height: 141 },
+	  organismBinding: "*parentView.father",
+	  label: "Father"
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
-	  layout: { left: 200, top: 0, width: 200, height: 200 },
-	  organismBinding: "*parentView.mother"
+	  layout: { left: 0, top: 0, width: 188, height: 141 },
+	  organismBinding: "*parentView.mother",
+	  label: "Mother"
 	}),
 	
 	childView: Geniverse.OrganismView.design({
-	  layout: { left: 100, top: 200, width: 200, height: 200 },
-	  organismBinding: "*parentView.child"
+	  layout: { centerX: 0, top: 141, width: 188, height: 141 },
+	  organismBinding: "*parentView.child",
+	  label: "Child"
 	}),
 	
 	breedButtonView: SC.ButtonView.design({
-		layout: { left: 162, top: 400, width: 75, height: 24 },
+		layout: { centerX: 0, top: 282, width: 100, height: 24 },
 		action: "this.parentView.buttonAction",
 		title: "Breed"
 	}),
 	
 	buttonAction: function(source, event) {
 		var self = this;
+		this.breedButtonView.set('title', 'Generating...');
 		Geniverse.BreedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
 		  self.set('child', child);
+		  self.breedButtonView.set('title', 'Breed');
 	  });
 	}
 

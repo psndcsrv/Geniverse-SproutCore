@@ -13,15 +13,17 @@
 Geniverse.OrganismView = SC.View.extend(
 /** @scope Geniverse.OrganismView.prototype */ {
 	organism: null,
+	label: 'Organism',
 	
 	organismDidChange: function() {
 		this.set('layerNeedsUpdate', YES);
 	}.observes('organism'),
 
-  // TODO: Add your own code here.
+  // TODO: This could probably be done cleaner with child views...
   render: function(context) {
-			context.push("<div style='border: 1px solid #cccccc; width: 99%; height: 99%;'>" + 
-			  '<img src="' + this.getPath('organism.imageURL') + '" />' +
+			context.push("<div style='width: 99%; height: 99%;'>" + 
+			  '<div style="text-align: center; width: 100%;">' + this.get('label') + '</div>' +
+			  '<div style="text-align: center;"><img src="' + this.getPath('organism.imageURL') + '" /></div>' +
 			  "</div>"
 			);
   }
