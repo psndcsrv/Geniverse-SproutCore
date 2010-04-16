@@ -26,10 +26,10 @@ GenGWT = {
     },
 
     setAlleles: function(string) {
-        allelesArray = string.split("|")
+        var allelesArray = string.split("|");
         if (allelesArray.length == 1) {
-            currentAlleleStringF = allelesArray[0];
-            currentAlleleStringM = allelesArray[0];
+            this.currentAlleleStringF = allelesArray[0];
+            this.currentAlleleStringM = allelesArray[0];
         } else if (allelesArray.length == 2) {
             this.currentAlleleStringF = allelesArray[0];
             this.currentAlleleStringM = allelesArray[1];
@@ -42,7 +42,7 @@ GenGWT = {
 
     hasCharacteristic: function(dragon, characteristic) {
         function contains(arrayList, obj) {
-            var array = arrayList.array
+            var array = arrayList.array;
             var i = array.length;
             while (i--) {
                 if (array[i] == obj) {

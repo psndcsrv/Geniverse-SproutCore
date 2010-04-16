@@ -10,7 +10,7 @@
 
   @extends SC.View
 */
-require('controllers/breed_organism')
+require('controllers/breed_organism');
 require('views/organism');
 Geniverse.BreedDragonView = SC.View.extend(
 /** @scope Geniverse.BreedDragonView.prototype */ {
