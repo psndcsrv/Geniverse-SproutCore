@@ -20,6 +20,9 @@ Geniverse.Dragon = SC.Record.extend(
 	imageURL: SC.Record.attr(String),
 	characteristics: SC.Record.attr(Array),
 	metaInfo: SC.Record.attr(Object),
+	mother: SC.Record.attr(SC.Record),
+	father: SC.Record.attr(SC.Record),
+	bred: SC.Record.attr(Boolean),
 	
 	setAttributes: function() {
 		var gOrg = this.get('gOrganism');
@@ -27,7 +30,7 @@ Geniverse.Dragon = SC.Record.extend(
 		this.set('sex', gOrg.sex);
 		this.set('alleles', gOrg.alleles);
 		this.set('imageURL', gOrg.imageURL);
-		this.set('characteristics', gOrg.characteristics);
+		this.set('characteristics', gOrg.characteristics.array);
 		this.set('metaInfo', gOrg.metaInfo);
 		
 		// alert('set organism attributes:' +
@@ -38,5 +41,36 @@ Geniverse.Dragon = SC.Record.extend(
 		//   ', characteristics: ' + this.get('characteristics') +
 		//   ', metaInfo: ' + this.get('metaInfo')
 		// );
-	}.observes('gOrganism')
+	}.observes('gOrganism'),
+	
+	// some computed properties
+	sexAsString: function() {
+		var sex = this.get('sex');
+		if (sex === 0) {
+			return "Male";
+		} else if (sex === 1) {
+			return "Female";
+		} else if (sex === -1) {
+			return "Random";
+		} else {
+			return "Unknown";
+		}
+	}.property('sex').cacheable(),
+	
+	characteristicsAsString: function() {
+		var out = '';
+		var chars = this.get('characteristics');
+		for (var i = 0; i < chars.length; i++) {
+			if (i === 0) {
+				out += chars[i];
+			} else {
+				out += ", " + chars[i];
+			}
+		}
+		return out;
+	}.property('characteristics').cacheable(),
+	
+	info: function() {
+		return this.get('sexAsString') + ' -- ' + this.get('characteristicsAsString');
+	}.property('sexAsString','characteristicsAsString').cacheable()
 }) ;
