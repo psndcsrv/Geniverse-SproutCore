@@ -11,21 +11,26 @@
   @extends SC.View
 */
 Geniverse.OrganismView = SC.View.extend(
+	SC.ContentDisplay,
 /** @scope Geniverse.OrganismView.prototype */ {
 	organism: null,
 	label: 'Organism',
 	
 	organismDidChange: function() {
+		this.set('content', this.get('organism'));
 		this.set('layerNeedsUpdate', YES);
 	}.observes('organism'),
 
   // TODO: This could probably be done cleaner with child views...
   render: function(context) {
-			context.push("<div style='width: 99%; height: 99%;'>" + 
-			  '<div style="text-align: center; width: 100%;">' + this.get('label') + '</div>' +
-			  '<div style="text-align: center;"><img src="' + this.getPath('organism.imageURL') + '" /></div>' +
-			  "</div>"
+			context.push("<div style='width: 99%; height: 99%; text-align: center;'>" + 
+			   this._image_string() +
+			  '</div>'
 			);
-  }
+  },
+
+  _image_string: function() {
+		return '<img src="' + this.getPath('content.imageURL') + '" style="width: ' + this.get('layout')['width'] + 'px; height: ' + this.get('layout')['height'] + 'px" />';
+	}
 
 });
