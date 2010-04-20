@@ -11,10 +11,10 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'breedView gridScrollView'.w(),
+    childViews: 'breedView gridScrollView listScrollView'.w(),
     
     breedView: Geniverse.BreedDragonView.design({
-      layout: { centerX: -400, centerY: 0, width: 400, height: 450 }
+      layout: { centerX: -500, centerY: 0, width: 400, height: 450 }
     }),
 
 		tabView: SC.TabView.design({
@@ -31,7 +31,7 @@ Geniverse.mainPage = SC.Page.design({
 		
 		listScrollView: SC.ScrollView.design({
 		  hasHorizontalScroller: NO,
-      layout: { left: 0, top: 0, width: 600, height: 450 },
+      layout: { centerX: 350, centerY: 0, width: 600, height: 450 },
       backgroundColor: 'white',
       contentView: SC.ListView.design({
 				contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
@@ -40,14 +40,14 @@ Geniverse.mainPage = SC.Page.design({
 				canEditContent: NO,
 				contentIconKey: 'imageURL',
 				hasContentIcon: YES,
-				contentValueKey: 'info'
+				contentValueKey: 'info',
+				isSelectable: YES
       })
     }),
 
 		gridScrollView: SC.ScrollView.design({
 		  hasHorizontalScroller: NO,
-      // layout: { left: 0, top: 0, width: 600, height: 450 },
-			layout: { centerX: 100, centerY: 0, width: 620, height: 480 },
+			layout: { centerX: -130, centerY: 0, width: 310, height: 480 },
       backgroundColor: 'white',
       contentView: SC.GridView.design({
 				contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
@@ -55,7 +55,8 @@ Geniverse.mainPage = SC.Page.design({
 				rowHeight: 60,
 				columnWidth: 60,
 				canEditContent: NO,
-				exampleView: Geniverse.OrganismView
+				exampleView: Geniverse.OrganismView,
+				isSelectable: YES
       })
     })
   })
