@@ -27,8 +27,16 @@ Geniverse.BreedDragonView = SC.View.extend(
 	initParents: function() {
 		if (typeof(generateDragonWithSex) != "undefined") {
 			var self = this;
-			Geniverse.BreedOrganismController.generateDragon(1, 'Mother', function(dragon) { self.set('mother', dragon); });
-			Geniverse.BreedOrganismController.generateDragon(0, 'Father', function(dragon) { self.set('father', dragon); });
+			Geniverse.BreedOrganismController.generateDragon(1, 'Mother', function(dragon) {
+				SC.RunLoop.begin();
+				self.set('mother', dragon);
+				SC.RunLoop.end();
+			});
+			Geniverse.BreedOrganismController.generateDragon(0, 'Father', function(dragon) {
+				SC.RunLoop.begin();
+				self.set('father', dragon);
+				SC.RunLoop.end();
+			});
 			this.get('loadTimer').invalidate();
 		}
 	},
@@ -67,8 +75,10 @@ Geniverse.BreedDragonView = SC.View.extend(
 		var self = this;
 		this.breedButtonView.set('title', 'Generating...');
 		Geniverse.BreedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
+			SC.RunLoop.begin();
 		  self.set('child', child);
 		  self.breedButtonView.set('title', 'Breed');
+			SC.RunLoop.end();
 	  });
 	}
 
