@@ -25,7 +25,10 @@ Geniverse.main = function main() {
   // TODO: Set the content property on your primary controller
   // ex: Geniverse.contactsController.set('content',Geniverse.contacts);
 
-	var query = SC.Query.local(Geniverse.Dragon, "bred = true", {orderBy: "guid ASC"});
+	Geniverse.store.commitRecordsAutomatically = YES;
+
+	var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'storeKey'});
+	// var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'sex,alleles'});
 	var bred_organisms = Geniverse.store.findAll(query);
 	Geniverse.bredOrganismsController.set('content', bred_organisms);
 } ;
