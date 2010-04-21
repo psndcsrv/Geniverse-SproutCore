@@ -57,7 +57,8 @@ Geniverse.BreedDragonView = SC.View.extend(
 	fatherLabel: SC.LabelView.design({
 		layout: {top: 0, right: 0, width: 40, height: 18},
 		classNames: "fatherLabel",
-		value: "Father"
+		value: "Father",
+		useStaticLayout: YES
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
@@ -68,7 +69,8 @@ Geniverse.BreedDragonView = SC.View.extend(
 	motherLabel: SC.LabelView.design({
 		layout: {top: 0, left: 0, width: 40, height: 18},
 		classNames: "motherLabel",
-		value: "Mother"
+		value: "Mother",
+		useStaticLayout: YES
 	}),
 	
 	childView: Geniverse.OrganismView.design({
@@ -79,7 +81,8 @@ Geniverse.BreedDragonView = SC.View.extend(
 	childLabel: SC.LabelView.design({
 		layout: {centerX: 0, centerY: 9, width: 40, height: 18},
 		classNames: "childLabel",
-		value: "Child"
+		value: "Child",
+		useStaticLayout: YES
 	}),
 	
 	breedButtonView: SC.ButtonView.design({

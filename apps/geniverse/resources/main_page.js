@@ -11,28 +11,26 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    // childViews: 'breedView mwAppletView listScrollView'.w(),
-    childViews: 'breedView'.w(),
+    childViews: 'breedView mwAppletView tabView listScrollView'.w(),
 
     breedView: Geniverse.BreedDragonView.design({
-      layout: { top: 0, left: 0, minWidth: 10 }
+      layout: { centerY: -225, centerX: -100, height: 150, width: 200 }
     }),
 
-		// tabView: SC.TabView.design({
-		// 	// value: "Geniverse.mainPage.mainPane.listScrollView",
-		// 	items: [
-		// 	  { title: "List", value: "Geniverse.mainPage.mainPane.listScrollView" },
-		// 		{ title: "Grid", value: "Geniverse.mainPage.mainPane.gridScrollView" }
-		// 	],
-		// 	itemTitleKey: 'title',
-		//       itemValueKey: 'value',
-		// 	layout: { centerX: 100, centerY: 0, width: 620, height: 480 },
-		// 	userDefaultKey: "mainPanel"
-		// }),
+		tabView: SC.TabView.design({
+			items: [
+			  { title: "Page 1", value: "page1" },
+				{ title: "Page 2", value: "page2" }
+			],
+			itemTitleKey: 'title',
+		  itemValueKey: 'value',
+			layout: { centerX: 120, centerY: -150, width: 200, height: 300 },
+			nowShowing: "page1"
+		}),
 		
 		listScrollView: SC.ScrollView.design({
 		  hasHorizontalScroller: NO,
-      layout: { left: 0, top: 325, width: 350, bottom: 0 },
+      layout: { centerY: -75, centerX: -100, height: 150, width: 200 },
       backgroundColor: 'white',
       contentView: SC.ListView.design({
 				contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
@@ -47,8 +45,9 @@ Geniverse.mainPage = SC.Page.design({
     }),
 
 		mwAppletView: CC.MwAppletView.design({
-					layout: {left: 355, top: 0, width: 100, height: 30}
-				})
+		  cmlUrl: "http://mw2.concord.org/public/student/classic/machine/bike.cml",
+			layout: {centerX: -100, centerY: 160, height: 300, width: 400}
+		})
 		
 		// gridScrollView: SC.ScrollView.design({
 		//   hasHorizontalScroller: NO,
@@ -64,6 +63,15 @@ Geniverse.mainPage = SC.Page.design({
 		// 		isSelectable: YES
 		//       })
     // })
-  })
+  }),
+
+	page1: SC.LabelView.design({
+		value: "<p>This is page 1!</p>",
+		escapeHTML: NO
+	}),
+	
+	page2: SC.LabelView.design({
+		value: "This is page 2!"
+	})
 
 });
