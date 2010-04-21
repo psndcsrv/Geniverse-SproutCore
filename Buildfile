@@ -4,5 +4,5 @@
 # ===========================================================================
 
 # Add initial buildfile information here
-config :all, :required => :sproutcore
+config :all, :required => [:sproutcore, :cc]
 proxy '/geniverse/', :to => 'geniverse.dev.concord.org'
