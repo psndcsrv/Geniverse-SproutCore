@@ -1,0 +1,34 @@
+.sc-theme .motherLabel {
+	position: absolute; top: 0px; left: 20%;
+}
+
+.sc-theme .fatherLabel {
+	position: absolute; top: 0px; right: 100%;
+	text-align: right;
+}
+
+.sc-theme .childLabel {
+	position: absolute; top: 50%; left: 45%;
+}
+
+.sc-theme .motherView {
+	position: absolute; top: 18px; left: 0px; width: 50%;
+}
+
+.sc-theme .fatherView {
+	position: absolute; top: 18px; right: 0px; width: 50%;
+}
+
+.sc-theme .childView {
+	position: absolute; bottom: 24px; left: 50%; width: 50%;
+}
+
+.sc-theme .breed-organism-view .organism-view {
+	width: 50%;
+	height: 50%;
+}
+
+.sc-theme .organism-view img {
+	width: 100%;
+	height: 100%;
+}

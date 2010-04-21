@@ -2,7 +2,7 @@
 // Project:   Geniverse.BreedDragonView
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse */
+/*globals Geniverse, generateDragonWithSex */
 
 /** @class
 
@@ -41,44 +41,49 @@ Geniverse.BreedDragonView = SC.View.extend(
 		}
 	},
 	
+	classNames: ['breed-organism-view'],
+	
   mother: null,
   father: null,
   child: null,
 
-	childViews: 'motherView fatherView childView motherLabel fatherLabel childLabel breedButtonView'.w(),
+	childViews: 'fatherView motherView childView fatherLabel motherLabel childLabel breedButtonView'.w(),
 	
 	fatherView: Geniverse.OrganismView.design({
-	  layout: { left: 188, top: 18, width: 188, height: 141 },
+	  classNames: "fatherView",
 	  organismBinding: "*parentView.father"
 	}),
 	
 	fatherLabel: SC.LabelView.design({
-		layout: { left: 247, top: 0, width: 50, height: 18 },
+		layout: {top: 0, right: 0, width: 40, height: 18},
+		classNames: "fatherLabel",
 		value: "Father"
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
-	  layout: { left: 0, top: 18, width: 188, height: 141 },
+	  classNames: "motherView",
 	  organismBinding: "*parentView.mother"
 	}),
 	
 	motherLabel: SC.LabelView.design({
-		layout: { left: 59, top: 0, width: 50, height: 18 },
+		layout: {top: 0, left: 0, width: 40, height: 18},
+		classNames: "motherLabel",
 		value: "Mother"
 	}),
 	
 	childView: Geniverse.OrganismView.design({
-	  layout: { centerX: 0, top: 159, width: 188, height: 141 },
+	  classNames: "childView",
 	  organismBinding: "*parentView.child"
 	}),
 	
 	childLabel: SC.LabelView.design({
-		layout: { centerX: 0, top: 147, width: 40, height: 18 },
+		layout: {centerX: 0, centerY: 9, width: 40, height: 18},
+		classNames: "childLabel",
 		value: "Child"
 	}),
 	
 	breedButtonView: SC.ButtonView.design({
-		layout: { centerX: 0, top: 288, width: 100, height: 24 },
+		layout: { centerX: 0, bottom: 0, width: 100, height: 24 },
 		action: "this.parentView.buttonAction",
 		title: "Breed"
 	}),
@@ -93,5 +98,30 @@ Geniverse.BreedDragonView = SC.View.extend(
 			SC.RunLoop.end();
 	  });
 	}
+	// 
+	// render: function(context, firstTime) {
+	// 	this._render_child(context, firstTime, 'breedButtonView', false);
+	// 	
+	// 	this._render_child(context, firstTime, 'motherLabel', true);
+	// 	this._render_child(context, firstTime, 'fatherLabel', true);
+	// 	this._render_child(context, firstTime, 'childLabel', true);
+	// 	this._render_child(context, firstTime, 'motherView', true);
+	// 	this._render_child(context, firstTime, 'fatherView', true);
+	// 	this._render_child(context, firstTime, 'childView', true);
+	// },
+	// 
+	// _render_child: function(context, firstTime, childName, stripStyles) {
+	// 	var child = this.get(childName);
+	// 	var curContext = context.begin(child.get('tagName'));
+	// 	child.prepareContext(curContext, firstTime);
+	// 	curContext.addClass(child);
+	// 	if (stripStyles) {
+	// 		curContext.removeStyle('left');
+	// 		curContext.removeStyle('right');
+	// 		curContext.removeStyle('top');
+	// 		curContext.removeStyle('bottom');
+	// 	}
+	// 	curContext.end();
+	// }
 
 });
