@@ -20,8 +20,8 @@ Geniverse.Dragon = SC.Record.extend(
 	imageURL: SC.Record.attr(String),
 	characteristics: SC.Record.attr(Array),
 	metaInfo: SC.Record.attr(Object),
-	mother: SC.Record.attr(SC.Record),
-	father: SC.Record.attr(SC.Record),
+	mother: SC.Record.toOne(Geniverse.Dragon),
+	father: SC.Record.toOne(Geniverse.Dragon),
 	bred: SC.Record.attr(Boolean),
 	
 	setAttributes: function() {
