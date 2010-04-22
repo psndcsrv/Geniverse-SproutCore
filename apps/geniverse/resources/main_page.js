@@ -11,7 +11,7 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'breedView mwAppletView tabView listScrollView'.w(),
+    childViews: 'breedView mwAppletView tabView listScrollView questionsView'.w(),
 
     breedView: Geniverse.BreedDragonView.design({
       layout: { top: 0, left: 0, height: 200, width: 200 }
@@ -49,6 +49,31 @@ Geniverse.mainPage = SC.Page.design({
 			layout: {left: 0, bottom: 0, height: 300, width: 400}
 		}),
 		
+		questionsView: SC.ScrollView.design({
+			layout: {right: 0, bottom: 0, width: 200, height: 200},
+			contentView: SC.StackedView.design({
+				childViews: 'question1 question2 question3'.w(),
+
+				question1: CC.QuestionView.design({
+					useStaticLayout: YES,
+					classNames: 'question1',
+					prompt: "First Question: What is your name?"
+				}),
+
+				question2: CC.QuestionView.design({
+					useStaticLayout: YES,
+					classNames: 'question2',
+					prompt: "First Question: What is your quest?"
+				}),
+
+				question3: CC.QuestionView.design({
+					useStaticLayout: YES,
+					classNames: 'question3',
+					prompt: "First Question: What is your favorite color?"
+				})
+			})
+		}),
+		
 		viewDidResize: function() {
 			// we want to resize the widths and heights appropriately
 			var width = this.get('layer').offsetWidth;
@@ -58,6 +83,7 @@ Geniverse.mainPage = SC.Page.design({
 			this._adjust_size(this.get('mwAppletView'), { width: (width-5-18)/2, height: (height-10-18)/2});
 			this._adjust_size(this.get('listScrollView'), { width: (width-5)/2, height: (height-10)/4, top: (height-10)/4 + 5});
 			this._adjust_size(this.get('tabView'), { width: (width-5)/2, height: (height-5)/2 });
+			this._adjust_size(this.get('questionsView'), { width: (width-5)/2, height: (height-5)/2 });
 		},
 		
 		_adjust_size: function(view, params) {
