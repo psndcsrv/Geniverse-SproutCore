@@ -50,6 +50,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	childViews: 'fatherView motherView childView fatherLabel motherLabel childLabel breedButtonView'.w(),
 	
 	fatherView: Geniverse.OrganismView.design({
+		layout: {top: 18, right: 0, width: 80, height: 60},
 	  classNames: "fatherView",
 	  organismBinding: "*parentView.father"
 	}),
@@ -57,11 +58,11 @@ Geniverse.BreedDragonView = SC.View.extend(
 	fatherLabel: SC.LabelView.design({
 		layout: {top: 0, right: 0, width: 40, height: 18},
 		classNames: "fatherLabel",
-		value: "Father",
-		useStaticLayout: YES
+		value: "Father"
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
+		layout: {top: 18, left: 0, width: 80, height: 60},
 	  classNames: "motherView",
 	  organismBinding: "*parentView.mother"
 	}),
@@ -69,20 +70,19 @@ Geniverse.BreedDragonView = SC.View.extend(
 	motherLabel: SC.LabelView.design({
 		layout: {top: 0, left: 0, width: 40, height: 18},
 		classNames: "motherLabel",
-		value: "Mother",
-		useStaticLayout: YES
+		value: "Mother"
 	}),
 	
 	childView: Geniverse.OrganismView.design({
+		layout: {bottom: 20, centerX: 0, width: 80, height: 60},
 	  classNames: "childView",
 	  organismBinding: "*parentView.child"
 	}),
 	
 	childLabel: SC.LabelView.design({
-		layout: {centerX: 0, centerY: 9, width: 40, height: 18},
+		layout: {centerX: 0, centerY: 0, width: 40, height: 18},
 		classNames: "childLabel",
-		value: "Child",
-		useStaticLayout: YES
+		value: "Child"
 	}),
 	
 	breedButtonView: SC.ButtonView.design({
@@ -100,31 +100,42 @@ Geniverse.BreedDragonView = SC.View.extend(
 		  self.breedButtonView.set('title', 'Breed');
 			SC.RunLoop.end();
 	  });
+	},
+	
+	viewDidResize: function() {
+		this._resize_children();
+	},
+	
+	_resize_children: function() {
+		var width_ratio = 188/144;
+		var height_ratio = 144/188;
+		
+		var width = this.get('layer').offsetWidth;
+		var height = this.get('layer').offsetHeight;
+		
+		var new_width = width/2;
+		var new_height = (height-(24+18+18))/2;
+		
+		var calc_width = new_height * width_ratio;
+		var calc_height = new_width * height_ratio;
+		
+		var actual_w = new_width;
+		var actual_h = calc_height;
+		
+		if (calc_height > new_height) {
+			actual_h = new_height;
+			actual_w = calc_width;
+		}
+
+		this._adjust_size(this.get('fatherView'), actual_w, actual_h);
+		this._adjust_size(this.get('motherView'), actual_w, actual_h);
+		this._adjust_size(this.get('childView'), actual_w, actual_h);
+	},
+	
+	_adjust_size: function(view, width, height) {
+		view.adjust('width', width);
+		view.adjust('height', height);
 	}
-	// 
-	// render: function(context, firstTime) {
-	// 	this._render_child(context, firstTime, 'breedButtonView', false);
-	// 	
-	// 	this._render_child(context, firstTime, 'motherLabel', true);
-	// 	this._render_child(context, firstTime, 'fatherLabel', true);
-	// 	this._render_child(context, firstTime, 'childLabel', true);
-	// 	this._render_child(context, firstTime, 'motherView', true);
-	// 	this._render_child(context, firstTime, 'fatherView', true);
-	// 	this._render_child(context, firstTime, 'childView', true);
-	// },
-	// 
-	// _render_child: function(context, firstTime, childName, stripStyles) {
-	// 	var child = this.get(childName);
-	// 	var curContext = context.begin(child.get('tagName'));
-	// 	child.prepareContext(curContext, firstTime);
-	// 	curContext.addClass(child);
-	// 	if (stripStyles) {
-	// 		curContext.removeStyle('left');
-	// 		curContext.removeStyle('right');
-	// 		curContext.removeStyle('top');
-	// 		curContext.removeStyle('bottom');
-	// 	}
-	// 	curContext.end();
-	// }
+
 
 });
