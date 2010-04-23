@@ -11,7 +11,7 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'breedView mwAppletView tabView listScrollView questionsView'.w(),
+    childViews: 'breedView appletView tabView listScrollView questionsView'.w(),
 
     breedView: Geniverse.BreedDragonView.design({
       layout: { top: 0, left: 0, height: 200, width: 200 }
@@ -44,9 +44,30 @@ Geniverse.mainPage = SC.Page.design({
       })
     }),
 
-		mwAppletView: CC.MwAppletView.design({
-		  cmlUrl: "http://mw2.concord.org/public/student/classic/machine/bike.cml",
-			layout: {left: 0, bottom: 0, height: 300, width: 400}
+		appletView: CC.AppletView.design({
+		  jarBase: "http://jnlp.concord.org/dev/org/concord/",
+		  jars: 'biologica/biologica-0.1.0-SNAPSHOT.jar biologica-applets/biologica-applets-0.1.0-SNAPSHOT.jar framework/framework-0.1.0-SNAPSHOT.jar frameworkview/frameworkview-0.1.0-SNAPSHOT.jar'.w(),
+		  jarUrls: function() {
+				var base = this.get('jarBase');
+				var jars = this.get('jars');
+				var out = '';
+				for (var i = 0; i < jars.length; i++) {
+					out += base + jars[i] + ', ';
+				}
+				return out;
+			}.property('jarBase', 'jars').cacheable(),
+			code: "org/concord/biologica/applet/ChromosomeApplet.class",
+			layout: {left: 0, bottom: 0, height: 300, width: 400},
+			selectionBinding: SC.Binding.from('Geniverse.bredOrganismsController.selection').oneWay().single(),
+			selectionDidChange: function() {
+				var selection = this.get('selection');
+				if (selection !== null) {
+					this.run(function(applet) {
+						var org = applet.createOrganismWithAlleleStringAndSex(selection.get('alleles'), selection.get('sex'));
+						applet.setOrganism(org);
+					});
+				}
+			}.observes('selection')
 		}),
 		
 		questionsView: SC.ScrollView.design({
@@ -99,7 +120,7 @@ Geniverse.mainPage = SC.Page.design({
 			var height = this.get('layer').offsetHeight;
 			
 			this._adjust_size(this.get('breedView'), { width: (width-5)/2, height: (height-10)/4});
-			this._adjust_size(this.get('mwAppletView'), { width: (width-5-18)/2, height: (height-10-18)/2});
+			this._adjust_size(this.get('appletView'), { width: (width-5-18)/2, height: (height-10-18)/2});
 			this._adjust_size(this.get('listScrollView'), { width: (width-5)/2, height: (height-10)/4, top: (height-10)/4 + 5});
 			this._adjust_size(this.get('tabView'), { width: (width-5)/2, height: (height-5)/2 });
 			this._adjust_size(this.get('questionsView'), { width: (width-5)/2, height: (height-5)/2 });
