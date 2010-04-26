@@ -11,7 +11,7 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'breedView appletView tabView listScrollView questionsView'.w(),
+    childViews: 'breedView appletView tabView listScrollView tabQuestionsView'.w(),
 
     breedView: Geniverse.BreedDragonView.design({
       layout: { top: 0, left: 0, height: 200, width: 200 }
@@ -70,48 +70,15 @@ Geniverse.mainPage = SC.Page.design({
 			}.observes('selection')
 		}),
 		
-		questionsView: SC.ScrollView.design({
-			layout: {right: 0, bottom: 0, width: 200, height: 200},
-			contentView: SC.StackedView.design({
-				childViews: 'question1 text1 question2 text2 question3 text3'.w(),
-
-				question1: CC.QuestionView.design({
-					useStaticLayout: YES,
-					classNames: 'question1',
-					prompt: "First Question: What is your name?"
-				}),
-				
-				text1: SC.LabelView.design(SC.StaticLayout, {
-					useStaticLayout: YES,
-					escapeHTML: NO,
-					value: "Text: Now that you've thought about your name, let's think about something a little more deep.<br/>&nbsp;"
-				}),
-
-				question2: CC.MultipleChoiceQuestionView.design({
-					useStaticLayout: YES,
-					classNames: 'question2',
-					prompt: "Second Question: What is your quest?",
-					choices: ["To seek the Holy Grail", "To find peace in my life", "To count all the stars in the sky"]
-				}),
-				
-				text2: SC.LabelView.design(SC.StaticLayout, {
-					useStaticLayout: YES,
-					escapeHTML: NO,
-					value: "Text: You've chosen to undertake quite a quest! One last question for you.<br/>&nbsp;"
-				}),
-
-				question3: CC.QuestionView.design({
-					useStaticLayout: YES,
-					classNames: 'question3',
-					prompt: "Third Question: What is your favorite color?"
-				}),
-				
-				text3: SC.LabelView.design(SC.StaticLayout, {
-					useStaticLayout: YES,
-					escapeHTML: NO,
-					value: "That wasn't too hard, was it?<br/>&nbsp;"
-				})
-			})
+		tabQuestionsView: SC.TabView.design({
+			items: [
+			  { title: "Questions", value: "questionsView" },
+				{ title: "Rich Text", value: "richTextView" }
+			],
+			itemTitleKey: 'title',
+		  itemValueKey: 'value',
+			layout: { right: 0, bottom: 0, height: 200, width: 300 },
+			nowShowing: "questionsView"
 		}),
 		
 		viewDidResize: function() {
@@ -123,7 +90,7 @@ Geniverse.mainPage = SC.Page.design({
 			this._adjust_size(this.get('appletView'), { width: (width-5-18)/2, height: (height-10-18)/2});
 			this._adjust_size(this.get('listScrollView'), { width: (width-5)/2, height: (height-10)/4, top: (height-10)/4 + 5});
 			this._adjust_size(this.get('tabView'), { width: (width-5)/2, height: (height-5)/2 });
-			this._adjust_size(this.get('questionsView'), { width: (width-5)/2, height: (height-5)/2 });
+			this._adjust_size(this.get('tabQuestionsView'), { width: (width-5)/2, height: (height-5)/2 });
 		},
 		
 		_adjust_size: function(view, params) {
@@ -157,6 +124,56 @@ Geniverse.mainPage = SC.Page.design({
 	page2: SC.LabelView.design({
 		layout: {top: 15, bottom: 0, left: 0, right: 0},
 		value: "This is page 2!"
+	}),
+	
+	richTextView: SC.LabelView.design({
+		layout: {left: 18, top: 18},
+	  escapeHTML: NO,
+		value: "This <em>could</em> be rich text maybe....<br><br> I think its centered as well..."
+	}),
+	
+	questionsView: SC.ScrollView.design({
+		layout: {left: 18, top: 18, right: 18, bottom: 18},
+		contentView: SC.StackedView.design({
+			childViews: 'question1 text1 question2 text2 question3 text3'.w(),
+
+			question1: CC.QuestionView.design({
+				useStaticLayout: YES,
+				classNames: 'question1',
+				prompt: "First Question: What is your name?"
+			}),
+			
+			text1: SC.LabelView.design(SC.StaticLayout, {
+				useStaticLayout: YES,
+				escapeHTML: NO,
+				value: "Text: Now that you've thought about your name, let's think about something a little more deep.<br/>&nbsp;"
+			}),
+
+			question2: CC.MultipleChoiceQuestionView.design({
+				useStaticLayout: YES,
+				classNames: 'question2',
+				prompt: "Second Question: What is your quest?",
+				choices: ["To seek the Holy Grail", "To find peace in my life", "To count all the stars in the sky"]
+			}),
+			
+			text2: SC.LabelView.design(SC.StaticLayout, {
+				useStaticLayout: YES,
+				escapeHTML: NO,
+				value: "Text: You've chosen to undertake quite a quest! One last question for you.<br/>&nbsp;"
+			}),
+
+			question3: CC.QuestionView.design({
+				useStaticLayout: YES,
+				classNames: 'question3',
+				prompt: "Third Question: What is your favorite color?"
+			}),
+			
+			text3: SC.LabelView.design(SC.StaticLayout, {
+				useStaticLayout: YES,
+				escapeHTML: NO,
+				value: "That wasn't too hard, was it?<br/>&nbsp;"
+			})
+		})
 	})
 
 });
