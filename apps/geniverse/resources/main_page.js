@@ -2,7 +2,7 @@
 // Project:   Geniverse - mainPage
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse, CC */
+/*globals Geniverse, CC, java */
 Geniverse.marginSize = 15;
 // This page describes the main user interface for your application.  
 Geniverse.mainPage = SC.Page.design({
@@ -11,21 +11,31 @@ Geniverse.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'breedView appletView tabView listScrollView tabQuestionsView'.w(),
+    childViews: 'breedView appletView transcriptionApplet listScrollView tabQuestionsView'.w(),
 
     breedView: Geniverse.BreedDragonView.design({
       layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 300 }
     }),
 
-		tabView: SC.TabView.design({
-			items: [
-			  { title: "Page 1", value: "page1" },
-				{ title: "Page 2", value: "page2" }
-			],
-			itemTitleKey: 'title',
-		  itemValueKey: 'value',
+		transcriptionApplet: CC.MwAppletView.design({
 			layout: { right: Geniverse.marginSize, top: Geniverse.marginSize, height: 200, width: 300 },
-			nowShowing: "page1"
+			cmlUrl: "http://mw2.concord.org/public/test/transcribe.cml",
+			alleleDnaBinding: 'Geniverse.mainPage.mainPane.appletView*alleleDna',
+			alleleDnaDidChange: function() {
+				var self = this;
+				this.run(function(applet){
+					var dna = self._pad_dna(self.get('alleleDna'));
+					// alert('setting dna: ' + dna);
+					applet.runMwScript("mw2d:1:set DNA " + dna); 
+				});
+			}.observes('alleleDna'),
+
+			_pad_dna: function(dna) {
+				while (dna.length % 3 !== 0) {
+					dna += "a";
+				}
+				return dna;
+			}
 		}),
 		
 		listScrollView: SC.ScrollView.design({
@@ -63,11 +73,95 @@ Geniverse.mainPage = SC.Page.design({
 				var selection = this.get('selection');
 				if (selection !== null) {
 					this.run(function(applet) {
-						var org = applet.createOrganismWithAlleleStringAndSex(selection.get('alleles'), selection.get('sex'));
+						var org = applet.getOrganism();
+						org.getWorld().deleteAllOrganisms(true);
+						org = applet.createOrganismWithAlleleStringAndSex(selection.get('alleles'), selection.get('sex'));
 						applet.setOrganism(org);
 					});
 				}
-			}.observes('selection')
+			}.observes('selection'),
+			
+			init: function() {
+				// this.set('loadTimer', SC.Timer.schedule({
+				// 	target: this,
+				// 	action: 'initAlleleListener',
+				// 	interval: 200,
+				// 	repeats: YES
+				// }));
+				
+				this.set('selectionPoller', SC.Timer.schedule({
+					target: this,
+					action: 'pollForAlleleSelection',
+					interval: 500,
+					repeats: YES
+				}));
+				
+				sc_super();
+			},
+			
+			// FIXME: Can't seem to create a PropertyChangeListner in the browser...
+			// initAlleleListener: function() {
+			// 	var applet = this.appletInstance();
+			// 	var self = this;
+			// 	if (applet !== null && typeof(applet.addPropertyChangeListener) != "undefined") {
+			// 		var listenerDef = '';
+			// 		var listener = new java.beans.PropertyChangeListener(){
+			// 			propertyChange: function(evt) {
+			// 				if (evt.propertyName === "selectedAllele") {
+			// 					var variant = evt.newValue;
+			// 					var length = variant.lengthInBases;
+			// 					var seqStr = '';
+			// 					for (var i = 0; i < length; i++) {
+			// 						seqStr += self._get_base_str(variant.getBase(i));
+			// 					}
+			// 					self.set('alleleDna', seqStr);
+			// 				}
+			// 			}
+			// 		};
+			// 		applet.addPropertyChangeListener(listener);
+			// 		this.get('loadTimer').invalidate();
+			// 	}
+			// },
+			
+			pollForAlleleSelection: function() {
+				var applet = this.appletInstance();
+				if (applet !== null && typeof(applet.getView) != "undefined") {
+					var view = applet.getView();
+					if (view === null) { return; }
+					var variant = view.getSelectedVariant();
+					var dnaStr = this._get_variant_str(variant);
+					if (dnaStr !== this.get('alleleDna')) {
+						// alert('dna changed in applet selection: ' + dnaStr);
+						this.set('alleleDna', dnaStr);
+					}
+				}
+			},
+			
+			_get_variant_str: function(variant) {
+				if (variant === null) {
+					return '';
+				}
+				var length = variant.getLengthInBases();
+				var seqStr = '';
+				for (var i = 0; i < length; i++) {
+					seqStr += this._get_base_str(variant.getBase(i));
+				}
+				return seqStr;
+			},
+			
+			_get_base_str: function(base) {
+				if (base === 1) {
+					return "c";
+				} else if (base === 2) {
+					return "a";
+				} else if (base === 3) {
+					return "g";
+				} else if (base === 4) {
+					return "t";
+				} else {
+					return "";
+				}
+			}
 		}),
 		
 		tabQuestionsView: SC.TabView.design({
@@ -96,11 +190,11 @@ Geniverse.mainPage = SC.Page.design({
 			this._adjust_size(this.get('breedView'),       { width: box_width, height: left_quarter_height});
 			this._adjust_size(this.get('listScrollView'),  { width: box_width, height: left_quarter_height, top: left_quarter_height + Geniverse.marginSize});
       // LEFT (* 0.5 height)
-			this._adjust_size(this.get('appletView'),      { width: box_width, height: left_half_height})
+			this._adjust_size(this.get('appletView'),      { width: box_width, height: left_half_height});
 			
 			// RIGHT (0.5)
 			var right_half_height = 
-			this._adjust_size(this.get('tabView'),         { width: box_width, height: (height-three_border)/2 });
+			this._adjust_size(this.get('transcriptionApplet'), { width: box_width, height: (height-three_border)/2 });
 			this._adjust_size(this.get('tabQuestionsView'),{ width: box_width, height: (height-three_border)/2 });
 		},
 		
@@ -125,17 +219,6 @@ Geniverse.mainPage = SC.Page.design({
 		//       })
     // })
   }),
-
-	page1: SC.LabelView.design({
-		layout: {top: Geniverse.marginSize, top: Geniverse.marginSize, left: Geniverse.marginSize},
-		value: "<p>This is page 1!</p>",
-		escapeHTML: NO
-	}),
-	
-	page2: SC.LabelView.design({
-		layout: {top: Geniverse.marginSize, top: Geniverse.marginSize, left: Geniverse.marginSize},
-		value: "This is page 2!"
-	}),
 	
 	richTextView: SC.LabelView.design({
 		layout: {left: Geniverse.marginSize, top: Geniverse.marginSize},
