@@ -2,7 +2,7 @@
 // Project:   Geniverse
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse */
+/*globals Geniverse CcChat*/
 
 // This is the function that will start your app running.  The default
 // implementation will load any fixtures you have created then instantiate
@@ -17,7 +17,7 @@ Geniverse.main = function main() {
   // The default code here will make the mainPane for your application visible
   // on screen.  If you app gets any level of complexity, you will probably 
   // create multiple pages and panes.  
-  Geniverse.getPath('mainPage.mainPane').append() ;
+  Geniverse.getPath('mainChatExamplePage.mainPane').append() ;
 
   // Step 2. Set the content property on your primary controller.
   // This will make your app come alive!
@@ -31,6 +31,12 @@ Geniverse.main = function main() {
 	// var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'sex,alleles'});
 	var bred_organisms = Geniverse.store.findAll(query);
 	Geniverse.bredOrganismsController.set('content', bred_organisms);
+  
+  var chatQuery = SC.Query.local(CcChat.ChatMessage,{orderBy: 'time'});
+  var chats = CcChat.store.find(chatQuery);
+  CcChat.chatListController.set('content', chats);
+  
+  Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;
 
 function main() { Geniverse.main(); }
