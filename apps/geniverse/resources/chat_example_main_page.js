@@ -21,7 +21,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       contentView: CcChat.LoginView.design({
     		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
     	}),
-      alternateView: SC.View.create({
+      mainAppView: SC.View.create({
         
         childViews: 'breedView listScrollView chatView'.w(),
         

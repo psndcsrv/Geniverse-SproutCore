@@ -32,34 +32,17 @@ Geniverse.DEFAULTACTIONS = SC.Responder.create(
 	//
 	
 	login: function(view) {
-	  
-		// get the container view from the helper method
 		var containerView = Geniverse.mainChatExamplePage.get('mainPane').get('appContainer');
+		var mainAppView = containerView.get('mainAppView');
+		containerView.set('nowShowing', mainAppView);
 		
-		// if there is a container view proceed
-		if (containerView) {
+		function initChat(chatroom){
+		  SC.Logger.log("logging into "+chatroom);
+  		CcChat.chatController.initChat(chatroom);
+		}
+		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
 		
-			// first, store the alternate
-			var alternateView = containerView.get('alternateView');
-			// then swap the views
-			containerView.set( 'alternateView', containerView.get('contentView') );
-			// and show the alternate view
-			containerView.set('nowShowing', alternateView);
-		}
-	}.observes('CcChat.chatController.username'),
-
-	_getContainerViewFor: function(view) {
-		if (!view) {
-		  return;
-		} 
-	
-		var containerView = view.get('parentView');		
-		while (!containerView.get('isContainerView')) { 
-			containerView = containerView.get('parentView');
-			if (containerView.get('isMainPane')) { return containerView = null; }
-		}
-
-		return containerView;
-	},
+		
+	}.observes('CcChat.chatController.username')
   
 }) ;
