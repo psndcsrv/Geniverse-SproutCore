@@ -48,7 +48,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         chatView: SC.StackedView.design({
           layout: { right: Geniverse.marginSize, top: Geniverse.marginSize, width: 500, height: 400 },
 
-      		childViews: 'chatListView chatComposeView'.w(),
+      		childViews: 'chatListView chatComposeView userListView'.w(),
 
         	chatListView: SC.ScrollView.design({
       		  hasHorizontalScroller: NO,
@@ -68,8 +68,12 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           }),
       		
       		chatComposeView: CcChat.ChatComposeView.design({
-            layout: { right: Geniverse.marginSize, bottom: 50, height: 200, width: 300 }
-      		})
+            layout: { right: Geniverse.marginSize, top: 230, height: 200, width: 300 }
+      		}),
+      		
+      		userListView: CcChat.UserListView.design({
+            layout: {top: 450, right: Geniverse.marginSize, width: 300, height: 300}
+          })
         })
     		
     	})
