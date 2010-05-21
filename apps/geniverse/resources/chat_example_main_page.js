@@ -11,7 +11,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    defaultResponder: Geniverse,
+    // defaultResponder: Geniverse,
     
     childViews: 'appContainer'.w(),
     
@@ -48,15 +48,11 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         chatView: SC.StackedView.design({
           layout: { right: Geniverse.marginSize, top: Geniverse.marginSize, width: 500, height: 400 },
 
-      		childViews: 'chatComposeView chatListView'.w(),
-
-      		chatComposeView: CcChat.ChatComposeView.design({
-        		layout: {top: 10, left: 0}
-        	}),
+      		childViews: 'chatListView chatComposeView'.w(),
 
         	chatListView: SC.ScrollView.design({
       		  hasHorizontalScroller: NO,
-            layout: { left: 0, bottom: 0, height: 200, width: 600 },
+            layout: { right: Geniverse.marginSize, top: 0, height: 200, width: 300 },
             backgroundColor: 'white',
             contentView: SC.ListView.design({
       				contentBinding: 'CcChat.chatListController.arrangedObjects',
@@ -69,7 +65,11 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       				showAlternatingRows: YES,
       				exampleView: CcChat.ChatMessageView
             })
-          })
+          }),
+      		
+      		chatComposeView: CcChat.ChatComposeView.design({
+            layout: { right: Geniverse.marginSize, bottom: 50, height: 200, width: 300 }
+      		})
         })
     		
     	})

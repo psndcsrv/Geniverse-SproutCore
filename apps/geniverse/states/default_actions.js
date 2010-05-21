@@ -41,13 +41,10 @@ Geniverse.DEFAULTACTIONS = SC.Responder.create(
 		
 			// first, store the alternate
 			var alternateView = containerView.get('alternateView');
-			SC.Logger.log(alternateView);
 			// then swap the views
-			SC.RunLoop.begin();
 			containerView.set( 'alternateView', containerView.get('contentView') );
 			// and show the alternate view
 			containerView.set('nowShowing', alternateView);
-			SC.RunLoop.end();
 		}
 	}.observes('CcChat.chatController.username'),
 

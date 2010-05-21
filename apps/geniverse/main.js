@@ -36,7 +36,7 @@ Geniverse.main = function main() {
   var chats = CcChat.store.find(chatQuery);
   CcChat.chatListController.set('content', chats);
   
-  Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
+  // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;
 
 function main() { Geniverse.main(); }
