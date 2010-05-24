@@ -26,9 +26,8 @@ Geniverse.appController = SC.ObjectController.create(
 	 
     var username = Geniverse.userDefaults.readDefault('username');
     if (username !== undefined && username !== null && username.length > 0){
-      SC.Logger.log("automatically loggin in as "+username);
-      CcChat.chatController.set('username', username);
-      this.login();
+      SC.Logger.log("automatically logging in as "+username);
+      CcChat.chatController.set('username', username);    // this will kick-off login
     } else {
       SC.RunLoop.begin();
   		containerView.set('nowShowing', this.loginView);
@@ -37,15 +36,29 @@ Geniverse.appController = SC.ObjectController.create(
   },
   
   login: function() {
+    
+    var username = CcChat.chatController.get('username');
+    if (username === ""){
+      return;
+    }
+    
+		Geniverse.userDefaults.writeDefault('username', username);
 		
 		function initChat(chatroom){
-		  SC.Logger.log("logging into "+chatroom);
   		CcChat.chatController.initChat(chatroom);
+  		
+  		Geniverse.userDefaults.writeDefault('chatroom', chatroom);
+  		SC.Logger.log("logged into "+chatroom);
 		}
-		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
 		
-		Geniverse.userDefaults.writeDefault('username', CcChat.chatController.get('username'));
-		
+	  var chatroom = Geniverse.userDefaults.readDefault('chatroom');
+	  if (chatroom !== undefined && chatroom !== null && chatroom.length > 0){
+	    SC.Logger.log("auto-logging into "+chatroom);
+	    initChat(chatroom);
+    } else {
+  		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
+    }
+    
 		this.set('userLoggedIn', YES);
 		
 		var containerView = Geniverse.mainChatExamplePage.get('mainPane').get('appContainer');
@@ -60,8 +73,10 @@ Geniverse.appController = SC.ObjectController.create(
 	  SC.Logger.log("logging out "+CcChat.chatController.get('username'));
 	  
 	  CcChat.chatController.set('username', '');
-		Geniverse.userDefaults.writeDefault('username', '');
 		this.set('userLoggedIn', NO);
+		
+		Geniverse.userDefaults.writeDefault('username', '');
+		Geniverse.userDefaults.writeDefault('chatroom', '');
 		
     var containerView = Geniverse.mainChatExamplePage.get('mainPane').get('appContainer');
 		
