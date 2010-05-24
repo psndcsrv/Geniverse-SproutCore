@@ -36,6 +36,9 @@ Geniverse.main = function main() {
   var chats = CcChat.store.find(chatQuery);
   CcChat.chatListController.set('content', chats);
   
+  // log in automatically if UserDefaults found
+  Geniverse.appController.checkLoginState();
+  
   // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;
 

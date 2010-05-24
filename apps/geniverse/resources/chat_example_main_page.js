@@ -30,12 +30,15 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       welcomeLabelView: SC.LabelView.design({
         layout: { centerY: 0, height: 24, right: 130, width: 150},
         fontWeight: SC.BOLD_WEIGHT,
-        valueBinding: 'CcChat.loginController.welcomeMessage'
+        valueBinding: 'CcChat.loginController.welcomeMessage',
+        isVisibleBinding: 'Geniverse.appController.userLoggedIn'
       }),
 
       logoutButton: SC.ButtonView.design({
         layout: { centerY: 0, height: 24, right: 12, width: 100 },
         title:  "Log out",
+        target: 'Geniverse.appController',
+        action: 'logout',
         isVisibleBinding: 'Geniverse.appController.userLoggedIn'
       })
     }),
@@ -44,7 +47,9 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       isContainerView: YES,
       layout: { top: 56, bottom: 32, left: 50, right: 0 },
       
-      contentView: CcChat.LoginView.design({
+      contentView: null,
+    	
+    	loginView: CcChat.LoginView.create({
     		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
     	}),
     	
