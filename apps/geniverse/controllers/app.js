@@ -21,6 +21,9 @@ Geniverse.appController = SC.ObjectController.create(
   
   checkLoginState: function() {
     var containerView = Geniverse.mainChatExamplePage.get('mainPane').get('appContainer');
+    if (containerView === undefined || containerView === null){
+      return;
+    }
 	  this.mainAppView = containerView.get('mainAppView');
 	  this.loginView = containerView.get('loginView');
 	 
@@ -43,12 +46,15 @@ Geniverse.appController = SC.ObjectController.create(
     }
     
 		Geniverse.userDefaults.writeDefault('username', username);
+		var self = this;
 		
 		function initChat(chatroom){
   		CcChat.chatController.initChat(chatroom);
   		
   		Geniverse.userDefaults.writeDefault('chatroom', chatroom);
   		SC.Logger.log("logged into "+chatroom);
+  		
+  		CcChat.chatController.subscribeToChannel(chatroom+'/org', self.receiveDragon);
 		}
 		
 	  var chatroom = Geniverse.userDefaults.readDefault('chatroom');
@@ -83,6 +89,13 @@ Geniverse.appController = SC.ObjectController.create(
     SC.RunLoop.begin();
 		containerView.set('nowShowing', this.loginView);
     SC.RunLoop.end();
+	},
+	
+	receiveDragon: function(message) {
+	  var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
+			bred: NO, sent: YES
+		});
+		dragon.set('gOrganism', message.dragon);
 	}
 
 }) ;

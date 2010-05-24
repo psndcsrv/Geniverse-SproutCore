@@ -29,8 +29,12 @@ Geniverse.main = function main() {
 
 	var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'storeKey'});
 	// var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'sex,alleles'});
-	var bred_organisms = Geniverse.store.findAll(query);
+	var bred_organisms = Geniverse.store.find(query);
 	Geniverse.bredOrganismsController.set('content', bred_organisms);
+	
+	var allDragonsQuery = SC.Query.local(Geniverse.Dragon,{conditions: 'sent = true', orderBy: 'storeKey'});
+	var all_organisms = Geniverse.store.find(allDragonsQuery);
+	Geniverse.allBredOrganismsController.set('content', all_organisms);
   
   var chatQuery = SC.Query.local(CcChat.ChatMessage,{orderBy: 'time'});
   var chats = CcChat.store.find(chatQuery);

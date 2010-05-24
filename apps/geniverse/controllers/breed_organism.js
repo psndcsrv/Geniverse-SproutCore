@@ -2,7 +2,7 @@
 // Project:   Geniverse.BreedOrganismController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse */
+/*globals Geniverse CcChat GenGWT*/
 
 /** @class
 
@@ -23,6 +23,12 @@ Geniverse.BreedOrganismController = SC.ObjectController.create(
 					bred: YES, mother: mother, father: father
 				});
         child.set('gOrganism', organism);
+        
+        SC.Logger.log("sending dragon: "+organism);
+        var message = {dragon: organism,  mother: mother.get('gOrganism'), father: father.get('gOrganism')};
+        var orgChannel = CcChat.chatController.get('channel')+'/org';
+        CcChat.chatController.post(orgChannel, message);
+        
         handleChildFunction(child);
       };
       GenGWT.breedDragon(mother.get('gOrganism'), father.get('gOrganism'), onSuccess);

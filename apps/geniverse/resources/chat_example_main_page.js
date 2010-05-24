@@ -6,7 +6,7 @@
 Geniverse.marginSize = 15;
 // This page describes the main user interface for your application.  
 Geniverse.mainChatExamplePage = SC.Page.design({
-
+  
   // The main pane is made visible on screen as soon as your app is loaded.
   // Add childViews to this pane for views to display immediately on page 
   // load.
@@ -55,26 +55,22 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listScrollView chatView'.w(),
+        childViews: 'breedView listViews chatView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 400 }
         }),
-
-    		listScrollView: SC.ScrollView.design({
-    		  hasHorizontalScroller: NO,
+        
+        listViews: SC.TabView.design({ 
           layout: { left: Geniverse.marginSize, top: 250, height: 200, width: 400 },
-          backgroundColor: 'white',
-          contentView: SC.ListView.design({
-    				contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
-    				selectionBinding: 'Geniverse.bredOrganismsController.selection',
-    				rowHeight: 30,
-    				canEditContent: NO,
-    				contentIconKey: 'imageURL',
-    				hasContentIcon: YES,
-    				contentValueKey: 'info',
-    				isSelectable: YES
-          })
+          items: [ 
+            {title: "Bred dragons", value: "Geniverse.mainChatExamplePage.bredDragonsScrollView" },
+            {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
+          ], 
+          itemTitleKey: 'title', 
+          itemValueKey: 'value'
+          // nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
+          
         }),
         
         chatView: SC.StackedView.design({
@@ -107,8 +103,40 @@ Geniverse.mainChatExamplePage = SC.Page.design({
             layout: {top: 450, right: Geniverse.marginSize, width: 300, height: 300}
           })
         })
-    		
     	})
     })
+  }),
+  
+  bredDragonsScrollView: SC.ScrollView.design({
+	  hasHorizontalScroller: NO,
+    layout: { left: 0, top: 0, right: 0, height: 200 },
+    backgroundColor: 'white',
+    contentView: SC.ListView.design({
+			contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
+			selectionBinding: 'Geniverse.bredOrganismsController.selection',
+			rowHeight: 30,
+			canEditContent: NO,
+			contentIconKey: 'imageURL',
+			hasContentIcon: YES,
+			contentValueKey: 'info',
+			isSelectable: YES
+    })
+  }),
+
+	allDragonsScrollView: SC.ScrollView.design({
+	  hasHorizontalScroller: NO,
+    layout: { left: 0, top: 0, right: 0, height: 200 },
+    backgroundColor: 'white',
+    contentView: SC.ListView.design({
+			contentBinding: 'Geniverse.allBredOrganismsController.arrangedObjects',
+			selectionBinding: 'Geniverse.allBredOrganismsController.selection',
+			rowHeight: 30,
+			canEditContent: NO,
+			contentIconKey: 'imageURL',
+			hasContentIcon: YES,
+			contentValueKey: 'info',
+			isSelectable: YES
+    })
   })
+  
 });
