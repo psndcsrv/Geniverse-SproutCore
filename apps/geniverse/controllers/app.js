@@ -1,37 +1,21 @@
 // ==========================================================================
-// Project:   Geniverse.DEFAULTACTIONS
+// Project:   Geniverse.appController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse CcChat*/
+/*globals Geniverse CcChat */
 
 /** @class
 
-	(Document Your State Here)
+  (Document Your Controller Here)
 
-	@extends SC.Responder
-	@version 0.1
+  @extends SC.Object
 */
-Geniverse.DEFAULTACTIONS = SC.Responder.create(
-/** @scope Contacts.DEFAULTACTIONS.prototype */ {
+Geniverse.appController = SC.ObjectController.create(
+/** @scope Geniverse.appController.prototype */ {
 
-	/**
-	The next state to check if this state does not implement the action.
-	*/
-	nextResponder: null,
-
-	didBecomeFirstResponder: function() {
-	// Called when this state becomes first responder
-	},
-
-	willLoseFirstResponder: function() {
-	// Called when this state loses first responder
-	},
-
-	// ..........................................................
-	// EVENTS
-	//
-	
-	login: function(view) {
+  userLoggedIn: NO,
+  
+  login: function() {
 		var containerView = Geniverse.mainChatExamplePage.get('mainPane').get('appContainer');
 		var mainAppView = containerView.get('mainAppView');
 		containerView.set('nowShowing', mainAppView);
@@ -41,8 +25,8 @@ Geniverse.DEFAULTACTIONS = SC.Responder.create(
   		CcChat.chatController.initChat(chatroom);
 		}
 		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
-		
+		this.set('userLoggedIn', YES);
 		
 	}.observes('CcChat.chatController.username')
-  
+
 }) ;

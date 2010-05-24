@@ -13,14 +13,41 @@ Geniverse.mainChatExamplePage = SC.Page.design({
   mainPane: SC.MainPane.design({
     // defaultResponder: Geniverse,
     
-    childViews: 'appContainer'.w(),
+    childViews: 'topBar appContainer'.w(),
+    
+    topBar: SC.ToolbarView.design({
+      layout: { top: 0, left: 0, right: 0, height: 36 },
+      childViews: 'geniverseLabelView welcomeLabelView logoutButton'.w(),
+      anchorLocation: SC.ANCHOR_TOP,
+      
+      geniverseLabelView: SC.LabelView.design({
+        layout: { centerY: 0, height: 24, left: 8, width: 200 },
+        controlSize: SC.LARGE_CONTROL_SIZE,
+        fontWeight: SC.BOLD_WEIGHT,
+        value:   'Geniverse'
+      }),
+      
+      welcomeLabelView: SC.LabelView.design({
+        layout: { centerY: 0, height: 24, right: 130, width: 150},
+        fontWeight: SC.BOLD_WEIGHT,
+        valueBinding: 'CcChat.loginController.welcomeMessage'
+      }),
+
+      logoutButton: SC.ButtonView.design({
+        layout: { centerY: 0, height: 24, right: 12, width: 100 },
+        title:  "Log out",
+        isVisibleBinding: 'Geniverse.appController.userLoggedIn'
+      })
+    }),
     
     appContainer: SC.ContainerView.design({
       isContainerView: YES,
-      layout: { top: 36, bottom: 32, left: 50, right: 0 },
+      layout: { top: 56, bottom: 32, left: 50, right: 0 },
+      
       contentView: CcChat.LoginView.design({
     		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
     	}),
+    	
       mainAppView: SC.View.create({
         
         childViews: 'breedView listScrollView chatView'.w(),
