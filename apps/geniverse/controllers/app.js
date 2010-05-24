@@ -59,6 +59,7 @@ Geniverse.appController = SC.ObjectController.create(
 	logout: function() {
 	  SC.Logger.log("logging out "+CcChat.chatController.get('username'));
 	  
+	  CcChat.chatController.set('username', '');
 		Geniverse.userDefaults.writeDefault('username', '');
 		this.set('userLoggedIn', NO);
 		
