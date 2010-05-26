@@ -19,9 +19,10 @@ Geniverse.challangeController = SC.ObjectController.create(
   sendBredDragons: YES,
   
   startChallange: function() {
+    SC.Logger.log("starting challange");
     var chatroom = CcChat.chatRoomController.get('channel');
 		CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
-		Geniverse.breedDragonController.initParents();
+		Geniverse.breedDragonController.initParentsWhenGWTLoads();
   },
   
   doSendBredDragons: function() {
@@ -42,9 +43,6 @@ Geniverse.challangeController = SC.ObjectController.create(
   },
   
   getInitialAlleles: function (sex){
-    SC.Logger.log("CcChat.chatRoomController.get('channelIndex') = "+CcChat.chatRoomController.get('channelIndex'));
-      SC.Logger.log("CcChat.chatRoomController.get('channel') = "+CcChat.chatRoomController.get('channel'));
-    
     return this.getInitialAllelesForRoom(CcChat.chatRoomController.get('channelIndex'), sex);
   },
   

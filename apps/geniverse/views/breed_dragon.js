@@ -10,7 +10,6 @@
 
   @extends SC.View
 */
-require('controllers/breed_organism');
 require('views/organism');
 Geniverse.BreedDragonView = SC.View.extend(
 /** @scope Geniverse.BreedDragonView.prototype */ {
@@ -30,12 +29,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	
 	init: function() {
     if (this.get('initParentsImmediately')){
-		  Geniverse.breedDragonController.set('loadTimer', SC.Timer.schedule({
-  			target: 'Geniverse.breedDragonController',
-  			action: 'initParents',
-  			interval: 200,
-  			repeats: YES
-  		}));
+		  Geniverse.breedDragonController.initParentsWhenGWTLoads();
 	  }
 		
 		sc_super();

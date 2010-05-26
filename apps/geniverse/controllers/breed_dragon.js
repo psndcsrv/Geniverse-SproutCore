@@ -25,6 +25,20 @@ Geniverse.breedDragonController = SC.ObjectController.create(
   
   breedButtonTitle: 'Breed',
   
+  initParentsWhenGWTLoads: function() {
+    if (this.get('loadTimer') !== null){
+	    SC.Logger.log("invalidating");
+		  this.get('loadTimer').invalidate();
+	  }
+	  
+    this.set('loadTimer', SC.Timer.schedule({
+			target: this,
+			action: 'initParents',
+			interval: 200,
+			repeats: YES
+		}));
+  },
+  
   initParents: function() {
 		var self = this;
 		
@@ -39,7 +53,6 @@ Geniverse.breedDragonController = SC.ObjectController.create(
 				self.set('father', dragon);
 				SC.RunLoop.end();
 		}
-		
 		if (typeof(generateDragonWithSex) != "undefined") {
 		  SC.Logger.log('found gwt');
 		  var allelesF = Geniverse.challangeController.getInitialAlleles('f');
