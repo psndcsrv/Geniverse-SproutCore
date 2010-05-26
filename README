@@ -3,5 +3,22 @@ Project:   Geniverse
 Copyright: ©2010 The Concord Consortium
 =============================================================================
 
-TODO: Describe Your Project
+You'll need either the gem or a master version of sproutcore installed:
+
+  sudo gem install sproutcore
+
+Setup development environment.
+
+  git clone git://github.com/psndcsrv/Geniverse-SproutCore.git\
+  cd Geniverse-SproutCore
+  git submodule init
+  git submodule update
+
+Now run the development server:
+
+  sc-server
+  
+And open http://localhost:4020
+
+Select 'geniverse' and click 'load application'.
 
