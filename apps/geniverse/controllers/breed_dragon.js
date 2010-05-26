@@ -25,32 +25,35 @@ Geniverse.breedDragonController = SC.ObjectController.create(
   
   breedButtonTitle: 'Breed',
   
-  init: function() {
-		this.set('loadTimer', SC.Timer.schedule({
-			target: this,
-			action: 'initParents',
-			interval: 200,
-			repeats: YES
-		}));
-		
-		sc_super();
-	},
-  
   initParents: function() {
-		if (typeof(generateDragonWithSex) != "undefined") {
-		  SC.Logger.log('found gwt');
-			var self = this;
-			Geniverse.gwtController.generateDragon(1, 'Mother', function(dragon) {
+		var self = this;
+		
+    function setMother(dragon){
 				SC.RunLoop.begin();
 				self.set('mother', dragon);
 				SC.RunLoop.end();
-			});
-			Geniverse.gwtController.generateDragon(0, 'Father', function(dragon) {
+		}
+		
+		function setFather(dragon){
 				SC.RunLoop.begin();
 				self.set('father', dragon);
 				SC.RunLoop.end();
-			});
-			this.get('loadTimer').invalidate();
+		}
+		
+		if (typeof(generateDragonWithSex) != "undefined") {
+		  SC.Logger.log('found gwt');
+		  var allelesF = Geniverse.challangeController.getInitialAlleles('f');
+		  if (allelesF !== undefined && allelesF !== null){
+  			Geniverse.gwtController.generateDragonWithAlleles(allelesF, 1, 'Mother', setMother);
+  		  var allelesM = Geniverse.challangeController.getInitialAlleles('m');
+  			Geniverse.gwtController.generateDragonWithAlleles(allelesM, 0, 'Father', setFather);
+		  } else {
+  			Geniverse.gwtController.generateDragon(1, 'Mother', setMother);
+  			Geniverse.gwtController.generateDragon(0, 'Father', setFather);
+		  }
+		  if (this.get('loadTimer') !== null){
+			  this.get('loadTimer').invalidate();
+		  }
 		}
 	},
 	

@@ -17,7 +17,6 @@ Geniverse.BreedDragonView = SC.View.extend(
 	
 	classNames: ['breed-organism-view'],
 	
-
   motherBinding: 'Geniverse.breedDragonController.mother',
 
   fatherBinding: 'Geniverse.breedDragonController.father',
@@ -25,6 +24,22 @@ Geniverse.BreedDragonView = SC.View.extend(
   childBinding: 'Geniverse.breedDragonController.child',
 
 	childViews: 'fatherView motherView childView fatherLabel motherLabel childLabel breedButtonView'.w(),
+	
+	initParentsImmediately: YES,
+	initParentsImmediatelyBinding: 'Geniverse.breedDragonController.initParentsImmediately',
+	
+	init: function() {
+    if (this.get('initParentsImmediately')){
+		  Geniverse.breedDragonController.set('loadTimer', SC.Timer.schedule({
+  			target: 'Geniverse.breedDragonController',
+  			action: 'initParents',
+  			interval: 200,
+  			repeats: YES
+  		}));
+	  }
+		
+		sc_super();
+	},
 	
 	fatherView: Geniverse.OrganismView.design({
 		layout: {top: 18, right: 0, width: 80, height: 60},
