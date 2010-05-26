@@ -68,8 +68,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
           ], 
           itemTitleKey: 'title', 
-          itemValueKey: 'value'
-          // nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
+          itemValueKey: 'value',
+          nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
           
         }),
         
@@ -119,7 +119,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 			contentIconKey: 'imageURL',
 			hasContentIcon: YES,
 			contentValueKey: 'info',
-			isSelectable: YES
+			isSelectable: YES,
+			dragDataTypes: ['dragon']
     })
   }),
 
@@ -135,6 +136,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 			contentIconKey: 'imageURL',
 			hasContentIcon: YES,
 			contentValueKey: 'info',
+			dragDataTypes: ['dragon'],
 			isSelectable: YES
     })
   })
