@@ -21,6 +21,7 @@ Geniverse.challangeController = SC.ObjectController.create(
   startChallange: function() {
     var chatroom = CcChat.chatRoomController.get('channel');
 		CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
+		Geniverse.breedDragonController.initParents();
   },
   
   doSendBredDragons: function() {
@@ -41,10 +42,13 @@ Geniverse.challangeController = SC.ObjectController.create(
   },
   
   getInitialAlleles: function (sex){
-    return this.getInitialAlleles(CcChat.chatRoomController.get('channelIndex'), sex);
+    SC.Logger.log("CcChat.chatRoomController.get('channelIndex') = "+CcChat.chatRoomController.get('channelIndex'));
+      SC.Logger.log("CcChat.chatRoomController.get('channel') = "+CcChat.chatRoomController.get('channel'));
+    
+    return this.getInitialAllelesForRoom(CcChat.chatRoomController.get('channelIndex'), sex);
   },
   
-  getInitialAlleles: function (room, sex){
+  getInitialAllelesForRoom: function (room, sex){
     var alleles = this.initialAlleles[room];
     if (alleles === undefined || alleles === null){
       SC.Logger.log("No alleles for room "+room);

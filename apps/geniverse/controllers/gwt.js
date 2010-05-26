@@ -43,6 +43,21 @@ Geniverse.gwtController = SC.ObjectController.create(
       callback(org);
     };
     GenGWT.generateDragonWithSex(sex, handleGOrg);
+  },
+  
+  generateDragonWithAlleles: function(alleles, sex, name, callback) {
+    SC.Logger.log("Generating dragon with "+alleles);
+    // alert('generating dragon');
+    var self = this;
+    var handleGOrg = function(gOrg) {
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      org.set('gOrganism', gOrg);
+      self.invokeLater(function() {
+        org.set('name', name);
+      });
+      callback(org);
+    };
+    GenGWT.generateDragonWithAlleleStringAndSex(alleles, sex, handleGOrg);
   }
 
 });

@@ -58,7 +58,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         childViews: 'breedView listViews chatView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
-          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 400 }
+          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 400 },
+          initParentsImmediately: NO
         }),
         
         listViews: SC.TabView.design({ 
