@@ -14,38 +14,15 @@ require('controllers/breed_organism');
 require('views/organism');
 Geniverse.BreedDragonView = SC.View.extend(
 /** @scope Geniverse.BreedDragonView.prototype */ {
-	init: function() {
-		this.set('loadTimer', SC.Timer.schedule({
-			target: this,
-			action: 'initParents',
-			interval: 200,
-			repeats: YES
-		}));
-		sc_super();
-	},
-	
-	initParents: function() {
-		if (typeof(generateDragonWithSex) != "undefined") {
-			var self = this;
-			Geniverse.breedOrganismController.generateDragon(1, 'Mother', function(dragon) {
-				SC.RunLoop.begin();
-				self.set('mother', dragon);
-				SC.RunLoop.end();
-			});
-			Geniverse.breedOrganismController.generateDragon(0, 'Father', function(dragon) {
-				SC.RunLoop.begin();
-				self.set('father', dragon);
-				SC.RunLoop.end();
-			});
-			this.get('loadTimer').invalidate();
-		}
-	},
 	
 	classNames: ['breed-organism-view'],
 	
-  mother: null,
-  father: null,
-  child: null,
+
+  motherBinding: 'Geniverse.breedDragonController.mother',
+
+  fatherBinding: 'Geniverse.breedDragonController.father',
+  
+  childBinding: 'Geniverse.breedDragonController.child',
 
 	childViews: 'fatherView motherView childView fatherLabel motherLabel childLabel breedButtonView'.w(),
 	
@@ -95,20 +72,10 @@ Geniverse.BreedDragonView = SC.View.extend(
 	
 	breedButtonView: SC.ButtonView.design({
 		layout: { centerX: 0, bottom: 0, width: 100, height: 24 },
-		action: "this.parentView.buttonAction",
-		title: "Breed"
+		target: 'Geniverse.breedDragonController',
+		action: "breed",
+		titleBinding: 'Geniverse.breedDragonController.breedButtonTitle'
 	}),
-	
-	buttonAction: function(source, event) {
-		var self = this;
-		this.breedButtonView.set('title', 'Generating...');
-		Geniverse.breedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
-			SC.RunLoop.begin();
-		  self.set('child', child);
-		  self.breedButtonView.set('title', 'Breed');
-			SC.RunLoop.end();
-	  });
-	},
 	
 	viewDidResize: function() {
 		this._resize_children();

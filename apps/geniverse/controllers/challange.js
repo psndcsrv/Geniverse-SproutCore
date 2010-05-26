@@ -14,7 +14,7 @@ Geniverse.challangeController = SC.ObjectController.create(
 /** @scope Geniverse.challangeController.prototype */ {
 
   // TODO: Add your own code here.
-  initialAlleles: [{m: 'a:h,b:h', f: 'a:h,b:h'}],
+  initialAlleles: [{m: 'a:h,b:h', f: 'a:h,b:h'}, {m: 'a:H,b:H', f: 'a:H,b:H'}],
   
   sendBredDragons: YES,
   
@@ -25,15 +25,13 @@ Geniverse.challangeController = SC.ObjectController.create(
   
   doSendBredDragons: function() {
     if (this.get('sendBredDragons')){
-      var latestChild = Geniverse.breedOrganismController.get('latestChild');
-        // var mother = Geniverse.breedOrganismController.get('currentMother');
-        //          var father = Geniverse.breedOrganismController.get('currentFather');
-      var message = {dragon: latestChild};
+      var latestChild = Geniverse.breedDragonController.get('child');
+      var message = {dragon: latestChild.get('gOrganism')};
       var orgChannel = CcChat.chatRoomController.get('channel')+'/org';
-      SC.Logger.log("sending dragon on "+orgChannel+": "+latestChild);
+      SC.Logger.log("sending dragon on "+orgChannel+": "+latestChild.get('gOrganism'));
       CcChat.chatController.post(orgChannel, message);
     }
-  }.observes('Geniverse.breedOrganismController.latestChild'),
+  }.observes('Geniverse.breedDragonController.child'),
   
   sendDragon: function(dragon){
     var message = {dragon: dragon};
@@ -42,7 +40,11 @@ Geniverse.challangeController = SC.ObjectController.create(
     CcChat.chatController.post(orgChannel, message);
   },
   
-  getAlleles: function (room, sex){
+  getInitialAlleles: function (sex){
+    return this.getInitialAlleles(CcChat.chatRoomController.get('channelIndex'), sex);
+  },
+  
+  getInitialAlleles: function (room, sex){
     var alleles = this.initialAlleles[room];
     if (alleles === undefined || alleles === null){
       SC.Logger.log("No alleles for room "+room);

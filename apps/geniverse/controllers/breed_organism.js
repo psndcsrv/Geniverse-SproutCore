@@ -15,8 +15,6 @@ Geniverse.breedOrganismController = SC.ObjectController.create(
 /** @scope Geniverse.BreedOrganismController.prototype */
 {
   bredOrganisms: [],
-  
-  latestChild: null,
 
   breedOrganism: function(mother, father, handleChildFunction) {
     var self = this;
@@ -26,8 +24,6 @@ Geniverse.breedOrganismController = SC.ObjectController.create(
 					bred: YES, mother: mother, father: father
 				});
         child.set('gOrganism', organism);
-        
-        self.set('latestChild', organism);
         
         handleChildFunction(child);
       };
