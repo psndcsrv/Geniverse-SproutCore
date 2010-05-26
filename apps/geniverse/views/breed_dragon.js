@@ -36,7 +36,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	},
 	
 	fatherView: Geniverse.OrganismView.design({
-		layout: {top: 18, right: 0, width: 80, height: 60},
+		layout: {top: 18, right: 0, width: 110, height: 90},
 	  classNames: "fatherView",
 	  organismBinding: "*parentView.father",
 	  parent: "father",
@@ -53,7 +53,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
-		layout: {top: 18, left: 0, width: 80, height: 60},
+		layout: {top: 18, left: 0, width: 110, height: 80},
 	  classNames: "motherView",
 	  organismBinding: "*parentView.mother",
 	  parent: "mother",
@@ -68,13 +68,13 @@ Geniverse.BreedDragonView = SC.View.extend(
 	}),
 	
 	childView: Geniverse.OrganismView.design({
-		layout: {bottom: 20, centerX: 0, width: 80, height: 60},
+		layout: {bottom: 20, centerX: 0, width: 110, height: 90},
 	  classNames: "childView",
 	  organismBinding: "*parentView.child"
 	}),
 	
 	childLabel: SC.LabelView.design({
-		layout: {centerX: 0, centerY: 0, width: 40, height: 18},
+		layout: {centerX: 0, bottom: 115, width: 40, height: 18},
 		classNames: "childLabel",
 		value: "Child"
 	}),

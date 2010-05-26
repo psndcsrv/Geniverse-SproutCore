@@ -10,7 +10,7 @@
 
   @extends SC.View
 */
-Geniverse.OrganismView = SC.View.extend(SC.DropTarget, 
+Geniverse.OrganismView = SC.View.extend( 
 /** @scope Geniverse.OrganismView.prototype */ {
 	organism: null,
 	label: 'Organism',

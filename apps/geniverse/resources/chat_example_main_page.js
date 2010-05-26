@@ -69,8 +69,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
           ], 
           itemTitleKey: 'title', 
-          itemValueKey: 'value',
-          nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
+          itemValueKey: 'value'
+          // nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
           
         }),
         
