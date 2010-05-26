@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   Geniverse.BreedOrganismController
+// Project:   Geniverse.gwtController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals Geniverse CcChat GenGWT*/
@@ -11,8 +11,8 @@
   @extends SC.Object
 */
 require('controllers/bred_organisms');
-Geniverse.breedOrganismController = SC.ObjectController.create(
-/** @scope Geniverse.BreedOrganismController.prototype */
+Geniverse.gwtController = SC.ObjectController.create(
+/** @scope Geniverse.gwtController.prototype */
 {
   bredOrganisms: [],
 

@@ -40,12 +40,12 @@ Geniverse.breedDragonController = SC.ObjectController.create(
 		if (typeof(generateDragonWithSex) != "undefined") {
 		  SC.Logger.log('found gwt');
 			var self = this;
-			Geniverse.breedOrganismController.generateDragon(1, 'Mother', function(dragon) {
+			Geniverse.gwtController.generateDragon(1, 'Mother', function(dragon) {
 				SC.RunLoop.begin();
 				self.set('mother', dragon);
 				SC.RunLoop.end();
 			});
-			Geniverse.breedOrganismController.generateDragon(0, 'Father', function(dragon) {
+			Geniverse.gwtController.generateDragon(0, 'Father', function(dragon) {
 				SC.RunLoop.begin();
 				self.set('father', dragon);
 				SC.RunLoop.end();
@@ -57,7 +57,7 @@ Geniverse.breedDragonController = SC.ObjectController.create(
 	breed: function() {
 	  var self = this;
 		this.set('breedButtonTitle', 'Generating...');
-		Geniverse.breedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
+		Geniverse.gwtController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
 			SC.RunLoop.begin();
 		  self.set('child', child);
 		  self.set('breedButtonTitle', 'Breed');
