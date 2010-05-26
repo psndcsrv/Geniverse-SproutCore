@@ -27,12 +27,12 @@ Geniverse.BreedDragonView = SC.View.extend(
 	initParents: function() {
 		if (typeof(generateDragonWithSex) != "undefined") {
 			var self = this;
-			Geniverse.BreedOrganismController.generateDragon(1, 'Mother', function(dragon) {
+			Geniverse.breedOrganismController.generateDragon(1, 'Mother', function(dragon) {
 				SC.RunLoop.begin();
 				self.set('mother', dragon);
 				SC.RunLoop.end();
 			});
-			Geniverse.BreedOrganismController.generateDragon(0, 'Father', function(dragon) {
+			Geniverse.breedOrganismController.generateDragon(0, 'Father', function(dragon) {
 				SC.RunLoop.begin();
 				self.set('father', dragon);
 				SC.RunLoop.end();
@@ -52,19 +52,27 @@ Geniverse.BreedDragonView = SC.View.extend(
 	fatherView: Geniverse.OrganismView.design({
 		layout: {top: 18, right: 0, width: 80, height: 60},
 	  classNames: "fatherView",
-	  organismBinding: "*parentView.father"
+	  organismBinding: "*parentView.father",
+	  parent: "father",
+	  sex: 0,
+	  allowDrop: YES
 	}),
 	
 	fatherLabel: SC.LabelView.design({
 		layout: {top: 0, right: 0, width: 40, height: 18},
 		classNames: "fatherLabel",
-		value: "Father"
+		allowDrop: YES,
+		value: "Father",
+		sex: 1
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
 		layout: {top: 18, left: 0, width: 80, height: 60},
 	  classNames: "motherView",
-	  organismBinding: "*parentView.mother"
+	  organismBinding: "*parentView.mother",
+	  parent: "mother",
+	  sex: 1,
+	  allowDrop: YES
 	}),
 	
 	motherLabel: SC.LabelView.design({
@@ -94,7 +102,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	buttonAction: function(source, event) {
 		var self = this;
 		this.breedButtonView.set('title', 'Generating...');
-		Geniverse.BreedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
+		Geniverse.breedOrganismController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
 			SC.RunLoop.begin();
 		  self.set('child', child);
 		  self.breedButtonView.set('title', 'Breed');

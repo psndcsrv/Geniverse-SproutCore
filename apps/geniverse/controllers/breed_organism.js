@@ -11,12 +11,15 @@
   @extends SC.Object
 */
 require('controllers/bred_organisms');
-Geniverse.BreedOrganismController = SC.ObjectController.create(
+Geniverse.breedOrganismController = SC.ObjectController.create(
 /** @scope Geniverse.BreedOrganismController.prototype */
 {
   bredOrganisms: [],
+  
+  latestChild: null,
 
   breedOrganism: function(mother, father, handleChildFunction) {
+    var self = this;
     if (mother !== null && mother.get('gOrganism') !== null && father !== null && father.get('gOrganism') !== null) {
       var onSuccess = function(organism) {
         var child = Geniverse.store.createRecord(Geniverse.Dragon, {
@@ -24,10 +27,7 @@ Geniverse.BreedOrganismController = SC.ObjectController.create(
 				});
         child.set('gOrganism', organism);
         
-        SC.Logger.log("sending dragon: "+organism);
-        var message = {dragon: organism,  mother: mother.get('gOrganism'), father: father.get('gOrganism')};
-        var orgChannel = CcChat.chatController.get('channel')+'/org';
-        CcChat.chatController.post(orgChannel, message);
+        self.set('latestChild', organism);
         
         handleChildFunction(child);
       };
