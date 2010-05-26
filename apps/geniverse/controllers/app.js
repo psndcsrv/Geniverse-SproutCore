@@ -60,6 +60,7 @@ Geniverse.appController = SC.ObjectController.create(
 	  if (chatroom !== undefined && chatroom !== null && chatroom.length > 0){
 	    SC.Logger.log("auto-logging into "+chatroom);
 	    initChat(chatroom);
+  		Geniverse.challangeController.startChallange();
     } else {
   		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
     }
