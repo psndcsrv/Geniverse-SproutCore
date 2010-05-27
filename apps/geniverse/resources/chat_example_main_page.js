@@ -63,7 +63,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         listViews: SC.TabView.design({ 
-          layout: { left: Geniverse.marginSize, top: 380, height: 200, width: 450 },
+          layout: { left: Geniverse.marginSize, top: 380, height: 220, width: 450 },
           items: [ 
             {title: "Bred dragons", value: "Geniverse.mainChatExamplePage.bredDragonsScrollView" },
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
@@ -75,7 +75,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         sendSelectedDragonView: SC.ButtonView.design({
-          layout: { top: 590, height: 24, left: Geniverse.marginSize + 150, width: 150 },
+          layout: { top: 610, height: 24, left: Geniverse.marginSize + 150, width: 150 },
           title:  "Send selected dragon",
           target: 'Geniverse.challangeController',
           action: "chatDragon"
@@ -86,7 +86,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 
       		childViews: 'chatListView chatComposeView userListView'.w(),
 
-        	chatListView: SC.ScrollView.design({
+        	chatListView: CC.AutoScrollView.design({
       		  hasHorizontalScroller: NO,
             layout: { right: Geniverse.marginSize, top: 0, height: 200, width: 300 },
             backgroundColor: 'white',
@@ -100,7 +100,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       				isSelectable: YES,
       				showAlternatingRows: YES,
       				exampleView: CcChat.ChatMessageView
-            })
+            }),
+            autoScrollTriggerBinding:  'CcChat.chatListController.length'
           }),
       		
       		chatComposeView: CcChat.ChatComposeView.design({
@@ -115,7 +116,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     })
   }),
   
-  bredDragonsScrollView: SC.ScrollView.design({
+  bredDragonsScrollView: CC.AutoScrollView.design({
 	  hasHorizontalScroller: NO,
     layout: { left: 0, top: 0, right: 0, height: 200 },
     backgroundColor: 'white',
@@ -129,10 +130,11 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 			contentValueKey: 'info',
 			isSelectable: YES,
 			dragDataTypes: ['dragon']
-    })
+    }),
+    autoScrollTriggerBinding: 'Geniverse.bredOrganismsController.length'
   }),
 
-	allDragonsScrollView: SC.ScrollView.design({
+	allDragonsScrollView: CC.AutoScrollView.design({
 	  hasHorizontalScroller: NO,
     layout: { left: 0, top: 0, right: 0, height: 200 },
     backgroundColor: 'white',
@@ -146,7 +148,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 			contentValueKey: 'info',
 			dragDataTypes: ['dragon'],
 			isSelectable: YES
-    })
+    }),
+    autoScrollTriggerBinding: 'Geniverse.allBredOrganismsController.length'
   })
   
 });
