@@ -36,7 +36,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	},
 	
 	fatherView: Geniverse.OrganismView.design({
-		layout: {top: 18, right: 0, width: 110, height: 90},
+		layout: {top: 18, right: 0, width: 180, height: 150},
 	  classNames: "fatherView",
 	  organismBinding: "*parentView.father",
 	  parent: "father",
@@ -45,7 +45,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	}),
 	
 	fatherLabel: SC.LabelView.design({
-		layout: {top: 0, right: 0, width: 40, height: 18},
+		layout: {top: 0, right: 70, width: 40, height: 18},
 		classNames: "fatherLabel",
 		allowDrop: YES,
 		value: "Father",
@@ -53,7 +53,7 @@ Geniverse.BreedDragonView = SC.View.extend(
 	}),
 	
 	motherView: Geniverse.OrganismView.design({
-		layout: {top: 18, left: 0, width: 110, height: 80},
+		layout: {top: 18, left: 0, width: 180, height: 150},
 	  classNames: "motherView",
 	  organismBinding: "*parentView.mother",
 	  parent: "mother",
@@ -62,21 +62,22 @@ Geniverse.BreedDragonView = SC.View.extend(
 	}),
 	
 	motherLabel: SC.LabelView.design({
-		layout: {top: 0, left: 0, width: 40, height: 18},
+		layout: {top: 0, left: 70, width: 40, height: 18},
 		classNames: "motherLabel",
 		value: "Mother"
 	}),
 	
 	childView: Geniverse.OrganismView.design({
-		layout: {bottom: 20, centerX: 0, width: 110, height: 90},
+		layout: {bottom: 20, centerX: 0, width: 180, height: 150},
 	  classNames: "childView",
 	  organismBinding: "*parentView.child"
 	}),
 	
 	childLabel: SC.LabelView.design({
-		layout: {centerX: 0, bottom: 115, width: 40, height: 18},
+		layout: {centerX: 0, bottom: 170, width: 40, height: 18},
 		classNames: "childLabel",
-		value: "Child"
+		value: "Child",
+		isVisibleBinding: "*parentView.child"
 	}),
 	
 	breedButtonView: SC.ButtonView.design({

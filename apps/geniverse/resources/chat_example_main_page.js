@@ -58,12 +58,12 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         childViews: 'breedView listViews sendSelectedDragonView chatView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
-          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 400 },
+          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 280, width: 450 },
           initParentsImmediately: NO
         }),
         
         listViews: SC.TabView.design({ 
-          layout: { left: Geniverse.marginSize, top: 250, height: 200, width: 400 },
+          layout: { left: Geniverse.marginSize, top: 380, height: 200, width: 450 },
           items: [ 
             {title: "Bred dragons", value: "Geniverse.mainChatExamplePage.bredDragonsScrollView" },
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
@@ -75,7 +75,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         sendSelectedDragonView: SC.ButtonView.design({
-          layout: { top: 470, height: 24, left: Geniverse.marginSize + 120, width: 150 },
+          layout: { top: 590, height: 24, left: Geniverse.marginSize + 150, width: 150 },
           title:  "Send selected dragon",
           target: 'Geniverse.challangeController',
           action: "chatDragon"
