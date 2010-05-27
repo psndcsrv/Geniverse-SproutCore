@@ -16,14 +16,12 @@ Geniverse.challangeController = SC.ObjectController.create(
   // TODO: Add your own code here.
   initialAlleles: [{m: 'a:h,b:h', f: 'a:h,b:h'}, {m: 'a:H,b:H', f: 'a:H,b:H'}],
   
-  sendBredDragons: YES,
-  
-  showClearButton: NO,
+  sendBredDragons: NO,
   
   startChallange: function() {
     SC.Logger.log("starting challange");
     var chatroom = CcChat.chatRoomController.get('channel');
-		CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
+    // CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
 		Geniverse.breedDragonController.initParentsWhenGWTLoads();
   },
   
@@ -48,20 +46,16 @@ Geniverse.challangeController = SC.ObjectController.create(
     var dragon = Geniverse.bredOrganismsController.get('selection').firstObject();
     if (dragon !== undefined && dragon !== null){
       var dragonImageUrl = dragon.get('imageURL');
-      var jsonDragon = {dragon: dragon.gOrganism, imageUrl: dragonImageUrl};
-      SC.RunLoop.begin();
+      var jsonDragon = {dragon: dragon.get('gOrganism'), imageUrl: dragonImageUrl};
       CcChat.chatComposeController.set('item', jsonDragon);
-      this.set('showClearButton', YES);
-      SC.RunLoop.end();
+      CcChat.chatComposeController.set('clearButtonTitle', 'Remove Dragon');
     }
     
   },
   
   clearDragon: function() {
-    SC.RunLoop.begin();
     CcChat.chatComposeController.set('item', []);
     this.set('showClearButton', NO);
-    SC.RunLoop.end();
   },
   
   getInitialAlleles: function (sex){
@@ -82,5 +76,16 @@ Geniverse.challangeController = SC.ObjectController.create(
       bred: NO, sent: YES
     });
     dragon.set('gOrganism', message.dragon);
-  }
+  },
+  
+  receiveDragonFromChat: function() {
+    var latestChat = CcChat.chatController.get('latestChat');
+    var item = latestChat.get('item');
+    if (item !== null && item.dragon !== undefined && item.dragon !== null){
+      var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
+        bred: NO, sent: YES
+      });
+      dragon.set('gOrganism', item.dragon);
+    }
+  }.observes('CcChat.chatController.latestChat')
 }) ;

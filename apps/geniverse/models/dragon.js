@@ -30,17 +30,10 @@ Geniverse.Dragon = SC.Record.extend(
 		this.set('sex', gOrg.sex);
 		this.set('alleles', gOrg.alleles);
 		this.set('imageURL', gOrg.imageURL);
-		this.set('characteristics', gOrg.characteristics.array);
+		if (gOrg.characteristics !== undefined){
+		  this.set('characteristics', gOrg.characteristics.array);
+	  }
 		this.set('metaInfo', gOrg.metaInfo);
-		
-		// alert('set organism attributes:' +
-		//   ' name: ' + this.get('name') +
-		//   ', sex: ' + this.get('sex') +
-		//   ', alleles: ' + this.get('alleles') +
-		//   ', imageURL: ' + this.get('imageURL') +
-		//   ', characteristics: ' + this.get('characteristics') +
-		//   ', metaInfo: ' + this.get('metaInfo')
-		// );
 	}.observes('gOrganism'),
 	
 	// some computed properties
