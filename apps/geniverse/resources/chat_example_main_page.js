@@ -55,7 +55,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listViews chatView'.w(),
+        childViews: 'breedView listViews sendSelectedDragonView chatView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 200, width: 400 },
@@ -72,6 +72,13 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           itemValueKey: 'value'
           // nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView' // defining the startup tab 
           
+        }),
+        
+        sendSelectedDragonView: SC.ButtonView.design({
+          layout: { top: 470, height: 24, left: Geniverse.marginSize + 120, width: 150 },
+          title:  "Send selected dragon",
+          target: 'Geniverse.challangeController',
+          action: "chatDragon"
         }),
         
         chatView: SC.StackedView.design({

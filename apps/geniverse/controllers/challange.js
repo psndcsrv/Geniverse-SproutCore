@@ -18,6 +18,8 @@ Geniverse.challangeController = SC.ObjectController.create(
   
   sendBredDragons: YES,
   
+  showClearButton: NO,
+  
   startChallange: function() {
     SC.Logger.log("starting challange");
     var chatroom = CcChat.chatRoomController.get('channel');
@@ -40,6 +42,26 @@ Geniverse.challangeController = SC.ObjectController.create(
     var orgChannel = CcChat.chatRoomController.get('channel')+'/org';
     SC.Logger.log("sending dragon on "+orgChannel+": "+dragon);
     CcChat.chatController.post(orgChannel, message);
+  },
+  
+  chatDragon: function(){
+    var dragon = Geniverse.bredOrganismsController.get('selection').firstObject();
+    if (dragon !== undefined && dragon !== null){
+      var dragonImageUrl = dragon.get('imageURL');
+      var jsonDragon = {dragon: dragon.gOrganism, imageUrl: dragonImageUrl};
+      SC.RunLoop.begin();
+      CcChat.chatComposeController.set('item', jsonDragon);
+      this.set('showClearButton', YES);
+      SC.RunLoop.end();
+    }
+    
+  },
+  
+  clearDragon: function() {
+    SC.RunLoop.begin();
+    CcChat.chatComposeController.set('item', []);
+    this.set('showClearButton', NO);
+    SC.RunLoop.end();
   },
   
   getInitialAlleles: function (sex){
