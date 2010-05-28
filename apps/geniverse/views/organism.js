@@ -20,6 +20,8 @@ Geniverse.OrganismView = SC.View.extend(
   allowDrop: NO,
   parent: '',       // 'mother' or 'father'. Needed for drag and drop
   sex: 0,        // 0 or 1. Needed for drag and drop
+  
+  isDropTarget: YES,
 	
 	imageView: SC.ImageView.design({
 		layout: {top: 0, bottom: 0, left: 0, right: 0},
@@ -49,8 +51,9 @@ Geniverse.OrganismView = SC.View.extend(
 		}
 	},
 	
-	// drag methods. View must add the SC.DropTarget mixin for it to work as a target.
-	performDragOperation: function(drag, op) {
+	// drag methods.
+	acceptDragOperation: function(drag, op) {
+	  SC.Logger.log("???");
     var sex = drag.get('source').get('selection').get('firstObject').get('sex');
     if (this.get('allowDrop') && sex === this.get('sex')){
       this.get('parentView').set(this.get('parent'), drag.get('source').get('selection').get('firstObject'));
