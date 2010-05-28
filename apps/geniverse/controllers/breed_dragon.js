@@ -73,6 +73,7 @@ Geniverse.breedDragonController = SC.ObjectController.create(
 	breed: function() {
 	  var self = this;
 		this.set('breedButtonTitle', 'Generating...');
+		SC.Logger.log("MOTHER: "+this.get('mother'));
 		Geniverse.gwtController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
 			SC.RunLoop.begin();
 		  self.set('child', child);

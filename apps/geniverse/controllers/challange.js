@@ -2,7 +2,7 @@
 // Project:   Geniverse.challangeController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse CcChat */
+/*globals Geniverse CcChat GenGWT */
 
 /** @class
 
@@ -19,10 +19,12 @@ Geniverse.challangeController = SC.ObjectController.create(
   sendBredDragons: NO,
   
   startChallange: function() {
-    SC.Logger.log("starting challange");
     var chatroom = CcChat.chatRoomController.get('channel');
-    // CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
 		Geniverse.breedDragonController.initParentsWhenGWTLoads();
+		
+    if (this.get('sendBredDragons')){
+      CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);
+    }
   },
   
   doSendBredDragons: function() {
@@ -30,7 +32,6 @@ Geniverse.challangeController = SC.ObjectController.create(
       var latestChild = Geniverse.breedDragonController.get('child');
       var message = {dragon: latestChild.get('gOrganism')};
       var orgChannel = CcChat.chatRoomController.get('channel')+'/org';
-      SC.Logger.log("sending dragon on "+orgChannel+": "+latestChild.get('gOrganism'));
       CcChat.chatController.post(orgChannel, message);
     }
   }.observes('Geniverse.breedDragonController.child'),
@@ -72,20 +73,22 @@ Geniverse.challangeController = SC.ObjectController.create(
   },
 
   receiveDragon: function(message) {
-    var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
-      bred: NO, sent: YES
-    });
-    dragon.set('gOrganism', message.dragon);
+    Geniverse.challangeController.createNewDragonFromChat(message.dragon);
   },
   
   receiveDragonFromChat: function() {
     var latestChat = CcChat.chatController.get('latestChat');
     var item = latestChat.get('item');
     if (item !== null && item.dragon !== undefined && item.dragon !== null){
-      var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
-        bred: NO, sent: YES
-      });
-      dragon.set('gOrganism', item.dragon);
+      this.createNewDragonFromChat(item.dragon);
     }
-  }.observes('CcChat.chatController.latestChat')
+  }.observes('CcChat.chatController.latestChat'),
+  
+  createNewDragonFromChat: function(jsonDragon) {
+    var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
+      bred: NO, sent: YES
+    });
+    var gOrg = GenGWT.createDragon(jsonDragon);
+    dragon.set('gOrganism', gOrg);
+  }
 }) ;

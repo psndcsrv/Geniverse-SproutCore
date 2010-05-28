@@ -2,7 +2,7 @@
 // Project:   Geniverse.Dragon
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse */
+/*globals Geniverse GenGWT */
 
 /** @class
 
@@ -30,8 +30,16 @@ Geniverse.Dragon = SC.Record.extend(
 		this.set('sex', gOrg.sex);
 		this.set('alleles', gOrg.alleles);
 		this.set('imageURL', gOrg.imageURL);
-		if (gOrg.characteristics !== undefined){
+		if (gOrg.characteristics !== null){
+		  SC.Logger.log("setting chars");
 		  this.set('characteristics', gOrg.characteristics.array);
+		  SC.Logger.log(this.get('charcteristics'));
+	  } else {
+	    var self = this;
+	    GenGWT.getCharacteristics(gOrg, function(characteristics){
+	      gOrg.characteristics = characteristics;
+	      self.set('characteristics', gOrg.characteristics.array);
+	    });
 	  }
 		this.set('metaInfo', gOrg.metaInfo);
 	}.observes('gOrganism'),
@@ -53,6 +61,7 @@ Geniverse.Dragon = SC.Record.extend(
 	characteristicsAsString: function() {
 		var out = '';
 		var chars = this.get('characteristics');
+		SC.Logger.log("chars as array: "+chars);
 		for (var i = 0; i < chars.length; i++) {
 			if (i === 0) {
 				out += chars[i];
