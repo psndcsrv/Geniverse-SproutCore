@@ -90,7 +90,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       		  hasHorizontalScroller: NO,
             layout: { right: Geniverse.marginSize, top: 0, height: 200, width: 300 },
             backgroundColor: 'white',
-            contentView: SC.ListView.design({
+            contentView: SC.StackedView.design({
       				contentBinding: 'CcChat.chatListController.arrangedObjects',
       				selectionBinding: 'CcChat.chatListController.selection',
       				rowHeight: 30,
