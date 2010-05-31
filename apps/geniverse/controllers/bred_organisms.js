@@ -23,5 +23,8 @@ Geniverse.bredOrganismsController = SC.ArrayController.create(
 	    var selIndex = indexes.get('min')-1;
 	    if (selIndex<0) selIndex = 0;
 	    this.selectObject(this.objectAt(selIndex));
-	  }
+	  },
+	  
+	  // this is a hack: currently there is a SC bug pre-defining nowShowing in a late-loaded component
+	  nowShowing: 'Geniverse.mainChatExamplePage.bredDragonsScrollView'
 }) ;
