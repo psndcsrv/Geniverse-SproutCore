@@ -45,7 +45,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     
     appContainer: SC.ContainerView.design({
       isContainerView: YES,
-      layout: { top: 56, bottom: 32, left: 50, right: 0 },
+      layout: { top: 56, bottom: 10, left: 10, right: 0 },
       
       contentView: null,
     	
@@ -58,12 +58,12 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         childViews: 'breedView listViews sendSelectedDragonView chatView articleView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
-          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 280, width: 450 },
+          layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 230, width: 450 },
           initParentsImmediately: NO
         }),
         
         listViews: SC.TabView.design({ 
-          layout: { left: Geniverse.marginSize, top: 380, height: 220, width: 450 },
+          layout: { left: Geniverse.marginSize, bottom: 65, height: 220, width: 450 },
           items: [ 
             {title: "Bred dragons", value: "Geniverse.mainChatExamplePage.bredDragonsScrollView" },
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
@@ -75,7 +75,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         sendSelectedDragonView: SC.ButtonView.design({
-          layout: { top: 610, height: 24, left: Geniverse.marginSize + 150, width: 150 },
+          layout: { bottom: 30, height: 24, left: Geniverse.marginSize + 150, width: 150 },
           title:  "Send selected dragon",
           target: 'Geniverse.challangeController',
           action: "chatDragon"
@@ -87,7 +87,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         chatView: SC.StackedView.design({
-          layout: { right: Geniverse.marginSize, bottom: 0, width: 500, height: 400 },
+          layout: { right: Geniverse.marginSize, bottom: 0, width: 500, height: 350 },
 
       		childViews: 'chatListView chatComposeView userListView userListLabel'.w(),
 
