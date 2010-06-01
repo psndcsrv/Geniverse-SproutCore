@@ -13,22 +13,52 @@
 Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
 /** @scope Geniverse.ArticleView.prototype */ {
   
-  childViews: 'inputView publishView'.w(),
+  childViews: 'staticView editingView'.w(),
+  
+  staticView: SC.View.extend(SC.StaticLayout, {
+
+      childViews: 'textView editView'.w(),
+      
+      textView: SC.ScrollView.design({
+        hasHorizontalScroller: NO,
+        layout: { left: 0, top: 0, right: 0, height: 80 },
+        contentView: SC.LabelView.design(SC.StaticLayout, {
+    		  isEditable: NO,
+          escapeHTML: NO,
+          valueBinding: 'Geniverse.articleController.textAreaValue'
+        })
+      }),
+
+      editView: SC.ButtonView.design({
+        layout: { top: 90, height: 24, right: 20, width: 120 },
+        title:  "Edit article",
+        target: 'Geniverse.articleController',
+        action: 'editAction'
+      }),
+      
+      isVisibleBinding: 'Geniverse.articleController.isStaticVisible'
+    }),
+    
+    editingView: SC.View.extend(SC.StaticLayout, {
+
+      childViews: 'inputView publishView'.w(),
+
+      inputView: SC.TextFieldView.design({
+        layout: {left: 0, top: 0, right: 0, height: 80 },
+        isTextArea: YES,
+        valueBinding: 'Geniverse.articleController.textAreaValue'
+    	}),
+
+      publishView: SC.ButtonView.design({
+        layout: { top: 90, height: 24, right: 20, width: 120 },
+        title:  "Publish article",
+        target: 'Geniverse.articleController',
+        action: 'publishDraftAction'
+      }),
+      
+      isVisibleBinding: 'Geniverse.articleController.isEditingVisible'
+    })
+  
 	
-  inputView: SC.View.design(SC.StaticLayout, {
-    layout: {left: 0, top: 0, right: 0, height: 80 },
-		useStaticLayout: YES,
-		childViews: 'textFieldView'.w(),
-    textFieldView: SC.TextFieldView.design({
-      isTextArea: YES,
-      valueBinding: "Geniverse.articleController.textAreaValue"
-		})
-	}),
-	
-  publishView: SC.ButtonView.design({
-    layout: { top: 90, height: 24, right: 20, width: 120 },
-    title:  "Publish article",
-    target: 'Geniverse.articleController',
-    action: 'sendAction'
-  })
+  
 });

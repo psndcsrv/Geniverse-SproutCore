@@ -13,6 +13,19 @@
 Geniverse.articleController = SC.ObjectController.create(
 /** @scope Geniverse.articleController.prototype */ {
   
+  isStaticVisible: YES,
+  
+  isEditingVisible: NO,
+  
+  editAction: function() {
+    
+    var article = this._stringize(this.get('textAreaValue'));
+    this.set('textAreaValue', article);
+      
+    this.set('isStaticVisible', NO);
+    this.set('isEditingVisible', YES);
+  },
+  
   init: function(){
     this.set('loadTimer', SC.Timer.schedule({
 			target: this,
@@ -28,20 +41,24 @@ Geniverse.articleController = SC.ObjectController.create(
   
   articleChannel: null,
 
-  textAreaValue: '',
+  textAreaValue: '<i>Write your thoughts here.</i>',
   
-  sendAction: function() {
+  publishDraftAction: function() {
+    var article = this._htmlize(this.get('textAreaValue'));
+    this.set('textAreaValue', article);
+    
     var articleChannel = this.get('articleChannel');
     if (articleChannel !== null){
       var username = CcChat.chatController.get('username');
-      var message = {article: this.get('textAreaValue'), author: username};
+      var message = {article: article, author: username};
       CcChat.chatController.post(articleChannel, message);
-      SC.Logger.log(message + " sent on "+articleChannel);
       
       var chatChannel = CcChat.chatRoomController.get('channel');
       var infoMessage = {message: '<i>'+username+" has just published a draft.</i>"};
       CcChat.chatController.post(chatChannel, infoMessage);
     }
+    this.set('isStaticVisible', YES);
+    this.set('isEditingVisible', NO);
   },
   
   _subscribeToArticleChannel: function() {
@@ -57,12 +74,17 @@ Geniverse.articleController = SC.ObjectController.create(
   
   replaceArticleContents: function(message) {
     var article = message.article;
-    SC.Logger.log("Received an article! "+article);
-    SC.RunLoop.begin();
-    SC.Logger.log(Geniverse.articleController.get('textAreaValue'));
     Geniverse.articleController.set('textAreaValue', article);
-    SC.Logger.log(Geniverse.articleController.get('textAreaValue'));
-    SC.RunLoop.end();
+  },
+  
+  _htmlize: function(text) {
+    text = text.replace(/\n/g, "<br>");
+    return text;
+  },
+  
+  _stringize: function(text) {
+    text = text.replace(/<br>/g, "\n");
+    return text;
   }
 
 }) ;
