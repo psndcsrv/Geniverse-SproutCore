@@ -55,7 +55,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listViews sendSelectedDragonView chatView'.w(),
+        childViews: 'breedView listViews sendSelectedDragonView chatView articleView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 280, width: 450 },
@@ -81,14 +81,19 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           action: "chatDragon"
         }),
         
+        
+        articleView: Geniverse.ArticleView.design({
+          layout: { top: Geniverse.marginSize, right: Geniverse.marginSize, height: 350, width: 500}
+        }),
+        
         chatView: SC.StackedView.design({
-          layout: { right: Geniverse.marginSize, top: Geniverse.marginSize, width: 500, height: 400 },
+          layout: { right: Geniverse.marginSize, bottom: 0, width: 500, height: 400 },
 
-      		childViews: 'chatListView chatComposeView userListView'.w(),
+      		childViews: 'chatListView chatComposeView userListView userListLabel'.w(),
 
         	chatListView: CC.AutoScrollView.design({
       		  hasHorizontalScroller: NO,
-            layout: { right: Geniverse.marginSize, top: 0, height: 200, width: 300 },
+            layout: { left: 0, top: 0, height: 200, width: 300 },
             backgroundColor: 'white',
             contentView: SC.StackedView.design({
       				contentBinding: 'CcChat.chatListController.arrangedObjects',
@@ -105,11 +110,16 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           }),
       		
       		chatComposeView: CcChat.ChatComposeView.design({
-            layout: { right: Geniverse.marginSize, top: 230, height: 200, width: 300 }
+            layout: { left: 0, top: 230, height: 200, width: 300 }
+      		}),
+      		
+      		userListLabel: SC.LabelView.design({
+      		  layout: {top: 0, right: 20, width: 100},
+      		  value: "Users in room"
       		}),
       		
       		userListView: CcChat.UserListView.design({
-            layout: {top: 450, right: Geniverse.marginSize, width: 300, height: 300}
+            layout: {top: 40, right: 0, width: 150, height: 200}
           })
         })
     	})
