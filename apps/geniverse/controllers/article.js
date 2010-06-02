@@ -67,7 +67,6 @@ Geniverse.articleController = SC.ObjectController.create(
       this.set('articleChannel', articleChannel);
       CcChat.chatController.subscribeToChannel(articleChannel, this.replaceArticleContents);
       
-      SC.Logger.log("Article channel: "+this.get('articleChannel'));
       this.get('loadTimer').invalidate();
     }
   },

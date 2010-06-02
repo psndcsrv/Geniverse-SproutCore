@@ -21,7 +21,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
       
       textView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
-        layout: { left: 0, top: 0, right: 0, height: 80 },
+        layout: { left: 0, top: 0, right: 0, height: 150 },
         contentView: SC.LabelView.design(SC.StaticLayout, {
     		  isEditable: NO,
           escapeHTML: NO,
@@ -30,7 +30,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
       }),
 
       editView: SC.ButtonView.design({
-        layout: { top: 90, height: 24, right: 20, width: 120 },
+        layout: { top: 160, height: 24, right: 20, width: 120 },
         title:  "Edit article",
         target: 'Geniverse.articleController',
         action: 'editAction'
@@ -44,13 +44,13 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
       childViews: 'inputView publishView'.w(),
 
       inputView: SC.TextFieldView.design({
-        layout: {left: 0, top: 0, right: 0, height: 80 },
+        layout: {left: 0, top: 0, right: 0, height: 150 },
         isTextArea: YES,
         valueBinding: 'Geniverse.articleController.textAreaValue'
     	}),
 
       publishView: SC.ButtonView.design({
-        layout: { top: 90, height: 24, right: 20, width: 120 },
+        layout: { top: 160, height: 24, right: 20, width: 120 },
         title:  "Publish article",
         target: 'Geniverse.articleController',
         action: 'publishDraftAction'

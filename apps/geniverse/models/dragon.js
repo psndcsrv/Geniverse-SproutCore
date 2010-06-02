@@ -31,9 +31,7 @@ Geniverse.Dragon = SC.Record.extend(
 		this.set('alleles', gOrg.alleles);
 		this.set('imageURL', gOrg.imageURL);
 		if (gOrg.characteristics !== null){
-		  SC.Logger.log("setting chars");
 		  this.set('characteristics', gOrg.characteristics.array);
-		  SC.Logger.log(this.get('charcteristics'));
 	  } else {
 	    var self = this;
 	    GenGWT.getCharacteristics(gOrg, function(characteristics){
@@ -61,7 +59,6 @@ Geniverse.Dragon = SC.Record.extend(
 	characteristicsAsString: function() {
 		var out = '';
 		var chars = this.get('characteristics');
-		SC.Logger.log("chars as array: "+chars);
 		for (var i = 0; i < chars.length; i++) {
 			if (i === 0) {
 				out += chars[i];
