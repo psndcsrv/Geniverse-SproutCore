@@ -17,7 +17,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
   
   staticView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'textView editView'.w(),
+      childViews: 'textView editButtonView sendDraftButtonView publishButtonView'.w(),
       
       textView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
@@ -29,11 +29,27 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         })
       }),
 
-      editView: SC.ButtonView.design({
-        layout: { top: 160, height: 24, right: 20, width: 120 },
-        title:  "Edit article",
+      editButtonView: SC.ButtonView.design({
+        layout: { top: 160, height: 24, right: 290, width: 110 },
+        title:  "Edit paper",
         target: 'Geniverse.articleController',
         action: 'editAction'
+      }),
+      
+      sendDraftButtonView: SC.ButtonView.design({
+        layout: { top: 160, height: 24, right: 140, width: 140 },
+        title:  "Send draft to team",
+        target: 'Geniverse.articleController',
+        action: 'sendDraftAction',
+        isEnabledBinding: 'Geniverse.articleController.isDraftDirty'
+      }),
+      
+      publishButtonView: SC.ButtonView.design({
+        layout: { top: 160, height: 24, right: 10, width: 120 },
+        title:  "Publish paper",
+        target: 'Geniverse.articleController',
+        action: 'publishAction',
+        isEnabledBinding: 'Geniverse.articleController.isDraftChanged'
       }),
       
       isVisibleBinding: 'Geniverse.articleController.isStaticVisible'
@@ -41,7 +57,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
     
     editingView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'inputView publishView'.w(),
+      childViews: 'inputView previewView'.w(),
 
       inputView: SC.TextFieldView.design({
         layout: {left: 0, top: 0, right: 0, height: 150 },
@@ -49,11 +65,11 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         valueBinding: 'Geniverse.articleController.textAreaValue'
     	}),
 
-      publishView: SC.ButtonView.design({
+      previewView: SC.ButtonView.design({
         layout: { top: 160, height: 24, right: 20, width: 120 },
-        title:  "Publish article",
+        title:  "Preview paper",
         target: 'Geniverse.articleController',
-        action: 'publishDraftAction'
+        action: 'previewDraftAction'
       }),
       
       isVisibleBinding: 'Geniverse.articleController.isEditingVisible'
