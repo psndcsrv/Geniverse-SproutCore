@@ -77,7 +77,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         sendSelectedDragonView: SC.ButtonView.design({
           layout: { bottom: 30, height: 24, left: Geniverse.marginSize + 150, width: 150 },
           title:  "Send selected dragon",
-          target: 'Geniverse.challangeController',
+          target: 'Geniverse.dragonChattingController',
           action: "chatDragon"
         }),
         

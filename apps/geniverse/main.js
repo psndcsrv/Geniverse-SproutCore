@@ -22,9 +22,6 @@ Geniverse.main = function main() {
   // Step 2. Set the content property on your primary controller.
   // This will make your app come alive!
 
-  // TODO: Set the content property on your primary controller
-  // ex: Geniverse.contactsController.set('content',Geniverse.contacts);
-
 	Geniverse.store.commitRecordsAutomatically = YES;
 
 	var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'storeKey'});
@@ -39,6 +36,10 @@ Geniverse.main = function main() {
   var chatQuery = SC.Query.local(CcChat.ChatMessage,{orderBy: 'time'});
   var chats = CcChat.store.find(chatQuery);
   CcChat.chatListController.set('content', chats);
+  
+  var challangeQuery =  SC.Query.local(Geniverse.Challange);
+  var challange = Geniverse.store.find(challangeQuery).firstObject();
+  Geniverse.challangeController.set('challange', challange);
   
   // log in automatically if UserDefaults found
   Geniverse.appController.checkLoginState();
