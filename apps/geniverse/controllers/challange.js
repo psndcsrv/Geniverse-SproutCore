@@ -23,6 +23,14 @@ Geniverse.challangeController = SC.ObjectController.create(
     return this.get('challange').get('sendBredDragons');
   }.property('challange').cacheable(),
   
+  baseChannelName: function() {
+    return this.get('challange').get('baseChannelName');
+  }.property('challange').cacheable(),
+  
+  maxUsersInRoom: function() {
+    return this.get('challange').get('maxUsersInRoom');
+  }.property('challange').cacheable(),
+  
   startChallange: function() {
     var chatroom = CcChat.chatRoomController.get('channel');
 		Geniverse.breedDragonController.initParentsWhenGWTLoads();

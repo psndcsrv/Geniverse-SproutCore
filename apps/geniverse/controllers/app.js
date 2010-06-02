@@ -56,13 +56,17 @@ Geniverse.appController = SC.ObjectController.create(
   		Geniverse.challangeController.startChallange();
 		}
 		
-	  var chatroom = Geniverse.userDefaults.readDefault('chatroom');
-	  if (chatroom !== undefined && chatroom !== null && chatroom.length > 0){
-	    SC.Logger.log("auto-logging into "+chatroom);
-	    initChat(chatroom);
+	  var challangeChannel = Geniverse.challangeController.get('baseChannelName');
+	  var savedChatroom = Geniverse.userDefaults.readDefault('chatroom');
+	  
+	  if (savedChatroom !== undefined && savedChatroom !== null && 
+	    savedChatroom.length > 0 && savedChatroom.indexOf(challangeChannel) >= 0){
+	    SC.Logger.log("auto-logging into "+savedChatroom);
+	    initChat(savedChatroom);
   		Geniverse.challangeController.startChallange();
     } else {
-  		CcChat.chatRoomController.getFirstChannelWithSpace('geniverse-chat-example', 3, initChat);
+      var maxUsers = Geniverse.challangeController.get('maxUsersInRoom');
+  		CcChat.chatRoomController.getFirstChannelWithSpace(challangeChannel, maxUsers, initChat);
     }
     
 		this.set('userLoggedIn', YES);
