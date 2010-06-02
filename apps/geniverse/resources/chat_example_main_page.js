@@ -55,7 +55,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listViews sendSelectedDragonView chatView articleView'.w(),
+        childViews: 'breedView listViews sendSelectedDragonView chatView allArticlesView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 230, width: 450 },
@@ -81,13 +81,20 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           action: "chatDragon"
         }),
         
-        
-        articleView: Geniverse.ArticleView.design({
-          layout: { top: Geniverse.marginSize, right: Geniverse.marginSize, height: 350, width: 500}
+        allArticlesView: SC.TabView.design({ 
+          layout: { top: Geniverse.marginSize, right: Geniverse.marginSize, height: 250, width: 510},
+          items: [ 
+            {title: "Your paper", value: "Geniverse.mainChatExamplePage.yourArticleView" },
+            {title: "Published papers", value: "Geniverse.mainChatExamplePage.publishedArticlesView" }
+          ], 
+          itemTitleKey: 'title', 
+          itemValueKey: 'value',
+          nowShowingBinding: 'Geniverse.articleController.nowShowing' // hack for defining the startup tab 
+          
         }),
         
         chatView: SC.StackedView.design({
-          layout: { right: Geniverse.marginSize, bottom: 0, width: 500, height: 350 },
+          layout: { right: Geniverse.marginSize, bottom: 0, width: 500, height: 330 },
 
       		childViews: 'chatListView chatComposeView userListView userListLabel'.w(),
 
@@ -124,6 +131,14 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         })
     	})
     })
+  }),
+  
+  yourArticleView: Geniverse.ArticleView.design({
+    layout: { left: 5, top: 10, height: 220}
+  }),
+  
+  publishedArticlesView: Geniverse.PublishedArticlesView.design({
+    layout: { left: 5, top: 10, height: 220}
   }),
   
   bredDragonsScrollView: CC.AutoScrollView.design({

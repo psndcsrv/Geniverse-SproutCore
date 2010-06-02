@@ -33,6 +33,8 @@ Geniverse.articleController = SC.ObjectController.create(
   
   publishedArticle: null,       // last published text
   
+  nowShowing: 'Geniverse.mainChatExamplePage.yourArticleView',      // hack for defining start-up tab
+  
   init: function(){
     this.set('loadTimer', SC.Timer.schedule({
 			target: this,
@@ -68,7 +70,7 @@ Geniverse.articleController = SC.ObjectController.create(
     this.set('isEditingVisible', NO);
   },
   
-  sendDraftAction: function() {
+  sendDraftAction: function(notify) {
     var article = this._htmlize(this.get('textAreaValue'));
     
     var articleDraftChannel = this.get('articleDraftChannel');
@@ -77,13 +79,17 @@ Geniverse.articleController = SC.ObjectController.create(
       var message = {article: article, author: username};
       CcChat.chatController.post(articleDraftChannel, message);
       
-      var chatChannel = CcChat.chatRoomController.get('channel');
-      var infoMessage = {message: '<i>'+username+" has just updated the draft paper.</i>"};
-      CcChat.chatController.post(chatChannel, infoMessage);
+      if (notify === undefined || notify){
+        var chatChannel = CcChat.chatRoomController.get('channel');
+        var infoMessage = {message: '<i>'+username+" has just updated the draft paper.</i>"};
+        CcChat.chatController.post(chatChannel, infoMessage);
+      }
     }
   },
   
   publishAction: function() {
+    this.sendDraftAction(false);
+    
     var article = this._htmlize(this.get('textAreaValue'));
     
     var articleDraftChannel = this.get('articlePublishingChannel');
@@ -93,10 +99,6 @@ Geniverse.articleController = SC.ObjectController.create(
       CcChat.chatController.post(articleDraftChannel, message);
       
       this.set('publishedArticle', article);
-      
-      var chatChannel = CcChat.chatRoomController.get('channel');
-      var infoMessage = {message: '<i>'+username+" has just published the group's paper.</i>"};
-      CcChat.chatController.post(chatChannel, infoMessage);
     }
   },
   
@@ -125,7 +127,13 @@ Geniverse.articleController = SC.ObjectController.create(
   
   receivePublishedArticle: function(message) {
     var article = message.article;
-    SC.Logger.log("A new article has been published");
+    var now = new Date().getTime();
+    
+    var publishedArticle = Geniverse.store.createRecord(Geniverse.Article, {
+      text: message.article, authors: message.author, time: now
+    });
+    
+    CcChat.chatController.addMessage({message: "<i><b>A new paper has been published by "+message.author+"</b></i>"});
   },
   
   _htmlize: function(text) {

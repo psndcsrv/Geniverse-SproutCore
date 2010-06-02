@@ -37,6 +37,10 @@ Geniverse.main = function main() {
   var chats = CcChat.store.find(chatQuery);
   CcChat.chatListController.set('content', chats);
   
+  var articlesQuery = SC.Query.local(Geniverse.Article,{orderBy: 'time'});
+  var articles = Geniverse.store.find(articlesQuery);
+  Geniverse.publishedArticlesController.set('content', articles);
+  
   var challangeQuery =  SC.Query.local(Geniverse.Challange);
   var challange = Geniverse.store.find(challangeQuery).firstObject();
   Geniverse.challangeController.set('challange', challange);
