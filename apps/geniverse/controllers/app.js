@@ -58,7 +58,6 @@ Geniverse.appController = SC.ObjectController.create(
 		
 	  var challangeChannel = Geniverse.challangeController.get('baseChannelName');
 	  var savedChatroom = Geniverse.userDefaults.readDefault('chatroom');
-	  
 	  if (savedChatroom !== undefined && savedChatroom !== null && 
 	    savedChatroom.length > 0 && savedChatroom.indexOf(challangeChannel) >= 0){
 	    SC.Logger.log("auto-logging into "+savedChatroom);
@@ -93,6 +92,8 @@ Geniverse.appController = SC.ObjectController.create(
     SC.RunLoop.begin();
 		containerView.set('nowShowing', this.loginView);
     SC.RunLoop.end();
+    
+    window.location.reload()
 	}
 
 }) ;
