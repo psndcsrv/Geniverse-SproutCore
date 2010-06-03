@@ -27,7 +27,7 @@ Geniverse.articleController = SC.ObjectController.create(
   
   articlePublishingChannel: null,
 
-  textAreaValue: '<i>Write your thoughts here.</i>',
+  textAreaValue: '<i>To work on your paper, click the Edit Paper button below.</i>',
   
   currentArticle: null,         // state of article before editing, stringized
   

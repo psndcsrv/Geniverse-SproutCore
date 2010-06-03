@@ -17,7 +17,9 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     
     topBar: SC.ToolbarView.design({
       layout: { top: 0, left: 0, right: 0, height: 36 },
-      childViews: 'geniverseLabelView welcomeLabelView logoutButton'.w(),
+      
+      childViews: 'geniverseLabelView instructions welcomeLabelView logoutButton'.w(),
+      
       anchorLocation: SC.ANCHOR_TOP,
       
       geniverseLabelView: SC.LabelView.design({
@@ -25,6 +27,11 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         controlSize: SC.LARGE_CONTROL_SIZE,
         fontWeight: SC.BOLD_WEIGHT,
         value:   'Geniverse'
+      }),
+      
+      instructions: Geniverse.InfoPanelView.design({
+        layout: { centerY: 0, height: 24, left: 200, width: 200 },
+        isVisibleBinding: 'Geniverse.appController.userLoggedIn'
       }),
       
       welcomeLabelView: SC.LabelView.design({
@@ -48,10 +55,27 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       layout: { top: 56, bottom: 10, left: 10, right: 0 },
       
       contentView: null,
+      
+      loginView: SC.View.create({
+          childViews: 'info info2 login'.w(),
+          
+          info: SC.LabelView.design({
+            layout: {centerX: 0, top: 30, width: 500, height: 25},
+            controlSize: SC.LARGE_CONTROL_SIZE,
+            value: "Welcome to the Geniverse Demo page."
+          }),
+          
+          info2: SC.LabelView.design({
+            layout: {centerX: 0, top: 60, width: 500, height: 25},
+            value: "Please enter the login name of your choice:"
+          }),
+          
+          login: CcChat.LoginView.design({
+        		layout: {centerX: 0, top: 120, width: 500, height: 400}
+        	})
+      }),
     	
-    	loginView: CcChat.LoginView.create({
-    		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
-    	}),
+    	
     	
       mainAppView: SC.View.create({
         
