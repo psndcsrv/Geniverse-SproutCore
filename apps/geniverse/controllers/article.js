@@ -43,7 +43,7 @@ Geniverse.articleController = SC.ObjectController.create(
       evidence = "<div class='evidence'>"+evidence+"</div>";
     }
     
-    var article = claim + evidence;
+    var article = "<div id='article'>"+claim + evidence+"</div>";
     return article;
     
   }.property('claimValue', 'evidenceValue'),

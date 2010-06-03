@@ -38,7 +38,26 @@ Geniverse.PublishedArticlesView = SC.View.extend(
     contentView: SC.LabelView.design(SC.StaticLayout, {
 		  isEditable: NO,
       escapeHTML: NO,
-      valueBinding: 'Geniverse.publishedArticlesController.articleText'
+      valueBinding: 'Geniverse.publishedArticlesController.articleText',
+      
+      checkIfHeightChanged: function() {
+        if (Geniverse.articleController.get('isStaticVisible')){
+          var timer = SC.Timer.schedule({
+    			  target: this,
+    			  action: 'changeHeight',
+    			  interval: 200,
+    			  repeats: NO
+    		  });
+  		  }
+      }.observes('value'),
+      
+      changeHeight: function() {
+        var height = document.getElementById('article').offsetHeight;
+        if (height > 0){
+          this.adjust('height', height);
+        }
+      }
+      
     })
   })
 

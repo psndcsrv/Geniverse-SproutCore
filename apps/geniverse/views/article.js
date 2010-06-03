@@ -22,10 +22,29 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
       textView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
         layout: { left: 0, top: 0, right: 0, height: 180 },
-        contentView: SC.LabelView.design(SC.StaticLayout, {
+        contentView: SC.LabelView.design({
+          layout: { left: 0, top: 0, right: 0, bottom: 0 },
     		  isEditable: NO,
           escapeHTML: NO,
-          valueBinding: 'Geniverse.articleController.combinedArticle'
+          valueBinding: 'Geniverse.articleController.combinedArticle',
+          
+          checkIfHeightChanged: function() {
+            if (Geniverse.articleController.get('isStaticVisible')){
+              var timer = SC.Timer.schedule({
+        			  target: this,
+        			  action: 'changeHeight',
+        			  interval: 200,
+        			  repeats: NO
+        		  });
+      		  }
+          }.observes('Geniverse.articleController.isStaticVisible'),
+          
+          changeHeight: function() {
+            var height = document.getElementById('article').offsetHeight;
+            if (height > 0){
+              this.adjust('height', height);
+            }
+          }
         })
       }),
 
