@@ -32,8 +32,8 @@ Geniverse.articleController = SC.ObjectController.create(
   evidenceValue: '',
   
   combinedArticle: function() {
-    var claim = this.get('claimValue');
-    var evidence = this.get('evidenceValue');
+    var claim = this._htmlize(this.get('claimValue'));
+    var evidence = this._htmlize(this.get('evidenceValue'));
     
     if (claim !== null && claim.length > 0){
       claim = "<div class='claim'>"+claim+"</div>";
@@ -68,7 +68,7 @@ Geniverse.articleController = SC.ObjectController.create(
   },
   
   editAction: function() {
-    var article = this._stringize(this.get('combinedArticle'));
+    var article = this.get('combinedArticle');
     this.set('combinedArticle', article);
     this.set('currentArticle', article);
     
@@ -87,8 +87,8 @@ Geniverse.articleController = SC.ObjectController.create(
     matches = article.match(pattern);
     var evidence = matches !== null ? matches[1] : "";
 
-    this.set('claimValue', claim);
-    this.set('evidenceValue', evidence);
+    this.set('claimValue', this._stringize(claim));
+    this.set('evidenceValue', this._stringize(evidence));
   },
   
   previewDraftAction: function() {
