@@ -27,7 +27,26 @@ Geniverse.articleController = SC.ObjectController.create(
   
   articlePublishingChannel: null,
 
-  textAreaValue: '<i>Write your thoughts here.</i>',
+  claimValue: "<i>Write your thoughts here.</i>",
+  
+  evidenceValue: '',
+  
+  combinedArticle: function() {
+    var claim = this.get('claimValue');
+    var evidence = this.get('evidenceValue');
+    
+    if (claim !== null && claim.length > 0){
+      claim = "<div class='claim'>"+claim+"</div>";
+    }
+    
+    if (evidence !== null && evidence.length > 0){
+      evidence = "<div class='evidence'>"+evidence+"</div>";
+    }
+    
+    var article = claim + evidence;
+    return article;
+    
+  }.property('claimValue', 'evidenceValue'),
   
   currentArticle: null,         // state of article before editing, stringized
   
@@ -43,35 +62,50 @@ Geniverse.articleController = SC.ObjectController.create(
 			repeats: YES
 		}));
 		
-    this.set('publishedArticle', this.get('textAreaValue'));
+    this.set('publishedArticle', this.get('combinedArticle'));
     
 		sc_super();
   },
   
   editAction: function() {
-    var article = this._stringize(this.get('textAreaValue'));
-    this.set('textAreaValue', article);
+    var article = this._stringize(this.get('combinedArticle'));
+    this.set('combinedArticle', article);
     this.set('currentArticle', article);
+    
+    this.setClaimAndEvidence(article);
       
     this.set('isStaticVisible', NO);
     this.set('isEditingVisible', YES);
   },
   
+  setClaimAndEvidence: function(article){
+    var pattern = /<div class='claim'>(.*?)<\/div>/;
+    var matches = article.match(pattern);
+    var claim = matches !== null ? matches[1] : "";
+    
+    pattern = /<div class='evidence'>(.*?)<\/div>/;
+    matches = article.match(pattern);
+    var evidence = matches !== null ? matches[1] : "";
+
+    this.set('claimValue', claim);
+    this.set('evidenceValue', evidence);
+  },
+  
   previewDraftAction: function() {
-    var editedArticle = this.get('textAreaValue');
+    var editedArticle = this.get('combinedArticle');
     if (editedArticle !== this.get('currentArticle')){
        this.set('isDraftDirty', YES);
     }
     var htmlizedArticle = this._htmlize(editedArticle);
     this.set('isDraftChanged', (htmlizedArticle !== this.get('publishedArticle')));
     
-    this.set('textAreaValue', htmlizedArticle);
+    this.set('combinedArticle', htmlizedArticle);
     this.set('isStaticVisible', YES);
     this.set('isEditingVisible', NO);
   },
   
   sendDraftAction: function(notify) {
-    var article = this._htmlize(this.get('textAreaValue'));
+    var article = this._htmlize(this.get('combinedArticle'));
     
     var articleDraftChannel = this.get('articleDraftChannel');
     if (articleDraftChannel !== null){
@@ -90,7 +124,7 @@ Geniverse.articleController = SC.ObjectController.create(
   publishAction: function() {
     this.sendDraftAction(false);
     
-    var article = this._htmlize(this.get('textAreaValue'));
+    var article = this._htmlize(this.get('combinedArticle'));
     
     var articleDraftChannel = this.get('articlePublishingChannel');
     if (articleDraftChannel !== null){
@@ -119,7 +153,8 @@ Geniverse.articleController = SC.ObjectController.create(
   
   receiveDraftArticle: function(message) {
     var article = message.article;
-    Geniverse.articleController.set('textAreaValue', article);
+    
+    Geniverse.articleController.setClaimAndEvidence(article);
     
     Geniverse.articleController.set('isDraftDirty', NO);
     Geniverse.articleController.set('isDraftChanged', (article !== Geniverse.articleController.get('publishedArticle')));
@@ -137,11 +172,17 @@ Geniverse.articleController = SC.ObjectController.create(
   },
   
   _htmlize: function(text) {
+    if (!text){
+      return "";
+    }
     text = text.replace(/\n/g, "<br>");
     return text;
   },
   
   _stringize: function(text) {
+    if (!text){
+      return "";
+    }
     text = text.replace(/<br>/g, "\n");
     return text;
   }

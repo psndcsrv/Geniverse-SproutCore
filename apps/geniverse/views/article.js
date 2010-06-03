@@ -25,7 +25,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         contentView: SC.LabelView.design(SC.StaticLayout, {
     		  isEditable: NO,
           escapeHTML: NO,
-          valueBinding: 'Geniverse.articleController.textAreaValue'
+          valueBinding: 'Geniverse.articleController.combinedArticle'
         })
       }),
 
@@ -57,15 +57,31 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
     
     editingView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'inputView previewView'.w(),
-
-      inputView: SC.TextFieldView.design({
-        layout: {left: 0, top: 0, right: 0, height: 180 },
+      childViews: 'claimLabel inputClaimView evidenceLabel inputEvidenceView previewButtonView'.w(),
+      
+      claimLabel: SC.LabelView.design({
+          layout: {left: 0, top: 0, right: 0, height: 24 },
+          value: "Claim:"
+      }),
+      
+      inputClaimView: SC.TextFieldView.design({
+        layout: {left: 0, top: 25, right: 0, height: 40 },
         isTextArea: YES,
-        valueBinding: 'Geniverse.articleController.textAreaValue'
+        valueBinding: 'Geniverse.articleController.claimValue'
+    	}),
+    	
+    	evidenceLabel: SC.LabelView.design({
+          layout: {left: 0, top: 75, right: 0, height: 24 },
+          value: "Evidence:"
+      }),
+      
+      inputEvidenceView: SC.TextFieldView.design({
+        layout: {left: 0, top: 100, right: 0, height: 55 },
+        isTextArea: YES,
+        valueBinding: 'Geniverse.articleController.evidenceValue'
     	}),
 
-      previewView: SC.ButtonView.design({
+      previewButtonView: SC.ButtonView.design({
         layout: { top: 190, height: 24, right: 20, width: 120 },
         title:  "Preview paper",
         target: 'Geniverse.articleController',

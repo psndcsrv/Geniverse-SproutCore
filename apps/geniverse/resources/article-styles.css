@@ -1,0 +1,17 @@
+.claim:before {
+  content: "Our claim";
+  font-weight:bold;
+  display: block;
+  border-left: 10px solid transparent;      // margin and padding don't seem to work...
+}
+
+.claim {
+  border-bottom: 10px solid transparent;
+}
+
+.evidence:before {
+  content: "Our evidence";
+  font-weight:bold;
+  display: block;
+  border-left: 10px solid transparent;
+}
