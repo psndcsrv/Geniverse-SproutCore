@@ -2,7 +2,7 @@
 // Project:   Geniverse.articleController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse CcChat */
+/*globals Geniverse CcChat GenGWT */
 
 /** @class
 
@@ -110,7 +110,8 @@ Geniverse.articleController = SC.ObjectController.create(
     var articleDraftChannel = this.get('articleDraftChannel');
     if (articleDraftChannel !== null){
       var username = CcChat.chatController.get('username');
-      var message = {article: article, author: username};
+      var dragons = this._getGOrganismArray(Geniverse.dragonBinController.get('dragons'));
+      var message = {article: article, dragons: dragons, author: username};
       CcChat.chatController.post(articleDraftChannel, message);
       
       if (notify === undefined || notify){
@@ -129,11 +130,20 @@ Geniverse.articleController = SC.ObjectController.create(
     var articleDraftChannel = this.get('articlePublishingChannel');
     if (articleDraftChannel !== null){
       var username = CcChat.chatController.get('username');
-      var message = {article: article, author: username};
+      var dragons = this._getGOrganismArray(Geniverse.dragonBinController.get('dragons'));
+      var message = {article: article, dragons: dragons, author: username};
       CcChat.chatController.post(articleDraftChannel, message);
       
       this.set('publishedArticle', article);
     }
+  },
+  
+  _getGOrganismArray: function(dragonArray) {
+    var gOrganismArray = [];
+    for (var i = 0; i < dragonArray.length; i++){
+      gOrganismArray.push(dragonArray[i].get('gOrganism'));
+    }
+    return gOrganismArray;
   },
   
   _subscribeToArticleChannels: function() {
@@ -155,6 +165,7 @@ Geniverse.articleController = SC.ObjectController.create(
     var article = message.article;
     
     Geniverse.articleController.setClaimAndEvidence(article);
+    Geniverse.articleController.receiveDragons(message.dragons);
     
     Geniverse.articleController.set('isDraftDirty', NO);
     Geniverse.articleController.set('isDraftChanged', (article !== Geniverse.articleController.get('publishedArticle')));
@@ -169,6 +180,28 @@ Geniverse.articleController = SC.ObjectController.create(
     });
     
     CcChat.chatController.addMessage({message: "<i><b>A new paper has been published by "+message.author+"</b></i>"});
+  },
+  
+  receiveDragons: function(gOrganismArray) {
+    var dragonArray = [];
+    for (var i = 0; i < gOrganismArray.length; i++){
+      var dragon = this._createNewDragonFromArticle(gOrganismArray[i]);
+      dragonArray.push(dragon);
+    }
+    SC.RunLoop.begin();
+    Geniverse.dragonBinController.set('dragons', dragonArray);
+    Geniverse.dragonBinController.propertyDidChange('isEmpty');
+    Geniverse.dragonBinController.propertyDidChange('dragons');
+    SC.RunLoop.end();
+  },
+  
+  _createNewDragonFromArticle: function(jsonDragon) {
+    var dragon = Geniverse.store.createRecord(Geniverse.Dragon, {
+      bred: NO, sent: NO
+    });
+    var gOrg = GenGWT.createDragon(jsonDragon);
+    dragon.set('gOrganism', gOrg);
+    return dragon;
   },
   
   _htmlize: function(text) {
