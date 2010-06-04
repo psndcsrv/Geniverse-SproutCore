@@ -10,6 +10,7 @@
 
   @extends SC.View
 */
+require('views/dragon_bin');
 Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
 /** @scope Geniverse.ArticleView.prototype */ {
   
@@ -76,7 +77,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
     
     editingView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'claimLabel inputClaimView evidenceLabel inputEvidenceView previewButtonView'.w(),
+      childViews: 'claimLabel inputClaimView evidenceLabel inputEvidenceView dragonBinView previewButtonView'.w(),
       
       claimLabel: SC.LabelView.design({
           layout: {left: 0, top: 0, right: 0, height: 24 },
@@ -105,6 +106,10 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         title:  "Preview paper",
         target: 'Geniverse.articleController',
         action: 'previewDraftAction'
+      }),
+      
+      dragonBinView: Geniverse.DragonBinView.design({
+        layout: { top: 175, height: 40, left: 20, width: 250 }
       }),
       
       isVisibleBinding: 'Geniverse.articleController.isEditingVisible'

@@ -53,7 +53,6 @@ Geniverse.OrganismView = SC.View.extend(
 	
 	// drag methods.
 	acceptDragOperation: function(drag, op) {
-	  SC.Logger.log("???");
     var sex = drag.get('source').get('selection').get('firstObject').get('sex');
     if (this.get('allowDrop') && sex === this.get('sex')){
       this.get('parentView').set(this.get('parent'), drag.get('source').get('selection').get('firstObject'));
