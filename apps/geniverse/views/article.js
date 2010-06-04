@@ -18,11 +18,11 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
   
   staticView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'textView editButtonView sendDraftButtonView publishButtonView'.w(),
+      childViews: 'textView dragonBinView editButtonView sendDraftButtonView publishButtonView'.w(),
       
       textView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
-        layout: { left: 0, top: 0, right: 0, height: 180 },
+        layout: { left: 0, top: 0, right: 0, height: 140 },
         contentView: SC.LabelView.design({
           layout: { left: 0, top: 0, right: 0, bottom: 0 },
     		  isEditable: NO,
@@ -47,6 +47,11 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
             }
           }
         })
+      }),
+      
+      dragonBinView: Geniverse.DragonBinView.design({
+        layout: { top: 145, height: 40, left: 20, width: 240 },
+        isDropTarget: NO
       }),
 
       editButtonView: SC.ButtonView.design({
@@ -109,7 +114,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
       }),
       
       dragonBinView: Geniverse.DragonBinView.design({
-        layout: { top: 175, height: 40, left: 20, width: 250 }
+        layout: { top: 175, height: 40, left: 20, width: 240 }
       }),
       
       isVisibleBinding: 'Geniverse.articleController.isEditingVisible'

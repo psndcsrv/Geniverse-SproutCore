@@ -13,18 +13,26 @@
 Geniverse.DragonBinView = SC.View.extend( SC.Border,
 /** @scope Geniverse.PublishedArticles.prototype */ {
 
-  borderStyle: SC.BORDER_BLACK,
+  borderStyle: function(){
+    if (this.get('isDropTarget')){
+      return SC.BORDER_BLACK;
+    } else {
+      return null;
+    }
+  }.property().cacheable(),
   
   isDropTarget: YES,
   
   childViews: 'addDragonsLabel'.w(),
   
-  dragonsInView: [],
+  showAddDragonsLabel: function() {
+    return (this.get('isDropTarget') && Geniverse.dragonBinController.get('isEmpty'));
+  }.property('Geniverse.dragonBinController.isEmpty'),
   
   addDragonsLabel: SC.LabelView.design({
     layout: {left: 5, top: 0, right: 5, bottom: 0},
     value: "Drag dragons here to attach them as evidence",
-    isVisibleBinding: 'Geniverse.dragonBinController.isEmpty'
+    isVisibleBinding: '*parentView.showAddDragonsLabel'
   }),
   
   // dragons: SC.StackedView.design({
@@ -45,19 +53,13 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
     }
     
     var dragons = Geniverse.dragonBinController.get('dragons');
-    var dragonsInView = this.get('dragonsInView');
     
     for (var i = 0; i < dragons.length; i++){
-      if (!contains(dragonsInView,dragons[i])){
-        dragonsInView.push(dragons[i]);
-        this.addDragonView(dragons[i], dragonsInView.length-1);
-      }
+        this.addDragonView(dragons[i], i);
     }
-    this.set('dragonsInView', dragonsInView);
   }.observes('Geniverse.dragonBinController.dragons'),
   
   addDragonView: function(dragon, i) {
-    var container = this.get('parentView');
     var height = this.get('layout').height;
     var dragonView = Geniverse.OrganismView.create({
       layout: {top: 0, bottom: 0, left: (i * height), width: height},
@@ -76,6 +78,7 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
 	  Geniverse.dragonBinController.set('dragons', dragons);
     Geniverse.dragonBinController.propertyDidChange('isEmpty');
     Geniverse.dragonBinController.propertyDidChange('dragons');
+    this.propertyDidChange('showAddDragonsLabel');
 	  SC.RunLoop.end();
 	  
     return op ;
