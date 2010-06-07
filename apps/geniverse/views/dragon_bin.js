@@ -97,7 +97,7 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
   
   // drag methods.
 	acceptDragOperation: function(drag, op) {
-	  var dragon = drag.get('source').get('selection').get('firstObject');
+	  var dragon = this._getSourceDragon(drag);
 	  var dragons = Geniverse.dragonBinController.get('dragons');
 	  dragons.push(dragon);
 	  
@@ -120,5 +120,15 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
 
   dragExited: function(drag, evt) {
     this.$().removeClass('drop-target') ;
+  },
+  
+  _getSourceDragon: function(dragEvt) {
+    var sourceDragon;
+    if ((""+dragEvt.get('source').constructor === 'Geniverse.OrganismView')){
+      sourceDragon = dragEvt.get('source').get('organism');
+    } else {
+      sourceDragon = dragEvt.get('source').get('selection').get('firstObject');
+    }
+    return sourceDragon;
   }
 });
