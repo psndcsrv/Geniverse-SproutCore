@@ -51,4 +51,8 @@ Geniverse.main = function main() {
   // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;
 
-function main() { Geniverse.main(); }
+function main() { 
+  Geniverse.main(); 
+  
+  Geniverse.isLoaded = YES;
+}

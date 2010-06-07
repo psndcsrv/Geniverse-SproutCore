@@ -1,0 +1,28 @@
+These are spec tests designed to be run using the Lebowski framework.
+For information about Lebowski, see http://github.com/FrozenCanuck/Lebowski
+
+To run these spec tests:
+
+Install the 'lebowski' gem
+  $ gem install lebowski
+
+Start the selenium server
+  $ lebowski-start-server
+
+Start the geniverse application
+  $ cd Geniverse-SproutCore
+  $ sc-server
+
+Run the spec tests
+  $ cd spec
+  $ lebowski-spec -f n geniverse.rb
+
+If all works successfully, you should see Selenium run through the test(s) using your browser, and then see an output
+in the console similar to
+
+	Geniverse Test
+	  will show the welcome message after login
+
+	Finished in 1.426646 seconds
+
+	1 example, 0 failures
