@@ -12,6 +12,27 @@
 */
 Geniverse.DragonBinView = SC.View.extend( SC.Border,
 /** @scope Geniverse.PublishedArticles.prototype */ {
+  
+  dragonsBinding: 'Geniverse.dragonBinController.dragons',
+  
+  dragonViews: [],
+  
+  init: function() {
+    SC.Timer.schedule({
+			target: this,
+			action: 'stupidUpdate',
+			interval: 200,
+			repeats: YES
+		});
+		
+    sc_super();
+  },
+  
+  // FIXME: updateDragonViews() does not seem to correctly get updated on dragons change
+  // unless we explicitly call propertyDidChange...
+  stupidUpdate: function() {
+    this.propertyDidChange('dragons');
+  },
 
   borderStyle: function(){
     if (this.get('isDropTarget')){
@@ -35,12 +56,6 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
     isVisibleBinding: '*parentView.showAddDragonsLabel'
   }),
   
-  // dragons: SC.StackedView.design({
-  //      contentBinding: 'Geniverse.dragonBinController.arrangedObjects',
-  //    //  selectionBinding: 'CcChat.chatListController.selection',
-  //      exampleView: Geniverse.OrganismView
-  //  }),
-  
   updateDragonViews: function() {
     function contains(a, obj) {
       var i = a.length;
@@ -52,12 +67,20 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
       return false;
     }
     
-    var dragons = Geniverse.dragonBinController.get('dragons');
+    // clear dragons
+    var dragonViews = this.get('dragonViews');
+    for (var j = 0; j < dragonViews.length; j++){
+      this.removeChild(dragonViews[j]);
+    }
+    this.set('dragonViews', []);
     
+    // add dragon views
+    var dragons = this.get('dragons');
     for (var i = 0; i < dragons.length; i++){
         this.addDragonView(dragons[i], i);
     }
-  }.observes('Geniverse.dragonBinController.dragons'),
+    
+  }.observes('dragons'),
   
   addDragonView: function(dragon, i) {
     var height = this.get('layout').height;
@@ -67,6 +90,9 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
       backgroundColor: 'white'
     });
     this.appendChild(dragonView);
+    dragonView.set('organism', dragon);
+    
+    this.get('dragonViews')[i] = dragonView;
   },
   
   // drag methods.
@@ -74,12 +100,9 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
 	  var dragon = drag.get('source').get('selection').get('firstObject');
 	  var dragons = Geniverse.dragonBinController.get('dragons');
 	  dragons.push(dragon);
-	  SC.RunLoop.begin();
-	  Geniverse.dragonBinController.set('dragons', dragons);
-    Geniverse.dragonBinController.propertyDidChange('isEmpty');
-    Geniverse.dragonBinController.propertyDidChange('dragons');
-    this.propertyDidChange('showAddDragonsLabel');
-	  SC.RunLoop.end();
+	  
+    Geniverse.dragonBinController.set('dragons', dragons);
+    this.propertyDidChange('showAddDragonsLabel');    // FIXME: why doesn't showAddDragonsLabel update automatically?
 	  
     return op ;
   },

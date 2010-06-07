@@ -50,7 +50,11 @@ Geniverse.articleController = SC.ObjectController.create(
   
   currentArticle: null,         // state of article before editing, stringized
   
+  currentDragons: [],           // dragons before editing
+  
   publishedArticle: null,       // last published text
+  
+  publishedDragons: [],
   
   nowShowing: 'Geniverse.mainChatExamplePage.yourArticleView',      // hack for defining start-up tab
   
@@ -71,6 +75,7 @@ Geniverse.articleController = SC.ObjectController.create(
     var article = this.get('combinedArticle');
     this.set('combinedArticle', article);
     this.set('currentArticle', article);
+    this.set('currentDragons', Geniverse.dragonBinController.get('dragons').slice(0));  // clone array
     
     this.setClaimAndEvidence(article);
       
@@ -93,11 +98,15 @@ Geniverse.articleController = SC.ObjectController.create(
   
   previewDraftAction: function() {
     var editedArticle = this.get('combinedArticle');
-    if (editedArticle !== this.get('currentArticle')){
+    var textChanged = editedArticle !== this.get('currentArticle');
+    var dragonsChanged = !Geniverse.dragonBinController.get('dragons').compareArrays(this.get('currentDragons'));
+    if (textChanged || dragonsChanged){
        this.set('isDraftDirty', YES);
     }
+    
     var htmlizedArticle = this._htmlize(editedArticle);
-    this.set('isDraftChanged', (htmlizedArticle !== this.get('publishedArticle')));
+    var publishedDragonsChanged = !Geniverse.dragonBinController.get('dragons').compareArrays(this.get('publishedDragons'));
+    this.set('isDraftChanged', (htmlizedArticle !== this.get('publishedArticle') || publishedDragonsChanged));
     
     this.set('combinedArticle', htmlizedArticle);
     this.set('isStaticVisible', YES);
@@ -135,6 +144,7 @@ Geniverse.articleController = SC.ObjectController.create(
       CcChat.chatController.post(articleDraftChannel, message);
       
       this.set('publishedArticle', article);
+      this.set('publishedDragons', Geniverse.dragonBinController.get('dragons'));
     }
   },
   
@@ -174,25 +184,31 @@ Geniverse.articleController = SC.ObjectController.create(
   receivePublishedArticle: function(message) {
     var article = message.article;
     var now = new Date().getTime();
+    var dragons = Geniverse.articleController.createDragonArray(message.dragons);
     
     var publishedArticle = Geniverse.store.createRecord(Geniverse.Article, {
-      text: message.article, authors: message.author, time: now
+      text: message.article, authors: message.author, dragons: dragons, time: now
     });
     
     CcChat.chatController.addMessage({message: "<i><b>A new paper has been published by "+message.author+"</b></i>"});
   },
   
   receiveDragons: function(gOrganismArray) {
-    var dragonArray = [];
-    for (var i = 0; i < gOrganismArray.length; i++){
-      var dragon = this._createNewDragonFromArticle(gOrganismArray[i]);
-      dragonArray.push(dragon);
-    }
+    var dragonArray = this.createDragonArray(gOrganismArray);
     SC.RunLoop.begin();
     Geniverse.dragonBinController.set('dragons', dragonArray);
     Geniverse.dragonBinController.propertyDidChange('isEmpty');
     Geniverse.dragonBinController.propertyDidChange('dragons');
     SC.RunLoop.end();
+  },
+  
+  createDragonArray: function(gOrganismArray){
+    var dragonArray = [];
+    for (var i = 0; i < gOrganismArray.length; i++){
+      var dragon = this._createNewDragonFromArticle(gOrganismArray[i]);
+      dragonArray.push(dragon);
+    }
+    return dragonArray;
   },
   
   _createNewDragonFromArticle: function(jsonDragon) {
@@ -221,3 +237,15 @@ Geniverse.articleController = SC.ObjectController.create(
   }
 
 }) ;
+
+Array.prototype.compareArrays = function(arr) {
+    if (this.length != arr.length) return false;
+    for (var i = 0; i < arr.length; i++) {
+        if (this[i].compareArrays) { //likely nested array
+            if (!this[i].compareArrays(arr[i])) return false;
+            else continue;
+        }
+        if (this[i] != arr[i]) return false;
+    }
+    return true;
+}

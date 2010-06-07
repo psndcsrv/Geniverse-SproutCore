@@ -13,7 +13,7 @@
 Geniverse.PublishedArticlesView = SC.View.extend(
 /** @scope Geniverse.PublishedArticles.prototype */ {
 
-  childViews: 'list textView'.w(),
+  childViews: 'list textView dragonBinView'.w(),
   
   list: CC.AutoScrollView.design({
 	  hasHorizontalScroller: NO,
@@ -59,6 +59,12 @@ Geniverse.PublishedArticlesView = SC.View.extend(
       }
       
     })
+  }),
+  
+  dragonBinView: Geniverse.DragonBinView.design({
+    layout: { top: 170, height: 40, left: 110, width: 240 },
+    isDropTarget: NO,
+    dragonsBinding: 'Geniverse.publishedArticlesController.dragons'
   })
 
 });

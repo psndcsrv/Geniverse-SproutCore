@@ -20,6 +20,15 @@ Geniverse.publishedArticlesController =  SC.ArrayController.create(
     } else {
       return "";
     }
+  }.property('selection').cacheable(),
+  
+  dragons: function() {
+    var article = this.get('selection').firstObject();
+    if (article !== undefined && article !== null){
+      return article.get('dragons');
+    } else {
+      return [];
+    }
   }.property('selection').cacheable()
 
 }) ;
