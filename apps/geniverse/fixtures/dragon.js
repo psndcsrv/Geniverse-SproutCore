@@ -16,10 +16,21 @@ Geniverse.Dragon.FIXTURES = [
 //     sex: 0,
 //     alleles: "hh,SS,WW,lL,tt,pp,FF,aa,BB",
 //     bred: true,
+//     sent: false,
 //     imageURL: "/geniverse/cache/hh,SS,WW,lL,tt,pp,FF,aa,BB.png",
 //     characteristics: ['Fill','In','Characteristics'],
 //     metaInfo: {}
 // },
+// {
+//     guid: 2,
+//     sex: 0,
+//     alleles: "hh,SS,WW,lL,tt,pp,FF,aa,BB",
+//     bred: false,
+//     sent: true,
+//     imageURL: "/geniverse/cache/hh,SS,WW,lL,tt,pp,FF,aa,BB.png",
+//     characteristics: ['Fill','In','Characteristics'],
+//     metaInfo: {}
+// }
 // {
 //     guid: 2,
 //     sex: 1,

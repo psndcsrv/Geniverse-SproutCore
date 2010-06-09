@@ -55,7 +55,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listViews sendSelectedDragonView chatView allArticlesView'.w(),
+        childViews: 'breedView listViews chatView allArticlesView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 230, width: 450 },
@@ -72,13 +72,6 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           itemValueKey: 'value',
           nowShowingBinding: 'Geniverse.bredOrganismsController.nowShowing' // hack for defining the startup tab 
           
-        }),
-        
-        sendSelectedDragonView: SC.ButtonView.design({
-          layout: { bottom: 30, height: 24, left: Geniverse.marginSize + 150, width: 150 },
-          title:  "Send selected dragon",
-          target: 'Geniverse.dragonChattingController',
-          action: "chatDragon"
         }),
         
         allArticlesView: SC.TabView.design({ 
@@ -116,7 +109,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
             autoScrollTriggerBinding:  'CcChat.chatListController.length'
           }),
       		
-      		chatComposeView: CcChat.ChatComposeView.design({
+      		chatComposeView: Geniverse.DragonChatComposeView.design({
             layout: { left: 0, top: 230, height: 200, width: 300 }
       		}),
       		
@@ -143,16 +136,15 @@ Geniverse.mainChatExamplePage = SC.Page.design({
   
   bredDragonsScrollView: CC.AutoScrollView.design({
 	  hasHorizontalScroller: NO,
-    layout: { left: 0, top: 0, right: 0, height: 200 },
+		layout: { left: 0, top: 0, right: 0, height: 200 },
     backgroundColor: 'white',
-    contentView: SC.ListView.design({
+    contentView: SC.GridView.design({
 			contentBinding: 'Geniverse.bredOrganismsController.arrangedObjects',
 			selectionBinding: 'Geniverse.bredOrganismsController.selection',
-			rowHeight: 30,
+			rowHeight: 60,
+			columnWidth: 60,
 			canEditContent: NO,
-			contentIconKey: 'imageURL',
-			hasContentIcon: YES,
-			contentValueKey: 'info',
+			exampleView: Geniverse.OrganismView,
 			isSelectable: YES,
 			dragDataTypes: ['dragon']
     }),
@@ -163,16 +155,15 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 	  hasHorizontalScroller: NO,
     layout: { left: 0, top: 0, right: 0, height: 200 },
     backgroundColor: 'white',
-    contentView: SC.ListView.design({
+    contentView: SC.GridView.design({
 			contentBinding: 'Geniverse.allBredOrganismsController.arrangedObjects',
 			selectionBinding: 'Geniverse.allBredOrganismsController.selection',
-			rowHeight: 30,
+			rowHeight: 60,
+			columnWidth: 60,
 			canEditContent: NO,
-			contentIconKey: 'imageURL',
-			hasContentIcon: YES,
-			contentValueKey: 'info',
-			dragDataTypes: ['dragon'],
-			isSelectable: YES
+			exampleView: Geniverse.OrganismView,
+			isSelectable: YES,
+			dragDataTypes: ['dragon']
     }),
     autoScrollTriggerBinding: 'Geniverse.allBredOrganismsController.length'
   })

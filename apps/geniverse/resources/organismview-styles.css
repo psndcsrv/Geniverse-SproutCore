@@ -1,3 +1,11 @@
 .sc-theme .organism-view .isSelected {
-	background-color: yellow;
+	border: yellow solid 2px;
+}
+
+.sc-theme .organism-view .female {
+	background-color: #FCEBF1;
+}
+
+.sc-theme .organism-view .male {
+	background-color: #E1E6FA;
 }

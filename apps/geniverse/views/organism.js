@@ -12,7 +12,7 @@
 */
 Geniverse.OrganismView = SC.View.extend( 
 /** @scope Geniverse.OrganismView.prototype */ {
-	organism: null,
+	organismBinding: '*content',
 	label: 'Organism',
 	classNames: ['organism-view'],
 	contentBinding: '*organism',
@@ -29,11 +29,12 @@ Geniverse.OrganismView = SC.View.extend(
 		contentValueKey: 'imageURL',
 		canLoadInBackground: NO,
 		useImageCache: NO
+    // classNames: 'isSelected'.w()
 	}),
 	
 	contentDidChange: function() {
 		this.setPath('imageView.layerNeedsUpdate', YES);
-	}.observes('content'),
+	}.observes('*content'),
 	
 	isSelectedDidChange: function() {
 		this.set('layerNeedsUpdate', YES);
@@ -46,23 +47,30 @@ Geniverse.OrganismView = SC.View.extend(
   },
 
   _selected_style: function(context) {
-		if (this.get('isSelected') === YES) {
-			context.addStyle("background-color: yellow;");
-		}
+    // this.get('imageView').set('classNames', ['isSelected']);
+
+    if (this.get('organism') !== null){
+      var classNames = [];
+      if (this.get('parentView') !== null && ""+this.get('parentView').constructor === 'SC.GridView'){
+        classNames.push((this.getPath('organism.sex') === 0) ? 'male' : 'female');
+      }
+      this.get('imageView').set('classNames', classNames);
+    }
 	},
 	
 	// drag methods:
 	
-	mouseDown: function(evt) {
-	  SC.Drag.start({ 
-      event: evt, 
-      source: this, 
-      dragView: this.get('imageView'), 
-      ghost: YES, 
-      slideBack: YES, 
-      dataSource: this 
-    }) ;
-	},
+  mouseDown: function(evt) {
+      SC.Drag.start({ 
+       event: evt, 
+       source: this, 
+       dragView: this, 
+       ghost: NO, 
+       slideBack: YES, 
+       dataSource: this 
+     }) ;
+      return YES;
+   },
 	// drop methods:
   acceptDragOperation: function(drag, op) {
     var dragon = this._getSourceDragon(drag);
