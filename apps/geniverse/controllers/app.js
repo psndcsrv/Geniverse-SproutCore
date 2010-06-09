@@ -93,7 +93,22 @@ Geniverse.appController = SC.ObjectController.create(
 		containerView.set('nowShowing', this.loginView);
     SC.RunLoop.end();
     
-    window.location.reload()
-	}
+    window.location.reload();
+	},
+	
+	welcomeMessage: function(){
+	  var welcomeMessage = "[Not set]";
+	  if (CcChat.chatController.get('chatHasInitialized')){
+	    var userName = CcChat.chatController.get('username');
+  	  var chatRoom = CcChat.chatRoomController.get('channelIndex');
+  	  var group = parseInt(chatRoom, 10) + 1;
+  	  welcomeMessage = "Welcome "+userName+", you are in group "+group;
+    }
+    // SC.Logger.log("returning "+welcomeMessage);
+    this.set('welcomeMessageDuplicate', welcomeMessage);  // FIXME: why is this necessary?
+    return welcomeMessage;
+	}.property().observes('CcChat.chatController.chatHasInitialized'), // why is this necessary?
+	
+	welcomeMessageDuplicate: ""
 
 }) ;

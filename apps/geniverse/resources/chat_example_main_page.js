@@ -28,10 +28,11 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       }),
       
       welcomeLabelView: SC.LabelView.design({
-        layout: { centerY: 0, height: 24, right: 130, width: 150},
+        layout: { centerY: 0, height: 24, right: 130, width: 500},
         fontWeight: SC.BOLD_WEIGHT,
-        valueBinding: 'CcChat.loginController.welcomeMessage',
-        isVisibleBinding: 'Geniverse.appController.userLoggedIn'
+        textAlign: SC.ALIGN_RIGHT,
+        valueBinding: 'Geniverse.appController.welcomeMessageDuplicate'
+    //    isVisibleBinding: 'Geniverse.appController.userLoggedIn'
       }),
 
       logoutButton: SC.ButtonView.design({
