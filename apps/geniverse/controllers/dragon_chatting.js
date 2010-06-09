@@ -30,8 +30,7 @@ Geniverse.dragonChattingController = SC.ObjectController.create(
     CcChat.chatController.post(orgChannel, message);
   },
   
-  chatDragon: function(){
-    var dragon = Geniverse.bredOrganismsController.get('selection').firstObject();
+  chatDragon: function(dragon){
     if (dragon !== undefined && dragon !== null){
       var dragonImageUrl = dragon.get('imageURL');
       var jsonDragon = {dragon: dragon.get('gOrganism'), imageUrl: dragonImageUrl};
