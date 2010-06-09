@@ -46,7 +46,7 @@ Geniverse.articleController = SC.ObjectController.create(
     var article = "<div id='article'>"+claim + evidence+"</div>";
     return article;
     
-  }.property('claimValue', 'evidenceValue'),
+  }.property('claimValue', 'evidenceValue').cacheable(),
   
   currentArticle: null,         // state of article before editing, stringized
   
@@ -71,8 +71,16 @@ Geniverse.articleController = SC.ObjectController.create(
 		sc_super();
   },
   
+  newPaperAction: function() {
+    this.set('claimValue', "<i>Write your thoughts here.</i>");
+    this.set('evidenceValue', "");
+    Geniverse.dragonBinController.clearDragons();
+    this.editAction();
+  },
+  
   editAction: function() {
     var article = this.get('combinedArticle');
+    SC.Logger.log("editing, comb = "+article);
     this.set('combinedArticle', article);
     this.set('currentArticle', article);
     this.set('currentDragons', Geniverse.dragonBinController.get('dragons').slice(0));  // clone array
@@ -138,9 +146,9 @@ Geniverse.articleController = SC.ObjectController.create(
     
     var articleDraftChannel = this.get('articlePublishingChannel');
     if (articleDraftChannel !== null){
-      var username = CcChat.chatController.get('username');
+      var groupName = "Group "+ (parseInt(CcChat.chatRoomController.get('channelIndex'), 10) + 1);
       var dragons = this._getGOrganismArray(Geniverse.dragonBinController.get('dragons'));
-      var message = {article: article, dragons: dragons, author: username};
+      var message = {article: article, dragons: dragons, author: groupName};
       CcChat.chatController.post(articleDraftChannel, message);
       
       this.set('publishedArticle', article);

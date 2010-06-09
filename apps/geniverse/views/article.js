@@ -18,7 +18,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
   
   staticView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'textView dragonBinView editButtonView sendDraftButtonView publishButtonView'.w(),
+      childViews: 'textView dragonBinView newButtonView editButtonView sendDraftButtonView publishButtonView'.w(),
       
       textView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
@@ -53,12 +53,21 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         layout: { top: 145, height: 40, left: 20, width: 240 },
         isDropTarget: NO
       }),
+      
+      newButtonView: SC.ButtonView.design({
+        layout: { top: 190, height: 24, right: 400, width: 95 },
+        title:  "New paper",
+        target: 'Geniverse.articleController',
+        action: 'newPaperAction',
+        isEnabledBinding: SC.Binding.not('Geniverse.articleController.isDraftChanged')
+      }),
 
       editButtonView: SC.ButtonView.design({
-        layout: { top: 190, height: 24, right: 290, width: 110 },
+        layout: { top: 190, height: 24, right: 290, width: 100 },
         title:  "Edit paper",
         target: 'Geniverse.articleController',
-        action: 'editAction'
+        action: 'editAction',
+        isEnabledBinding: 'Geniverse.articleController.isDraftChanged'
       }),
       
       sendDraftButtonView: SC.ButtonView.design({
@@ -82,7 +91,7 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
     
     editingView: SC.View.extend(SC.StaticLayout, {
 
-      childViews: 'claimLabel inputClaimView evidenceLabel inputEvidenceView dragonBinView previewButtonView'.w(),
+      childViews: 'claimLabel inputClaimView evidenceLabel inputEvidenceView dragonBinView clearDragonsButton previewButtonView'.w(),
       
       claimLabel: SC.LabelView.design({
           layout: {left: 0, top: 0, right: 0, height: 24 },
@@ -105,16 +114,23 @@ Geniverse.ArticleView = SC.View.extend(SC.StaticLayout,
         isTextArea: YES,
         valueBinding: 'Geniverse.articleController.evidenceValue'
     	}),
+      
+      dragonBinView: Geniverse.DragonBinView.design({
+        layout: { top: 175, height: 40, left: 5, width: 240 }
+      }),
+      
+      clearDragonsButton: SC.ButtonView.design({
+        layout: { top: 190, height: 24, left: 260, width: 110 },
+        title:  "Clear dragons",
+        target: 'Geniverse.dragonBinController',
+        action: 'clearDragons'
+      }),
 
       previewButtonView: SC.ButtonView.design({
-        layout: { top: 190, height: 24, right: 20, width: 120 },
+        layout: { top: 190, height: 24, right: 15, width: 110 },
         title:  "Preview paper",
         target: 'Geniverse.articleController',
         action: 'previewDraftAction'
-      }),
-      
-      dragonBinView: Geniverse.DragonBinView.design({
-        layout: { top: 175, height: 40, left: 20, width: 240 }
       }),
       
       isVisibleBinding: 'Geniverse.articleController.isEditingVisible'

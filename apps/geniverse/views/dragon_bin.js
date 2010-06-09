@@ -47,6 +47,7 @@ Geniverse.DragonBinView = SC.View.extend( SC.Border,
   childViews: 'addDragonsLabel'.w(),
   
   showAddDragonsLabel: function() {
+    SC.Logger.log('showAddDragonsLabel');
     return (this.get('isDropTarget') && Geniverse.dragonBinController.get('isEmpty'));
   }.property('Geniverse.dragonBinController.isEmpty'),
   
