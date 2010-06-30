@@ -11,6 +11,10 @@
 // As you develop your application you will probably want to override this.
 // See comments for some pointers on what to do next.
 //
+
+require('resources/main_page_applet_demo');
+require('resources/main_page_geniverse_chat');
+
 Geniverse.main = function main() {
 
   // Step 1: Instantiate Your Views

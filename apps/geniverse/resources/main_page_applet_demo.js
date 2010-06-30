@@ -4,8 +4,15 @@
 // ==========================================================================
 /*globals Geniverse, CC, java */
 Geniverse.marginSize = 15;
-// This page describes the main user interface for your application.  
-Geniverse.mainPage = SC.Page.design({
+
+require('views/article');
+require('views/breed_dragon');
+require('views/dragon_bin');
+require('views/dragon_chat_compose');
+require('views/organism');
+require('views/published_articles');
+
+Geniverse.appletDemoMainPage = SC.Page.design({
 
   // The main pane is made visible on screen as soon as your app is loaded.
   // Add childViews to this pane for views to display immediately on page 

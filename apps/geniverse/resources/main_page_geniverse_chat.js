@@ -4,7 +4,14 @@
 // ==========================================================================
 /*globals Geniverse, CC, CcChat, java */
 Geniverse.marginSize = 15;
-// This page describes the main user interface for your application.  
+
+require('views/article');
+require('views/breed_dragon');
+require('views/dragon_bin');
+require('views/dragon_chat_compose');
+require('views/organism');
+require('views/published_articles');
+
 Geniverse.mainChatExamplePage = SC.Page.design({
   
   // The main pane is made visible on screen as soon as your app is loaded.
@@ -31,8 +38,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         layout: { centerY: 0, height: 24, right: 130, width: 500},
         fontWeight: SC.BOLD_WEIGHT,
         textAlign: SC.ALIGN_RIGHT,
-        valueBinding: 'Geniverse.appController.welcomeMessageDuplicate'
-    //    isVisibleBinding: 'Geniverse.appController.userLoggedIn'
+        valueBinding: 'Geniverse.appController.welcomeMessageDuplicate',
+        isVisibleBinding: 'Geniverse.appController.userLoggedIn'
       }),
 
       logoutButton: SC.ButtonView.design({
@@ -46,7 +53,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     
     appContainer: SC.ContainerView.design({
       isContainerView: YES,
-      layout: { top: 56, bottom: 10, left: 10, right: 0 },
+      layout: { top: 45, bottom: 0, left: 10, right: 0 },
       
       contentView: null,
     	
@@ -64,7 +71,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         listViews: SC.TabView.design({ 
-          layout: { left: Geniverse.marginSize, bottom: 65, height: 220, width: 450 },
+          layout: { left: Geniverse.marginSize, bottom: 10, height: 220, width: 450 },
           items: [ 
             {title: "Bred dragons", value: "Geniverse.mainChatExamplePage.bredDragonsScrollView" },
             {title: "Group dragons", value: "Geniverse.mainChatExamplePage.allDragonsScrollView" }
@@ -76,7 +83,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
         }),
         
         allArticlesView: SC.TabView.design({ 
-          layout: { top: Geniverse.marginSize, right: Geniverse.marginSize, height: 250, width: 510},
+          layout: { top: 5, right: Geniverse.marginSize, height: 250, width: 510},
           items: [ 
             {title: "Your paper", value: "Geniverse.mainChatExamplePage.yourArticleView" },
             {title: "Published papers", value: "Geniverse.mainChatExamplePage.publishedArticlesView" }
@@ -94,7 +101,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 
         	chatListView: CC.AutoScrollView.design({
       		  hasHorizontalScroller: NO,
-            layout: { left: 0, top: 0, height: 200, width: 300 },
+            layout: { left: 0, top: 65, height: 180, width: 300 },
             backgroundColor: 'white',
             contentView: SC.StackedView.design({
       				contentBinding: 'CcChat.chatListController.arrangedObjects',
@@ -111,16 +118,16 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           }),
       		
       		chatComposeView: Geniverse.DragonChatComposeView.design({
-            layout: { left: 0, top: 230, height: 200, width: 300 }
+            layout: { left: 0, top: 260, height: 200, width: 300 }
       		}),
       		
       		userListLabel: SC.LabelView.design({
-      		  layout: {top: 0, right: 20, width: 100},
+      		  layout: {top: 65, right: 20, width: 100},
       		  value: "Users in room"
       		}),
       		
       		userListView: CcChat.UserListView.design({
-            layout: {top: 40, right: 0, width: 150, height: 200}
+            layout: {top: 85, right: 0, width: 150, height: 200}
           })
         })
     	})
