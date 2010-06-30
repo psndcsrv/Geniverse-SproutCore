@@ -16,19 +16,35 @@ Geniverse.challangeController = SC.ObjectController.create(
   challange: null,
   
   initialAlleles: function() { 
-    return this.get('challange').get('initialAlleles');
+    if (this.get('challange') !== null){
+      return this.get('challange').get('initialAlleles');
+    }
+    
+    return {};
   }.property('challange').cacheable(),
   
   sendBredDragons: function() {
-    return this.get('challange').get('sendBredDragons');
+    if (this.get('challange') !== null){
+      return this.get('challange').get('sendBredDragons');
+    }
+    
+    return false;
   }.property('challange').cacheable(),
   
   baseChannelName: function() {
-    return this.get('challange').get('baseChannelName');
+    if (this.get('challange') !== null){
+      return this.get('challange').get('baseChannelName');
+    }
+    
+    return "";
   }.property('challange').cacheable(),
   
   maxUsersInRoom: function() {
-    return this.get('challange').get('maxUsersInRoom');
+    if (this.get('challange') !== null){
+      return this.get('challange').get('maxUsersInRoom');
+    }
+    
+    return 10000;
   }.property('challange').cacheable(),
   
   startChallange: function() {
