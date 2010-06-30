@@ -33,6 +33,7 @@ Geniverse.appController = SC.ObjectController.create(
       CcChat.chatController.set('username', username);    // this will kick-off login
     } else {
       SC.RunLoop.begin();
+  		Geniverse.userDefaults.writeDefault('chatroom', '');  // if no username, make sure room is also cleared
   		containerView.set('nowShowing', this.loginView);
       SC.RunLoop.end();
     }
