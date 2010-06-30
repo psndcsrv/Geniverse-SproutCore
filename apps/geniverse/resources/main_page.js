@@ -82,12 +82,6 @@ Geniverse.mainPage = SC.Page.design({
 			}.observes('selection'),
 			
 			init: function() {
-				// this.set('loadTimer', SC.Timer.schedule({
-				// 	target: this,
-				// 	action: 'initAlleleListener',
-				// 	interval: 200,
-				// 	repeats: YES
-				// }));
 				
 				this.set('selectionPoller', SC.Timer.schedule({
 					target: this,
@@ -98,30 +92,6 @@ Geniverse.mainPage = SC.Page.design({
 				
 				sc_super();
 			},
-			
-			// FIXME: Can't seem to create a PropertyChangeListner in the browser...
-			// initAlleleListener: function() {
-			// 	var applet = this.appletInstance();
-			// 	var self = this;
-			// 	if (applet !== null && typeof(applet.addPropertyChangeListener) != "undefined") {
-			// 		var listenerDef = '';
-			// 		var listener = new java.beans.PropertyChangeListener(){
-			// 			propertyChange: function(evt) {
-			// 				if (evt.propertyName === "selectedAllele") {
-			// 					var variant = evt.newValue;
-			// 					var length = variant.lengthInBases;
-			// 					var seqStr = '';
-			// 					for (var i = 0; i < length; i++) {
-			// 						seqStr += self._get_base_str(variant.getBase(i));
-			// 					}
-			// 					self.set('alleleDna', seqStr);
-			// 				}
-			// 			}
-			// 		};
-			// 		applet.addPropertyChangeListener(listener);
-			// 		this.get('loadTimer').invalidate();
-			// 	}
-			// },
 			
 			pollForAlleleSelection: function() {
 				var applet = this.appletInstance();
