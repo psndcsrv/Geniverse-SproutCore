@@ -18,7 +18,8 @@ Geniverse.Challange = SC.Record.extend(
   
   maxUsersInRoom: SC.Record.attr(Number,  { defaultValue: 3 }),
 
-  initialAlleles: SC.Record.attr(Object),    // An array of alleles, one for each room. e.g. [{m: 'a:h,b:h', f: 'a:h,b:h'}, {m: 'a:H,b:H', f: 'a:H,b:H'}]
+  initialAlleles: SC.Record.attr(Object),    // An array of alleles, one for each room. 
+                                            // e.g. [{m: 'a:h,b:h', f: 'a:h,b:h'}, {m: 'a:H,b:H', f: 'a:H,b:H'}]
   
   sendBredDragons: SC.Record.attr(Boolean, { defaultValue: NO })
 }) ;
