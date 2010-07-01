@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   Geniverse.Challange
+// Project:   Geniverse.Activity
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals Geniverse */
@@ -11,8 +11,8 @@
   @extends SC.Record
   @version 0.1
 */
-Geniverse.Challange = SC.Record.extend(
-/** @scope Geniverse.Challange.prototype */ {
+Geniverse.Activity = SC.Record.extend(
+/** @scope Geniverse.Activity.prototype */ {
   
   baseChannelName: SC.Record.attr(String),
   

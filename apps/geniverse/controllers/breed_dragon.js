@@ -54,10 +54,10 @@ Geniverse.breedDragonController = SC.ObjectController.create(
 		}
 		if (typeof(generateDragonWithSex) != "undefined") {
 		  SC.Logger.log('found gwt');
-		  var allelesF = Geniverse.challangeController.getInitialAlleles('f');
+		  var allelesF = Geniverse.activityController.getInitialAlleles('f');
 		  if (allelesF !== undefined && allelesF !== null){
   			Geniverse.gwtController.generateDragonWithAlleles(allelesF, 1, 'Mother', setMother);
-  		  var allelesM = Geniverse.challangeController.getInitialAlleles('m');
+  		  var allelesM = Geniverse.activityController.getInitialAlleles('m');
   			Geniverse.gwtController.generateDragonWithAlleles(allelesM, 0, 'Father', setFather);
 		  } else {
   			Geniverse.gwtController.generateDragon(1, 'Mother', setMother);

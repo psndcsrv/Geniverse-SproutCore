@@ -21,36 +21,36 @@ Geniverse.main = function main() {
   // The default code here will make the mainPane for your application visible
   // on screen.  If you app gets any level of complexity, you will probably 
   // create multiple pages and panes.  
-  Geniverse.getPath('biologicaViewsMainPage.mainPane').append() ;
+  Geniverse.getPath('mainChatExamplePage.mainPane').append() ;
 
   // Step 2. Set the content property on your primary controller.
   // This will make your app come alive!
 
 	Geniverse.store.commitRecordsAutomatically = YES;
 
-  // var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'storeKey'});
-  // // var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'sex,alleles'});
-  // var bred_organisms = Geniverse.store.find(query);
-  // Geniverse.bredOrganismsController.set('content', bred_organisms);
-  // 
-  // var allDragonsQuery = SC.Query.local(Geniverse.Dragon,{conditions: 'sent = true', orderBy: 'storeKey'});
-  // var all_organisms = Geniverse.store.find(allDragonsQuery);
-  // Geniverse.allBredOrganismsController.set('content', all_organisms);
-  //   
-  //   var chatQuery = SC.Query.local(CcChat.ChatMessage,{orderBy: 'time'});
-  //   var chats = CcChat.store.find(chatQuery);
-  //   CcChat.chatListController.set('content', chats);
-  //   
-  //   var articlesQuery = SC.Query.local(Geniverse.Article,{orderBy: 'time'});
-  //   var articles = Geniverse.store.find(articlesQuery);
-  //   Geniverse.publishedArticlesController.set('content', articles);
-  //   
-  //   var challangeQuery =  SC.Query.local(Geniverse.Challange);
-  //   var challange = Geniverse.store.find(challangeQuery).firstObject();
-  //   Geniverse.challangeController.set('challange', challange);
-  //   
-  //   // log in automatically if UserDefaults found
-  //   Geniverse.appController.checkLoginState();
+  var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'storeKey'});
+  // var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true', orderBy: 'sex,alleles'});
+  var bred_organisms = Geniverse.store.find(query);
+  Geniverse.bredOrganismsController.set('content', bred_organisms);
+  
+  var allDragonsQuery = SC.Query.local(Geniverse.Dragon,{conditions: 'sent = true', orderBy: 'storeKey'});
+  var all_organisms = Geniverse.store.find(allDragonsQuery);
+  Geniverse.allBredOrganismsController.set('content', all_organisms);
+    
+  var chatQuery = SC.Query.local(CcChat.ChatMessage,{orderBy: 'time'});
+  var chats = CcChat.store.find(chatQuery);
+  CcChat.chatListController.set('content', chats);
+  
+  var articlesQuery = SC.Query.local(Geniverse.Article,{orderBy: 'time'});
+  var articles = Geniverse.store.find(articlesQuery);
+  Geniverse.publishedArticlesController.set('content', articles);
+  
+  var activityQuery =  SC.Query.local(Geniverse.Activity);
+  var activity = Geniverse.store.find(activityQuery).firstObject();
+  Geniverse.activityController.set('activity', activity);
+  
+  // log in automatically if UserDefaults found
+  Geniverse.appController.checkLoginState();
   
   // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;

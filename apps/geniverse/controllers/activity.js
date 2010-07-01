@@ -1,5 +1,5 @@
 // ==========================================================================
-// Project:   Geniverse.challangeController
+// Project:   Geniverse.activityController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals Geniverse CcChat GenGWT */
@@ -10,44 +10,44 @@
 
   @extends SC.Object
 */
-Geniverse.challangeController = SC.ObjectController.create(
-/** @scope Geniverse.challangeController.prototype */ {
+Geniverse.activityController = SC.ObjectController.create(
+/** @scope Geniverse.activityController.prototype */ {
   
-  challange: null,
+  activity: null,
   
   initialAlleles: function() { 
-    if (this.get('challange') !== null){
-      return this.get('challange').get('initialAlleles');
+    if (this.get('activity') !== null){
+      return this.get('activity').get('initialAlleles');
     }
     
     return {};
-  }.property('challange').cacheable(),
+  }.property('activity').cacheable(),
   
   sendBredDragons: function() {
-    if (this.get('challange') !== null){
-      return this.get('challange').get('sendBredDragons');
+    if (this.get('activity') !== null){
+      return this.get('activity').get('sendBredDragons');
     }
     
     return false;
-  }.property('challange').cacheable(),
+  }.property('activity').cacheable(),
   
   baseChannelName: function() {
-    if (this.get('challange') !== null){
-      return this.get('challange').get('baseChannelName');
+    if (this.get('activity') !== null){
+      return this.get('activity').get('baseChannelName');
     }
     
     return "";
-  }.property('challange').cacheable(),
+  }.property('activity').cacheable(),
   
   maxUsersInRoom: function() {
-    if (this.get('challange') !== null){
-      return this.get('challange').get('maxUsersInRoom');
+    if (this.get('activity') !== null){
+      return this.get('activity').get('maxUsersInRoom');
     }
     
     return 10000;
-  }.property('challange').cacheable(),
+  }.property('activity').cacheable(),
   
-  startChallange: function() {
+  startActivity: function() {
     var chatroom = CcChat.chatRoomController.get('channel');
 		Geniverse.breedDragonController.initParentsWhenGWTLoads();
 		

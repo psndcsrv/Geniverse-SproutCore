@@ -1,12 +1,12 @@
 // ==========================================================================
-// Project:   Geniverse.Challange Fixtures
+// Project:   Geniverse.Activity Fixtures
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals Geniverse */
 
-sc_require('models/challange');
+sc_require('models/activity');
 
-Geniverse.Challange.FIXTURES = [
+Geniverse.Activity.FIXTURES = [
 
   { guid: 1,
     baseChannelName: 'geniverse-chat-trial-b',

@@ -14,7 +14,7 @@ Geniverse.dragonChattingController = SC.ObjectController.create(
 /** @scope Geniverse.dragonChattingController.prototype */ {
 
   sendBredDragonsAction: function() {
-    if (Geniverse.challangeController.get('sendBredDragons')){
+    if (Geniverse.activityController.get('sendBredDragons')){
       var latestChild = Geniverse.breedDragonController.get('child');
       var message = {dragon: latestChild.get('gOrganism')};
       SC.Logger.log("sending "+message.dragon);
@@ -46,7 +46,7 @@ Geniverse.dragonChattingController = SC.ObjectController.create(
   },
   
   receiveDragon: function(message) {
-    Geniverse.challangeController.createNewDragonFromChat(message.dragon);
+    Geniverse.activityController.createNewDragonFromChat(message.dragon);
   },
   
   receiveDragonFromChat: function() {
