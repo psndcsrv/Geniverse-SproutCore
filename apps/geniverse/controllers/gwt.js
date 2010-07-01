@@ -30,6 +30,17 @@ Geniverse.gwtController = SC.ObjectController.create(
       GenGWT.breedDragon(mother.get('gOrganism'), father.get('gOrganism'), onSuccess);
     }
   },
+  
+  generateRandomDragon: function(callback) {
+    // alert('generating dragon');
+    var self = this;
+    var handleGOrg = function(gOrg) {
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      org.set('gOrganism', gOrg);
+      callback(org);
+    };
+    GenGWT.generateDragon(handleGOrg);
+  },
 
   generateDragon: function(sex, name, callback) {
     // alert('generating dragon');
