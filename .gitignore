@@ -1,1 +1,5 @@
 tmp/
+rails/geniverse/config/database.yml
+rails/geniverse/log/*.log
+rails/geniverse/db/*.sqlite3
+rails/geniverse/db/*.db
