@@ -48,6 +48,7 @@ Geniverse.main = function main() {
   var activityQuery =  SC.Query.local(Geniverse.Activity);
   var activity = Geniverse.store.find(activityQuery).firstObject();
   Geniverse.activityController.set('activity', activity);
+  Geniverse.activityController.set('content', activity);
   
   // log in automatically if UserDefaults found
   Geniverse.appController.checkLoginState();
