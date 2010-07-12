@@ -38,12 +38,19 @@ describe "App Controller Test" do
     @logout_button = App['topBar.logoutButton', 'SC.ButtonView']
   end
   
+  after(:all) do
+    App.end
+  end
+  
   it "will show the welcome message after login" do
     @welcome_label.should have_value ""
     @welcome_label.should_not be_visible_in_window
+    
+    @welcome_label.should have_text_align 'right' # check that we can test for arbitrary SC properties
+    
     @login_field.type "Test"
     @login_button.click
-    @welcome_label.should have_value "Welcome Test"
+    @welcome_label.should have_value /^Welcome Test.*/
     @welcome_label.should be_visible_in_window
   end
   
