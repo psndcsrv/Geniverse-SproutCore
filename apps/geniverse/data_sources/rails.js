@@ -106,20 +106,20 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
 
   
   createRecord: function(store, storeKey) {
-    var recordType = store.recordTypeFor(storeKey);
-    var modelName = recordType.modelName;
-    var modelHash = {};
-    modelHash[modelName] = store.readDataHash(storeKey);
-    delete modelHash[modelName]['guid'];    // remove guid property before sending to rails
-
-    console.group('Geniverse.RailsDataSource.createRecord()');
-    SC.Request.postUrl('/rails/' + recordType.modelsName).header({
-                    'Accept': 'application/json'
-                }).json()
-
-          .notify(this, this.didCreateRecord, store, storeKey)
-          .send(modelHash);
-    console.groupEnd();
+    // var recordType = store.recordTypeFor(storeKey);
+    // var modelName = recordType.modelName;
+    // var modelHash = {};
+    // modelHash[modelName] = store.readDataHash(storeKey);
+    // delete modelHash[modelName]['guid'];    // remove guid property before sending to rails
+    // 
+    // console.group('Geniverse.RailsDataSource.createRecord()');
+    // SC.Request.postUrl('/rails/' + recordType.modelsName).header({
+    //                 'Accept': 'application/json'
+    //             }).json()
+    // 
+    //       .notify(this, this.didCreateRecord, store, storeKey)
+    //       .send(modelHash);
+    // console.groupEnd();
     return YES;
   },
   
