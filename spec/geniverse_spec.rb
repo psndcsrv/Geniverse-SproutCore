@@ -9,28 +9,28 @@
 # include Lebowski::Foundation::Views
 
 # you can uncomment this to drive a remote client on saucelabs
-client = Selenium::Client::Driver.new \
-        :host => 'saucelabs.com',
-        :port => 4444, 
-        :browser => '{"username": "scytacki",' +
-          # put a valid access-key in here:
-                      '"access-key": "",' +
-                      '"os": "Windows 2003",' +
-                      '"browser": "firefox",' +
-                      '"browser-version": "3.6.",' +
-                      '"job-name": "Lebowski Test",' +
-                      '"max-duration": 60,' +
-                      '"user-extensions-url": "http://www.concord.org/~sfentress/lebowski/user-extensions.js"}',
-        :url => "http://geniverse.dev.concord.org/sproutcore/", 
-        :timeout_in_seconds => 90
-
-# or you can use this to use your own browser
 # client = Selenium::Client::Driver.new \
-#         :host => 'localhost',
+#         :host => 'saucelabs.com',
 #         :port => 4444, 
-#         :browser => :firefox,
+#         :browser => '{"username": "scytacki",' +
+#           # put a valid access-key in here:
+#                       '"access-key": "b19adfe1-37e5-4277-a90b-d2f29cd69440",' +
+#                       '"os": "Windows 2003",' +
+#                       '"browser": "safari",' +
+#                       '"browser-version": "4.",' +
+#                       '"job-name": "Lebowski Test",' +
+#                       '"max-duration": 60,' +
+#                       '"user-extensions-url": "http://www.concord.org/~sfentress/lebowski/user-extensions.js"}',
 #         :url => "http://geniverse.dev.concord.org/sproutcore/", 
 #         :timeout_in_seconds => 90
+
+# or you can use this to use your own browser
+client = Selenium::Client::Driver.new \
+        :host => 'localhost',
+        :port => 4444, 
+        :browser => :firefox,
+        :url => "http://geniverse.dev.concord.org/sproutcore/", 
+        :timeout_in_seconds => 90
         
         
 
