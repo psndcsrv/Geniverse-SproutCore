@@ -11,7 +11,7 @@
   @extends SC.Object
 */
 require('controllers/bred_organisms');
-Geniverse.gwtController = SC.ObjectController.create(
+Geniverse.gwtController = SC.Controller.create(
 /** @scope Geniverse.gwtController.prototype */
 {
   bredOrganisms: [],

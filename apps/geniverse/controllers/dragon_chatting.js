@@ -10,7 +10,7 @@
 
   @extends SC.Object
 */
-Geniverse.dragonChattingController = SC.ObjectController.create(
+Geniverse.dragonChattingController = SC.Controller.create(
 /** @scope Geniverse.dragonChattingController.prototype */ {
 
   sendBredDragonsAction: function() {

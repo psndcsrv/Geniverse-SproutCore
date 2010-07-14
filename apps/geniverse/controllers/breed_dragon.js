@@ -10,7 +10,7 @@
 
   @extends SC.Object
 */
-Geniverse.breedDragonController = SC.ObjectController.create(
+Geniverse.breedDragonController = SC.Controller.create(
 /** @scope Geniverse.breedDragonController.prototype */ {
 
   latestChild: null,
