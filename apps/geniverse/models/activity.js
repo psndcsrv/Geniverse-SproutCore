@@ -14,6 +14,8 @@
 Geniverse.Activity = SC.Record.extend(
 /** @scope Geniverse.Activity.prototype */ {
   
+  title: SC.Record.attr(String,  { defaultValue: "Geniverse" }),
+  
   baseChannelName: SC.Record.attr(String),
   
   maxUsersInRoom: SC.Record.attr(Number,  { defaultValue: 3 }),
@@ -23,3 +25,7 @@ Geniverse.Activity = SC.Record.extend(
   
   sendBredDragons: SC.Record.attr(Boolean, { defaultValue: NO })
 }) ;
+
+Geniverse.Activity.modelName = "activity";
+Geniverse.Activity.modelsName = "activities";
+

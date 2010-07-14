@@ -21,3 +21,6 @@ Geniverse.Article = SC.Record.extend(
   time: SC.Record.attr(Number)
 
 }) ;
+
+Geniverse.Article.modelName = "article";
+Geniverse.Article.modelsName = "articles";

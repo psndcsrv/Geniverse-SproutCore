@@ -73,3 +73,6 @@ Geniverse.Dragon = SC.Record.extend(
 		return this.get('sexAsString') + ' -- ' + this.get('characteristicsAsString');
 	}.property('sexAsString','characteristicsAsString').cacheable()
 }) ;
+
+Geniverse.Dragon.modelName = "dragon";
+Geniverse.Dragon.modelsName = "dragons";

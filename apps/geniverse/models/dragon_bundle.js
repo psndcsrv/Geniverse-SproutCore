@@ -23,3 +23,6 @@ Geniverse.DragonBundle = SC.Record.extend(
 	father: null
 	
 }) ;
+
+Geniverse.DragonBundle.modelName = "dragonBundle";
+Geniverse.DragonBundle.modelsName = "dragonBundles";
