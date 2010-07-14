@@ -9,6 +9,7 @@ sc_require('models/activity');
 Geniverse.Activity.FIXTURES = [
 
   { guid: 1,
+    title: 'Geniverse Activity',
     baseChannelName: 'geniverse-chat-trial-b',
     maxUsersInRoom: 2,
     // initialAlleles: [
