@@ -45,12 +45,20 @@ Geniverse.main = function main() {
   var articles = Geniverse.store.find(articlesQuery);
   Geniverse.publishedArticlesController.set('content', articles);
   
-  var activityQuery =  Geniverse.ACTIVITIES_QUERY;
-  var activity = Geniverse.store.find(activityQuery).firstObject();
-  Geniverse.activityController.set('content', activity);
   
-  // log in automatically if UserDefaults found
-  Geniverse.appController.checkLoginState();
+  var activityQuery =  Geniverse.ACTIVITIES_QUERY;
+  var activities = Geniverse.store.find(activityQuery);
+  
+  function setActivity() {
+      console.log("activities updated!");
+      Geniverse.activityController.set('content', activities.objectAt(activities.get('length')-1));
+      
+      // log in automatically if UserDefaults found, or wait for user to log in
+      Geniverse.appController.checkLoginState();
+    }
+  
+  activities.addObserver('status', setActivity);
+  
   
   // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
 } ;
