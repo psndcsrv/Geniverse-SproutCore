@@ -10,16 +10,18 @@
 
 module("Geniverse.RailsDataSource_fetch_and_retrieve", { 
   setup: function() {
+    console.log("setting store");
     this.store = SC.Store.create().from('Geniverse.RailsDataSource');
     Geniverse.set('store', this.store); 
   }
 });
 
 // NOTE: 
-test("does the source that core.js associates with Racllete store exists", function() {
+test("does the source that core.js associates with Geniverse store exist", function() {
   // setup a spy
   var fetchCalled = false;
   var railsDataSource = this.store._getDataSource();
+  console.log("railsDataSource = "+railsDataSource);
   // reassign fetch prop to new function
   railsDataSource.fetch = function() {
     fetchCalled = true;
@@ -30,7 +32,6 @@ test("does the source that core.js associates with Racllete store exists", funct
 });
 
 test("do we get activities back from rails", function() {
-  debugger;
   var activities = Geniverse.store.find(Geniverse.ACTIVITIES_QUERY);
   statusEquals(activities, SC.Record.BUSY_LOADING, 'Activities should be loading');
   

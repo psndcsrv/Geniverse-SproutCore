@@ -72,14 +72,6 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
     console.groupEnd();
   },
 
-  fetch: function(store, query) {
-
-    // TODO: Add handlers to fetch data for specific queries.  
-    // call store.dataSourceDidFetchQuery(query) when done.
-
-    return NO ; // return YES if you handled the query
-  },
-
   // ..........................................................
   // RECORD SUPPORT
   //
