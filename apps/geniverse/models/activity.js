@@ -19,9 +19,12 @@ Geniverse.Activity = SC.Record.extend(
   baseChannelName: SC.Record.attr(String),
   
   maxUsersInRoom: SC.Record.attr(Number,  { defaultValue: 3 }),
-
-  initialAlleles: SC.Record.attr(Object),    // An array of alleles, one for each room. 
-                                            // e.g. [{m: 'a:h,b:h', f: 'a:h,b:h'}, {m: 'a:H,b:H', f: 'a:H,b:H'}]
+  
+  // we originally had 'initialAlleles' as an array. To speed up development on Rails, 'initialAlleles'
+  // is now a string, and 'initialAllelesAsArray' on the controller converts that string to 
+  // an array. Eventually, the Rails back-end should support initialAlleles being an array
+  
+  initialAlleles: SC.Record.attr(String),   // a string in the form of "[{m: 'a:H,b:H',f: 'a:h,b:h'},{m: 'a:h,b:H',f: 'a:H,b:h'}]"
   
   sendBredDragons: SC.Record.attr(Boolean, { defaultValue: NO })
 }) ;
