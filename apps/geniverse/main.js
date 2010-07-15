@@ -50,14 +50,20 @@ Geniverse.main = function main() {
   var activities = Geniverse.store.find(activityQuery);
   
   function setActivity() {
-      console.log("activities updated!");
-      Geniverse.activityController.set('content', activities.objectAt(activities.get('length')-1));
+    Geniverse.activityController.set('content', activities.objectAt(activities.get('length')-1));
       
-      // log in automatically if UserDefaults found, or wait for user to log in
-      Geniverse.appController.checkLoginState();
-    }
+    // log in automatically if UserDefaults found, or wait for user to log in
+    Geniverse.appController.checkLoginState();
+  }
   
-  activities.addObserver('status', setActivity);
+  // if activities status is immediately READY_CLEAN, then we are loading from fixtures,
+  // so we can begin immediately. Otherwise, wait for activities to be loaded from
+  // remote data source
+  if (activities.get('status') === SC.Record.READY_CLEAN){
+    setActivity();
+  } else {
+    activities.addObserver('status', setActivity);
+  }
   
   
   // Geniverse.makeFirstResponder(Geniverse.DEFAULTACTIONS);
