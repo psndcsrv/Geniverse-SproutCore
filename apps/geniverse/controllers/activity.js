@@ -38,7 +38,12 @@ Geniverse.activityController = SC.ObjectController.create(
   },
   
   getInitialAllelesForRoom: function (room, sex){
-    var alleles = this.get('initialAllelesAsArray')[room];
+    var initialAllelesArray = this.get('initialAllelesAsArray');
+    if (!initialAllelesArray){
+      return "";
+    }
+    
+    var alleles = initialAllelesArray[room];
     if (alleles === undefined || alleles === null){
       SC.Logger.log("No alleles for room "+room);
       return "";
