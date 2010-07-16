@@ -49,41 +49,42 @@ Geniverse.ChromosomeView = SC.View.extend(
 	chromsomeAView: SC.View.extend({
 		layout: {top: 35, left: 0, width: 80, height: 500},
 		
-		render: function (context, firstTime){
-		  var alleles = Geniverse.chromosomeController.getChromosomeAlleles('a');
-		  for (var i = 0; i < alleles.length; i++){
-        context = context.begin('select');
-        for (var j = 0; j < alleles[i].length; j++){
-          context = context.begin('option').push(alleles[i][j]).end();
-        }
-        context = context.end();
+		createPullDowns: function (){
+  		var alleles = Geniverse.chromosomeController.getChromosomeAlleles('a');
+  		for (var i = 0; i < alleles.length; i++){
+        this.get('parentView').addPullDown(this, alleles[i], i);
       }
-		  sc_super();
-		},
-		
-		updateBinding: 'Geniverse.chromosomeController.alleles',
-   
-		displayProperties: ['update']
+		}.observes('Geniverse.chromosomeController.alleles')
 	}),
 	
 	chromsomeBView: SC.View.extend({
 		layout: {top: 35, left: 120, width: 80, height: 500},
 		
-		render: function (context, firstTime){
-		  var alleles = Geniverse.chromosomeController.getChromosomeAlleles('b');
-		  for (var i = 0; i < alleles.length; i++){
-        context = context.begin('select');
-        for (var j = 0; j < alleles[i].length; j++){
-          context = context.begin('option').push(alleles[i][j]).end();
-        }
-        context = context.end();
+		createPullDowns: function (){
+  		var alleles = Geniverse.chromosomeController.getChromosomeAlleles('b');
+  		for (var i = 0; i < alleles.length; i++){
+        this.get('parentView').addPullDown(this, alleles[i], i);
       }
-		  sc_super();
-		},
-		
-		updateBinding: 'Geniverse.chromosomeController.alleles',
-   
-		displayProperties: ['update']
-	})
+		}.observes('Geniverse.chromosomeController.alleles')
+	}),
+	
+	addPullDown: function (view, value, i){
+	  var val = value[0];
+	  var alt = value[1];
+	  var width = view.get('layout').width;
+    var dropDownMenuView = SC.SelectView.create({
+        layout: { top:(25 * i), left: 0, height: 25, width: 50 },
+
+        // not sure whether these need to be SC.Objects or not. It seems to have no effect.
+        items: [ SC.Object.create({ title: val, isEnabled: YES, checkbox: NO }),
+          SC.Object.create({ title: alt, isEnabled: YES, checkbox: NO })],
+
+        itemTitleKey: 'title',
+        theme: 'square',
+        showCheckbox: NO
+    });
+    
+    view.appendChild(dropDownMenuView);
+	}
 
 });
