@@ -58,7 +58,8 @@ Geniverse.biologicaViewsMainPage = SC.Page.design({
     chromosomeView: Geniverse.ChromosomeView.design({
       layout: {top: 80, left: 40, height: 600, width: 400 },
       initRandomDragon: YES,
-      showDragon: YES
+      showDragon: YES,
+      showGenerateNewDragon: YES
     })
     
   })

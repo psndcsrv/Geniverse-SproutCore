@@ -19,6 +19,8 @@ Geniverse.ChromosomeView = SC.View.extend(
   
   showDragon: YES,
   
+  showGenerateNewDragon: NO,
+  
   init: function() {
     if (this.get('initRandomDragon')){
 		  Geniverse.chromosomeController.initRandomDragon();
@@ -27,7 +29,7 @@ Geniverse.ChromosomeView = SC.View.extend(
 		sc_super();
 	},
   
-  childViews: 'dragonView motherLabel fatherLabel chromsomeAView chromsomeBView'.w(),
+  childViews: 'dragonView motherLabel fatherLabel chromsomeAView chromsomeBView generateNewDragonButton'.w(),
   
   dragonView: Geniverse.OrganismView.design({
 		layout: {top: 18, right: 0, width: 180, height: 150},
@@ -68,6 +70,13 @@ Geniverse.ChromosomeView = SC.View.extend(
         this.get('parentView').addPullDown(this, alleles[i], i);
       }
 		}.observes('Geniverse.chromosomeController.alleles')
+	}),
+	
+	generateNewDragonButton: SC.ButtonView.extend({
+		layout: {top: 180, right: 0, width: 200, height: 25},
+	  title: "Create a new dragon",
+	  action: 'Geniverse.chromosomeController.initRandomDragon',
+	  isVisibleBinding: "*parentView.showGenerateNewDragon"
 	}),
 	
 	addPullDown: function (view, value, i){
