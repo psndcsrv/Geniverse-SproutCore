@@ -50,7 +50,8 @@ Geniverse.ChromosomeView = SC.View.extend(
 		layout: {top: 35, left: 0, width: 80, height: 500},
 		
 		createPullDowns: function (){
-  		var alleles = Geniverse.chromosomeController.getChromosomeAlleles('a');
+		  this.removeAllChildren();
+  		var alleles = Geniverse.chromosomeController.get('chromosomeAlleles')['a'];
   		for (var i = 0; i < alleles.length; i++){
         this.get('parentView').addPullDown(this, alleles[i], i);
       }
@@ -61,7 +62,8 @@ Geniverse.ChromosomeView = SC.View.extend(
 		layout: {top: 35, left: 120, width: 80, height: 500},
 		
 		createPullDowns: function (){
-  		var alleles = Geniverse.chromosomeController.getChromosomeAlleles('b');
+		  this.removeAllChildren();
+  		var alleles = Geniverse.chromosomeController.get('chromosomeAlleles')['b'];
   		for (var i = 0; i < alleles.length; i++){
         this.get('parentView').addPullDown(this, alleles[i], i);
       }
@@ -84,7 +86,31 @@ Geniverse.ChromosomeView = SC.View.extend(
         showCheckbox: NO
     });
     
+    dropDownMenuView.addObserver('value', this.updateDragon);
+    
     view.appendChild(dropDownMenuView);
+	},
+	
+	updateDragon: function (){
+	  var chromosomeView = this.get('parentView').get('parentView');
+	  var aAlleles = chromosomeView.getAllelesFromViews(chromosomeView.get('chromsomeAView'));
+	  var bAlleles = chromosomeView.getAllelesFromViews(chromosomeView.get('chromsomeBView'));
+    Geniverse.chromosomeController.updateDragon(aAlleles, bAlleles);
+	},
+	
+	getAllelesFromViews: function (view){
+	  var alleles = [];
+	  var views = view.get('childViews');
+	  for (var i = 0; i < views.length; i++){
+	    var val = views[i].get('value');
+	    if (!!val){
+	      var allele = val.get('title');
+	      if (SC.$.inArray(allele, alleles) < 0){
+	        alleles.push(allele);
+	      }
+	    }
+    }
+    return alleles;
 	}
 
 });
