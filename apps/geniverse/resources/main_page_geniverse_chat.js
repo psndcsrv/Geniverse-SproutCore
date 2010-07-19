@@ -44,6 +44,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 
       logoutButton: SC.ButtonView.design({
         layout: { centerY: 0, height: 24, right: 12, width: 100 },
+        layerId: 'logOutButton',
         title:  "Log out",
         target: 'Geniverse.appController',
         action: 'logout',
@@ -58,7 +59,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       contentView: null,
     	
     	loginView: CcChat.LoginView.create({
-    		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
+    		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400},
+    		layerId: "chatLogin"
     	}),
     	
       mainAppView: SC.View.create({
@@ -100,10 +102,12 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       		childViews: 'chatListView chatComposeView userListView userListLabel'.w(),
 
         	chatListView: CC.AutoScrollView.design({
+        	  layerId: 'chatList',
       		  hasHorizontalScroller: NO,
             layout: { left: 0, top: 65, height: 180, width: 300 },
             backgroundColor: 'white',
             contentView: SC.StackedView.design({
+              layerId: 'chatListContent',
       				contentBinding: 'CcChat.chatListController.arrangedObjects',
       				selectionBinding: 'CcChat.chatListController.selection',
       				rowHeight: 30,
@@ -118,7 +122,8 @@ Geniverse.mainChatExamplePage = SC.Page.design({
           }),
       		
       		chatComposeView: Geniverse.DragonChatComposeView.design({
-            layout: { left: 0, top: 260, height: 200, width: 300 }
+            layout: { left: 0, top: 260, height: 200, width: 300 },
+            layerId: "chatCompose"
       		}),
       		
       		userListLabel: SC.LabelView.design({
