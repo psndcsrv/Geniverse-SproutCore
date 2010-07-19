@@ -1,8 +1,9 @@
+// from http://www.movable-type.co.uk/scripts/sha1.html
+// (c) Chris Veness 2002-2009, released under LGPL license: http://creativecommons.org/licenses/LGPL/2.1/
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /*  SHA-1 implementation in JavaScript (c) Chris Veness 2002-2009                                 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-
-// from http://www.movable-type.co.uk/scripts/sha1.html
 
 
 function SHA_1_sha1Hash(msg)
