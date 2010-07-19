@@ -11,6 +11,7 @@ require('views/dragon_bin');
 require('views/dragon_chat_compose');
 require('views/organism');
 require('views/published_articles');
+require('views/login');
 
 Geniverse.mainChatExamplePage = SC.Page.design({
   
@@ -57,7 +58,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       
       contentView: null,
     	
-    	loginView: CcChat.LoginView.create({
+    	loginView: Geniverse.LoginView.create({
     		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400}
     	}),
     	
