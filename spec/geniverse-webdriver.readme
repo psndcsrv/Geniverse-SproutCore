@@ -1,0 +1,7 @@
+geniverse-webdriver.rb is a long running selenium webdriver test that simulates 2 users having a chat. It needs to connect to a webdriver server running on windows so it can use both Firefox and IE (although you could also connect to another OS and run different browsers with a small bit of tweaking).
+
+To run it:
+ - modify SERVER_IP to the ip address of the webdriver server
+ - change ERROR_THRESHOLD if you want to be less forgiving (lower value) or more forgiving (higher value) of errors
+ - load a ruby instance that has the selenium-webdriver gem installed
+ - run 'ruby geniverse-webdriver.rb'
