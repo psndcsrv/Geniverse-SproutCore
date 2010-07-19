@@ -30,7 +30,7 @@ Geniverse.appController = SC.ObjectController.create(
     var username = Geniverse.userDefaults.readDefault('username');
     if (username !== undefined && username !== null && username.length > 0){
       SC.Logger.log("automatically logging in as "+username);
-      CcChat.chatController.set('username', username);    // this will kick-off login
+      Geniverse.userController.createUser(username);      // this will kick-off login
     } else {
       SC.RunLoop.begin();
   		Geniverse.userDefaults.writeDefault('chatroom', '');  // if no username, make sure room is also cleared
@@ -41,7 +41,7 @@ Geniverse.appController = SC.ObjectController.create(
   
   login: function() {
     
-    var username = CcChat.chatController.get('username');
+    var username = Geniverse.userController.get('username');
     if (username === ""){
       return;
     }
@@ -49,6 +49,8 @@ Geniverse.appController = SC.ObjectController.create(
 		Geniverse.userDefaults.writeDefault('username', username);
 		
 		function initChat(chatroom){
+		  CcChat.chatController.set('username', username);
+		  
   		CcChat.chatController.initChat(chatroom);
   		
   		Geniverse.userDefaults.writeDefault('chatroom', chatroom);
@@ -77,7 +79,7 @@ Geniverse.appController = SC.ObjectController.create(
 		containerView.set('nowShowing', this.mainAppView);
     SC.RunLoop.end();
 		
-	}.observes('CcChat.chatController.username'),
+	}.observes('Geniverse.userController.username'),
 	
 	logout: function() {
 	  SC.Logger.log("logging out "+CcChat.chatController.get('username'));

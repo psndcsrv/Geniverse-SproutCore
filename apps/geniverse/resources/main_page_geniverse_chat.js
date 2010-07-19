@@ -11,6 +11,7 @@ require('views/dragon_bin');
 require('views/dragon_chat_compose');
 require('views/organism');
 require('views/published_articles');
+require('views/login');
 
 Geniverse.mainChatExamplePage = SC.Page.design({
   
