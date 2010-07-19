@@ -75,7 +75,7 @@ Geniverse.LoginView = SC.View.extend(
     valueBinding: 'Geniverse.loginController.retypePasswordValue',
     keyUp: function (evt){
       if (evt.keyCode === 13){
-        Geniverse.loginController.login();
+        Geniverse.loginController.register();
       }
       this.fieldValueDidChange();
       evt.allowDefault(); 

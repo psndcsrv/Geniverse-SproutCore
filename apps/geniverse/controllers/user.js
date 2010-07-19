@@ -2,7 +2,7 @@
 // Project:   Geniverse.userController
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Geniverse */
+/*globals Geniverse SHA_1_sha1Hash */
 
 /** @class
 
@@ -19,11 +19,14 @@ Geniverse.userController = SC.ObjectController.create(
     if (!password){
       password = "";
     }
+    
+    var passwordHash = SHA_1_sha1Hash(password);
+    
     var user = Geniverse.store.createRecord(Geniverse.User, 
       {
         username: username,
         
-        passwordHash: password        // for now...
+        passwordHash: passwordHash
       });
     this.set('content', user);
   }
