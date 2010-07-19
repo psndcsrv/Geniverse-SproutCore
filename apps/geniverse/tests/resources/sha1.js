@@ -117,7 +117,7 @@ Number.prototype.toHexStr = function()
 // ************** End code copied from sha1.js **************
 
 
-test("test SHA-1", function() {
+test("test SHA-1 implementation internally consistant", function() {
   var password1 = "test";
   var password2 = "test";
   var password3 = "testx";
@@ -125,10 +125,21 @@ test("test SHA-1", function() {
   var password1hash = SHA_1_sha1Hash(password1);
   var password2hash = SHA_1_sha1Hash(password2);
   var password3hash = SHA_1_sha1Hash(password3);
-  console.log(password1hash);
   
   equals(password1hash, password2hash, "SHA-1 hash of 'test' should equal SHA-1 hash of 'test'");
   ok(password1hash !== password3hash, "SHA-1 hash of 'test' should not equal SHA-1 hash of 'testx'");
 });
+
+test("test SHA-1 implementation accurate", function() {
+  var password1 = "";
+  var password2 = "The quick brown fox jumps over the lazy dog";
+  
+  var password1hash = SHA_1_sha1Hash(password1);
+  var password2hash = SHA_1_sha1Hash(password2);
+  
+  equals(password1hash, "da39a3ee5e6b4b0d3255bfef95601890afd80709", "SHA-1 hash of '' should equal known SHA-1 result");
+  equals(password2hash, "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12", "SHA-1 hash of 'The quick brown fox jumps over the lazy dog' should equal known SHA-1 result");
+});
+
 
 
