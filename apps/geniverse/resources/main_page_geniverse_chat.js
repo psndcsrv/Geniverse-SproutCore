@@ -59,7 +59,7 @@ Geniverse.mainChatExamplePage = SC.Page.design({
       
       contentView: null,
     	
-    	loginView: CcChat.LoginView.create({
+    	loginView: Geniverse.LoginView.create({
     		layout: {centerX: 0, top: Geniverse.marginSize, width: 500, height: 400},
     		layerId: "chatLogin"
     	}),
