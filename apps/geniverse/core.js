@@ -26,7 +26,7 @@ Geniverse = SC.Application.create(
   
   userDefaults: SC.UserDefaults.create({appDomain: "Geniverse"}),
   
-  
+  railsBackedTypes: [],
   
   // TODO: Add global constants or singleton objects needed by your app here.
   
