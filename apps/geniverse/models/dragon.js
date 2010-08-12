@@ -76,3 +76,5 @@ Geniverse.Dragon = SC.Record.extend(
 
 Geniverse.Dragon.modelName = "dragon";
 Geniverse.Dragon.modelsName = "dragons";
+
+Geniverse.railsBackedTypes.push(Geniverse.Dragon);

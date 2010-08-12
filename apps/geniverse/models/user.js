@@ -22,3 +22,6 @@ Geniverse.User = SC.Record.extend(
 
 Geniverse.User.modelName = "user";
 Geniverse.User.modelsName = "users";
+
+// TODO enable once the manual creation is disabled
+// Geniverse.railsBackedTypes.push(Geniverse.User);
