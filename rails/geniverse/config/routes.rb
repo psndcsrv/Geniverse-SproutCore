@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :dragons
+
   map.connect "users/:username", :format => 'json', :controller => 'users', :action => 'show',
     :requirements => { :username => /[A-Za-z].*/ }
   
