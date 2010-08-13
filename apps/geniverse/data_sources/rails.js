@@ -40,16 +40,23 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
   //
   fetch: function(store, query) {
     console.group('Geniverse.RailsDataSource.fetch()');
-    
-    if (query === Geniverse.ACTIVITIES_QUERY) {
-      console.log('query === Geniverse.ACTIVITIES_QUERY', query);
-      this._jsonGet('/rails/activities', 'didFetchActivities', store, query);
-      
+    var recordType = query.recordType;
+    if (Geniverse.railsBackedTypes.contains(recordType)) {
+      console.log('rails backed query', query);
+      this._jsonGet('/rails/' + recordType.modelsName, 'didFetchActivities', store, query);
       console.groupEnd();
       return YES;
     }
+    
+    // if (query === Geniverse.ACTIVITIES_QUERY) {
+    //   console.log('query === Geniverse.ACTIVITIES_QUERY', query);
+    //   this._jsonGet('/rails/activities', 'didFetchActivities', store, query);
+    //   
+    //   console.groupEnd();
+    //   return YES;
+    // }
 
-    console.log('query !== Geniverse.ACTIVITIES_QUERY', query);
+    console.log('not a rails backed query', query);
     console.groupEnd();
     return NO; // return YES if you handled the query
   },
