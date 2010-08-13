@@ -30,8 +30,8 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
     }).json();
     request.notify.apply(request, params);
     
-    console.log('request.address: %s', request.address);
-    console.log('request: ', request);
+    SC.Logger.log('request.address: %s', request.address);
+    SC.Logger.log('request: ', request);
     request.send();
   },
   
@@ -39,51 +39,51 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
   // QUERY SUPPORT
   //
   fetch: function(store, query) {
-    console.group('Geniverse.RailsDataSource.fetch()');
+    SC.Logger.group('Geniverse.RailsDataSource.fetch()');
     var recordType = query.recordType;
     if (Geniverse.railsBackedTypes.contains(recordType)) {
-      console.log('rails backed query', query);
+      SC.Logger.log('rails backed query', query);
       this._jsonGet('/rails/' + recordType.modelsName, 'didFetchActivities', store, query);
-      console.groupEnd();
+      SC.Logger.groupEnd();
       return YES;
     }
     
     // if (query === Geniverse.ACTIVITIES_QUERY) {
-    //   console.log('query === Geniverse.ACTIVITIES_QUERY', query);
+    //   SC.Logger.log('query === Geniverse.ACTIVITIES_QUERY', query);
     //   this._jsonGet('/rails/activities', 'didFetchActivities', store, query);
     //   
-    //   console.groupEnd();
+    //   SC.Logger.groupEnd();
     //   return YES;
     // }
 
-    console.log('not a rails backed query', query);
-    console.groupEnd();
+    SC.Logger.log('not a rails backed query', query);
+    SC.Logger.groupEnd();
     return NO; // return YES if you handled the query
   },
 
   didFetchActivities: function(response, store, query) {
 
-    console.log('response.status = %d', response.get('status'));
-    console.log("response: ", response);
+    SC.Logger.log('response.status = %d', response.get('status'));
+    SC.Logger.log("response: ", response);
 
     if (SC.ok(response)) {
-      console.log('SC.ok(response) is YES; processing content');
+      SC.Logger.log('SC.ok(response) is YES; processing content');
       var content = response.get('body').content;
-      console.log('response.body.content: ', content);
+      SC.Logger.log('response.body.content: ', content);
 
       store.loadRecords(Geniverse.Activity, content);
 
       store.dataSourceDidFetchQuery(query);
     } else store.dataSourceDidErrorQuery(query, response);
 
-    console.groupEnd();
+    SC.Logger.groupEnd();
   },
 
   // ..........................................................
   // RECORD SUPPORT
   //
   retrieveRecord: function(store, storeKey) {
-    console.log('Geniverse.RailsDataSource.retrieveRecord');
+    SC.Logger.log('Geniverse.RailsDataSource.retrieveRecord');
     // guid will be rails url e.g. /rails/questions/1
     var guid = store.idFor(storeKey);
     
@@ -93,22 +93,22 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
   },
   
   didRetrieveRecord: function(response, store, storeKey) {
-    console.group('Geniverse.RailsDataSource.didRetrieveRecord()');
+    SC.Logger.group('Geniverse.RailsDataSource.didRetrieveRecord()');
 
-    console.log('response.status = %d', response.get('status'));
-    console.log("response: ", response);
+    SC.Logger.log('response.status = %d', response.get('status'));
+    SC.Logger.log("response: ", response);
 
     if (SC.ok(response)) {
-      console.log('SC.ok(response) is YES; processing content');
+      SC.Logger.log('SC.ok(response) is YES; processing content');
       var content = response.get('body').content;
-      console.log('response.body.content: ', content);
+      SC.Logger.log('response.body.content: ', content);
 
-      console.group('store.dataSourceDidComplete(storeKey, content)');
+      SC.Logger.group('store.dataSourceDidComplete(storeKey, content)');
       store.dataSourceDidComplete(storeKey, content);
-      console.groupEnd();
+      SC.Logger.groupEnd();
     } else store.dataSourceDidError(storeKey);
 
-    console.groupEnd();
+    SC.Logger.groupEnd();
   },
 
   

@@ -43,14 +43,14 @@ Geniverse.loginController = SC.ObjectController.create(
   }.property('username'),
   
   login: function (){
-    console.log("login");
+    SC.Logger.log("login");
     var username = this.get('textAreaValue');
     var password = this.get('passwordValue');
     var passwordHash = SHA256(password);
     
     var a = [this, 'userGetCallback', passwordHash];
     
-    console.log("making request");
+    SC.Logger.log("making request");
     var request = SC.Request.getUrl("/rails/users/" + username).header({
       'Accept': 'application/json'
     }).json();
@@ -67,18 +67,18 @@ Geniverse.loginController = SC.ObjectController.create(
       var user = response.get('body').user;
       var username = user.username;
       var rails_password_hash = user.password_hash;
-      console.log("hash from rails = "+rails_password_hash);
-      console.log("hash from user = "+passwordHash);
+      SC.Logger.log("hash from rails = "+rails_password_hash);
+      SC.Logger.log("hash from user = "+passwordHash);
       if (rails_password_hash === passwordHash){
-        console.log("passwords match!");
+        SC.Logger.log("passwords match!");
         Geniverse.userController.createUser(username);
       } else {
         alert("Passwords do not match");
       }
     }
-    console.log('I got called back! response = '+response.get('body'));
-      console.log('I got called back! response = '+response.get('body').user);
-    console.log("password is "+response.get('body').user.password_hash);
+    SC.Logger.log('I got called back! response = '+response.get('body'));
+      SC.Logger.log('I got called back! response = '+response.get('body').user);
+    SC.Logger.log("password is "+response.get('body').user.password_hash);
     
     window.foo = response;
     
@@ -107,7 +107,7 @@ Geniverse.loginController = SC.ObjectController.create(
     
     var a = [this, 'userCreateCallback', passwordHash];
     
-    console.log("making create request");
+    SC.Logger.log("making create request");
     var request = SC.Request.postUrl("/rails/users").header({
       'Accept': 'application/json'
     }).json();
@@ -117,8 +117,8 @@ Geniverse.loginController = SC.ObjectController.create(
   },
   
   userCreateCallback: function (response){
-    console.log("got a response! "+response);
-      console.log("body =  "+response.get('body'));
+    SC.Logger.log("got a response! "+response);
+      SC.Logger.log("body =  "+response.get('body'));
     if (response.isError){
       alert("Error on creation");
     }

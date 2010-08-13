@@ -64,9 +64,9 @@ GenGWT = {
     },
 
     failure: function(errorMsg) {
-        console.error("failure on GWT callback");
-        console.error(errorMsg);
-        console.trace();
+        SC.Logger.error("failure on GWT callback");
+        SC.Logger.error(errorMsg);
+        SC.Logger.trace();
     },
 
     isLoaded: function() {
