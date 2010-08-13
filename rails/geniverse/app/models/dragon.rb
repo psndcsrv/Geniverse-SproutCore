@@ -3,4 +3,18 @@ class Dragon < ActiveRecord::Base
   
   belongs_to :father, :class_name => "Dragon"
   belongs_to :mother, :class_name => "Dragon"
+  
+  def json_attributes
+    attrs = attributes
+    
+    attrs.delete('id')
+    attrs.delete('created_at')
+    attrs.delete('updated_at')
+    
+    attrs['mother'] = attrs['mother_id']
+    attrs['father'] = attrs['father_id']
+    attrs.delete('mother_id')
+    attrs.delete('father_id')
+    return attrs
+  end
 end

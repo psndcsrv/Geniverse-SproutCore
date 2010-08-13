@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   #Sproutcore uses the field guid for objects ids, but Rails calls this field id.
   def custom_hash(obj)
     guid = polymorphic_path(obj, :format => json)
-    attrs = obj.attributes
+    attrs = obj.respond_to?('json_attributes') ? obj.json_attributes : obj.attributes
     attrs['guid'] = guid
     return camelcase_keys(attrs)
   end
