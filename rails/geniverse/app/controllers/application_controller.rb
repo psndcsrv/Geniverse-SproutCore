@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
   
   def camelcase_keys(hash)
-    hash.keys.each |k|
+    hash.keys.each do |k|
       ck = k.camelcase(:lower)
       if ck != k
         hash[ck] = hash[k]
