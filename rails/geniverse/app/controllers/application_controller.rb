@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   #Adjust JSON communication
   #Sproutcore uses the field guid for objects ids, but Rails calls this field id.
   def custom_hash(obj)
-    guid = polymorphic_path(obj, :format => json)
+    guid = polymorphic_path(obj, :format => :json)
     attrs = obj.respond_to?('json_attributes') ? obj.json_attributes : obj.attributes
     attrs['guid'] = guid
     return camelcase_keys(attrs)
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   
   def custom_array_hash(arr)
     out = {:content => []}
-    obj.each do |item|
+    arr.each do |item|
       hash = custom_hash(item)
       out[:content] << hash
     end
