@@ -5,8 +5,7 @@ class ActivitiesController < ApplicationController
     @activities = Activity.all
 
     respond_to do |format|
-      activities = @activities.map {|activity| json_for_activity(activity) }
-      format.json { render :json => { :content => activities } }
+      format.json { render :json => custom_array_hash(@activities) }
       format.html # index.html.erb
       format.xml  { render :xml => @activities }
     end
@@ -20,12 +19,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @activity }
-      format.json do
-        render :json => {
-          :content => json_for_activity(@activity),
-          :location => activity_path(@activity)
-        }
-      end
+      format.json { render :json => custom_item_hash(@activity) }
     end
   end
 
@@ -55,7 +49,7 @@ class ActivitiesController < ApplicationController
         flash[:notice] = 'Activity was successfully created.'
         format.html { redirect_to(@activity) }
         format.xml  { render :xml => @activity, :status => :created, :location => @activity }
-        format.json { render :json => @activity, :status => :created, :location => @activity }
+        format.json { render :json => custom_item_hash(@activity), :status => :created, :location => @activity }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @activity.errors, :status => :unprocessable_entity }
@@ -90,22 +84,6 @@ class ActivitiesController < ApplicationController
       format.html { redirect_to(activities_url) }
       format.xml  { head :ok }
     end
-  end
-  
-  #Adjust JSON communication
-  #Sproutcore uses the field guid for objects ids, but Rails calls this field id.
-  #You have two options on how to convert between these naming conventions:
-  #Option 1: Adjust Rails JSON output
-  #To customize the JSON output of an object, write a json_for_activity protected method in TasksController (app/controllers/activities_controller.rb): 
-  protected
-  def json_for_activity(activity)
-    { :guid => activity_path(activity, :format => :json ),
-      :title => activity.title,
-      :initialAlleles => activity.initial_alleles,
-      :baseChannelName => activity.base_channel_name,
-      :maxUsersInRoom => activity.max_users_in_room,
-      :sendBredDragons => activity.send_bred_dragons
-    }
   end
   
 end

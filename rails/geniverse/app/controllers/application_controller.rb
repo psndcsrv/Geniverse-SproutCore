@@ -7,4 +7,40 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  
+  #Adjust JSON communication
+  #Sproutcore uses the field guid for objects ids, but Rails calls this field id.
+  def custom_hash(obj)
+    guid = polymorphic_path(obj, :format => json)
+    attrs = obj.attributes
+    attrs['guid'] = guid
+    return camelcase_keys(attrs)
+  end
+  
+  def custom_item_hash(obj)
+    return {
+      :content => custom_hash(obj),
+      :location => polymorphic_path(obj)
+    }
+  end
+  
+  def custom_array_hash(arr)
+    out = {:content => []}
+    obj.each do |item|
+      hash = custom_hash(item)
+      out[:content] << hash
+    end
+    return out
+  end
+  
+  def camelcase_keys(hash)
+    hash.keys.each |k|
+      ck = k.camelcase(:lower)
+      if ck != k
+        hash[ck] = hash[k]
+        hash.delete(k)
+      end
+    end
+    return hash
+  end
 end

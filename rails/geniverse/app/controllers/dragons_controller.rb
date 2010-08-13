@@ -7,7 +7,7 @@ class DragonsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @dragons }
-      format.json { render :json => @dragons }
+      format.json { render :json => custom_array_hash(@dragons) }
     end
   end
 
@@ -19,7 +19,7 @@ class DragonsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @dragon }
-      format.json { render :json => @dragon }
+      format.json { render :json => custom_item_hash(@dragon) }
     end
   end
 
@@ -48,7 +48,7 @@ class DragonsController < ApplicationController
       if @dragon.save
         format.html { redirect_to(@dragon, :notice => 'Dragon was successfully created.') }
         format.xml  { render :xml => @dragon, :status => :created, :location => @dragon }
-        format.json { render :json => @dragon, :status => :created, :location => @dragon }
+        format.json { render :json => custom_item_hash(@dragon), :status => :created, :location => @dragon }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @dragon.errors, :status => :unprocessable_entity }
