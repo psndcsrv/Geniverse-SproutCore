@@ -2,10 +2,12 @@
 
 <table>
   <tr>
+    <th>Id</th>
+    <th>User</th>
     <th>Name</th>
     <th>Sex</th>
     <th>Alleles</th>
-    <th>Imageurl</th>
+    <th>ImageURL</th>
     <th>Mother</th>
     <th>Father</th>
     <th>Bred</th>
@@ -13,6 +15,8 @@
 
 <% @dragons.each do |dragon| %>
   <tr>
+    <td><%=h dragon.id %></td>
+    <td><%=h dragon.user_id %></td>
     <td><%=h dragon.name %></td>
     <td><%=h dragon.sex %></td>
     <td><%=h dragon.alleles %></td>

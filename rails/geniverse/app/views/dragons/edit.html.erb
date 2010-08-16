@@ -1,40 +1,6 @@
 <h1>Editing dragon</h1>
 
-<% form_for(@dragon) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :sex %><br />
-    <%= f.text_field :sex %>
-  </p>
-  <p>
-    <%= f.label :alleles %><br />
-    <%= f.text_field :alleles %>
-  </p>
-  <p>
-    <%= f.label :imageURL %><br />
-    <%= f.text_field :imageURL %>
-  </p>
-  <p>
-    <%= f.label :mother_id %><br />
-    <%= f.text_field :mother_id %>
-  </p>
-  <p>
-    <%= f.label :father_id %><br />
-    <%= f.text_field :father_id %>
-  </p>
-  <p>
-    <%= f.label :bred %><br />
-    <%= f.check_box :bred %>
-  </p>
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
-<% end %>
+<%= render :partial => 'form', :locals => {:dragon => @dragon} %>
 
 <%= link_to 'Show', @dragon %> |
 <%= link_to 'Back', dragons_path %>
