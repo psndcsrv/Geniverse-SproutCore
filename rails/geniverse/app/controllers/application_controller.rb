@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   #Adjust JSON communication
   #Sproutcore uses the field guid for objects ids, but Rails calls this field id.
   def custom_hash(obj)
-    guid = polymorphic_path(obj, :format => :json)
+    guid = polymorphic_path(obj)
     attrs = obj.respond_to?('json_attributes') ? obj.json_attributes : obj.attributes
     
     # change each :belongs_to association from the column name (foo_id) to the association name (foo)
