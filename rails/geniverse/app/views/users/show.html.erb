@@ -1,3 +1,9 @@
+<% user.attributes.each do |att,val| %>
+<p>
+  <b><%= att %>:</b>
+  <%=h val %>
+</p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
