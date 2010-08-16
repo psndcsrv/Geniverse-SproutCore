@@ -21,8 +21,9 @@ Geniverse.gwtController = SC.Controller.create(
     if (mother !== null && mother.get('gOrganism') !== null && father !== null && father.get('gOrganism') !== null) {
       var onSuccess = function(organism) {
         var child = Geniverse.store.createRecord(Geniverse.Dragon, {
-					bred: YES, mother: mother.get("id"), father: father.get("id"), user: Geniverse.userController.getPath('content.id')
+					bred: YES, mother: mother.get("id"), father: father.get("id")
 				});
+				child.set('user', Geniverse.userController.get('content'));
         child.set('gOrganism', organism);
       
         handleChildFunction(child);
@@ -35,7 +36,8 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      org.set('user', Geniverse.userController.get('content'));
       org.set('gOrganism', gOrg);
       callback(org);
     };
@@ -46,11 +48,10 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      org.set('user', Geniverse.userController.get('content'));
+      org.set('name', name);
       org.set('gOrganism', gOrg);
-      self.invokeLater(function() {
-        org.set('name', name);
-      });
       callback(org);
     };
     GenGWT.generateDragonWithSex(sex, handleGOrg);
@@ -61,11 +62,10 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      org.set('user', Geniverse.userController.get('content'));
+      org.set('name', name);
       org.set('gOrganism', gOrg);
-      self.invokeLater(function() {
-        org.set('name', name);
-      });
       callback(org);
     };
     GenGWT.generateDragonWithAlleleStringAndSex(alleles, sex, handleGOrg);
