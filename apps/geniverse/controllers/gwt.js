@@ -24,7 +24,7 @@ Geniverse.gwtController = SC.Controller.create(
 					bred: YES, mother: mother.get("id"), father: father.get("id")
 				});
         child.set('gOrganism', organism);
-        
+      
         handleChildFunction(child);
       };
       GenGWT.breedDragon(mother.get('gOrganism'), father.get('gOrganism'), onSuccess);
@@ -69,6 +69,11 @@ Geniverse.gwtController = SC.Controller.create(
       callback(org);
     };
     GenGWT.generateDragonWithAlleleStringAndSex(alleles, sex, handleGOrg);
+  },
+  
+  generateGOrganismWithAlleles: function(alleles, sex, callback) {
+    SC.Logger.log("Generating gOrg with "+alleles);
+    GenGWT.generateDragonWithAlleleStringAndSex(alleles, sex, callback);
   }
 
 });
