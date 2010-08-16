@@ -47,7 +47,11 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
-    @user = User.new(params[:user])
+    user_params = params[:user]
+    user_params[:password_hash] = user_params[:passwordHash] if user_params.has_key? :passwordHash
+    user_params.delete(:passwordHash)
+    
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
