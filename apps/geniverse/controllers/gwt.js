@@ -21,7 +21,7 @@ Geniverse.gwtController = SC.Controller.create(
     if (mother !== null && mother.get('gOrganism') !== null && father !== null && father.get('gOrganism') !== null) {
       var onSuccess = function(organism) {
         var child = Geniverse.store.createRecord(Geniverse.Dragon, {
-					bred: YES, mother: mother, father: father
+					bred: YES, mother: mother.get("id"), father: father.get("id")
 				});
         child.set('gOrganism', organism);
         
