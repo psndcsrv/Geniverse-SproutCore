@@ -104,7 +104,8 @@ Geniverse.LoginView = SC.View.extend(
     title:  "Register new user",
     target: 'Geniverse.loginController',
     action: 'register',
-    isVisibleBinding: '*parentView.showPasswordField'
+    isVisible: NO
+    // isVisibleBinding: '*parentView.showPasswordField'
   }),
   
   welcomeView: SC.LabelView.design({
