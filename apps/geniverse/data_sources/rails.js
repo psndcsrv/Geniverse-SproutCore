@@ -41,9 +41,9 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
   fetch: function(store, query) {
     SC.Logger.group('Geniverse.RailsDataSource.fetch()');
     var recordType = query.recordType;
-    if (Geniverse.railsBackedTypes.contains(recordType)) {
+    if (Geniverse.railsBackedTypes.indexOf(recordType.modelName) != -1) {
       SC.Logger.log('rails backed query', query);
-      this._jsonGet('/rails/' + recordType.modelsName, 'didFetchActivities', store, query);
+      this._jsonGet('/rails/' + recordType.modelsName, 'didFetchRecords', store, query);
       SC.Logger.groupEnd();
       return YES;
     }
@@ -61,8 +61,8 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
     return NO; // return YES if you handled the query
   },
 
-  didFetchActivities: function(response, store, query) {
-
+  didFetchRecords: function(response, store, query) {
+    SC.Logger.group('Geniverse.RailsDataSource.didFetchRecords');
     SC.Logger.log('response.status = %d', response.get('status'));
     SC.Logger.log("response: ", response);
 
@@ -70,8 +70,8 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
       SC.Logger.log('SC.ok(response) is YES; processing content');
       var content = response.get('body').content;
       SC.Logger.log('response.body.content: ', content);
-
-      store.loadRecords(Geniverse.Activity, content);
+      var recordType = query.recordType;
+      store.loadRecords(recordType, content);
 
       store.dataSourceDidFetchQuery(query);
     } else store.dataSourceDidErrorQuery(query, response);
@@ -114,10 +114,11 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
   
   createRecord: function(store, storeKey) {
     var recordType = store.recordTypeFor(storeKey);
-    if (Geniverse.railsBackedTypes.contains(recordType)) {
+    if (Geniverse.railsBackedTypes.indexOf(recordType.modelName) != -1) {
       var modelName = recordType.modelName;
       var modelHash = {};
       modelHash[modelName] = store.readDataHash(storeKey);
+      SC.Logger.dir(modelHash);
       delete modelHash[modelName]['guid'];    // remove guid property before sending to rails
 
       SC.Logger.group('Geniverse.RailsDataSource.createRecord()');
