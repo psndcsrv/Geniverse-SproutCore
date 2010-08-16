@@ -42,7 +42,15 @@ class DragonsController < ApplicationController
   # POST /dragons
   # POST /dragons.xml
   def create
-    @dragon = Dragon.new(params[:dragon])
+    dragon = params[:dragon]
+    # mother and father attributes get sent from sproutcore in the form /rails/dragons/NN
+    Dragon.reflect_on_all_associations(:belongs_to).each do |assoc|
+      name = assoc.name
+      attr_key = assoc.options[:foreign_key] || (name + "_id")
+      dragon[attr_key.to_sym] = dragon[name.to_sym].sub(/.*\//,'') if dragon[name.to_sym]
+      dragon.delete(name.to_sym)
+    end
+    @dragon = Dragon.new(dragon)
 
     respond_to do |format|
       if @dragon.save
