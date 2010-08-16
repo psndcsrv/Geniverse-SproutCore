@@ -13,6 +13,21 @@ class ApplicationController < ActionController::Base
   def custom_hash(obj)
     guid = polymorphic_path(obj, :format => :json)
     attrs = obj.respond_to?('json_attributes') ? obj.json_attributes : obj.attributes
+    
+    # change each :belongs_to association from the column name (foo_id) to the association name (foo)
+    # also change the value from a simple number id to a path id
+    obj.class.reflect_on_all_associations(:belongs_to).each do |assoc|
+      name = assoc.name.to_s
+      attr_key = assoc.options[:foreign_key] || (name + "_id")
+      attrs[name] = polymorphic_path(obj.send(name))
+      attrs.delete(attr_key)
+    end
+    
+    # remove these attributes
+    attrs.delete('id')
+    attrs.delete('created_at')
+    attrs.delete('updated_at')
+    
     attrs['guid'] = guid
     return camelcase_keys(attrs)
   end
