@@ -17,4 +17,5 @@ class Dragon < ActiveRecord::Base
     attrs.delete('father_id')
     return attrs
   end
+  belongs_to :user
 end

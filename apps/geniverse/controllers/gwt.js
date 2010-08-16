@@ -21,7 +21,7 @@ Geniverse.gwtController = SC.Controller.create(
     if (mother !== null && mother.get('gOrganism') !== null && father !== null && father.get('gOrganism') !== null) {
       var onSuccess = function(organism) {
         var child = Geniverse.store.createRecord(Geniverse.Dragon, {
-					bred: YES, mother: mother.get("id"), father: father.get("id")
+					bred: YES, mother: mother.get("id"), father: father.get("id"), user: Geniverse.userController.getPath('content.id')
 				});
         child.set('gOrganism', organism);
       
@@ -35,7 +35,7 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
       org.set('gOrganism', gOrg);
       callback(org);
     };
@@ -46,7 +46,7 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
       org.set('gOrganism', gOrg);
       self.invokeLater(function() {
         org.set('name', name);
@@ -61,7 +61,7 @@ Geniverse.gwtController = SC.Controller.create(
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
-      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO});
+      var org = Geniverse.store.createRecord(Geniverse.Dragon, {bred: NO, user: Geniverse.userController.getPath('content.id')});
       org.set('gOrganism', gOrg);
       self.invokeLater(function() {
         org.set('name', name);
