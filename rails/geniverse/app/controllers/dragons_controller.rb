@@ -46,7 +46,7 @@ class DragonsController < ApplicationController
     # mother and father attributes get sent from sproutcore in the form /rails/dragons/NN
     Dragon.reflect_on_all_associations(:belongs_to).each do |assoc|
       name = assoc.name
-      attr_key = assoc.options[:foreign_key] || (name + "_id")
+      attr_key = assoc.options[:foreign_key] || (name.to_s + "_id")
       dragon[attr_key.to_sym] = dragon[name.to_sym].sub(/.*\//,'') if dragon[name.to_sym]
       dragon.delete(name.to_sym)
     end
