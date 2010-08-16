@@ -48,16 +48,62 @@ Geniverse.loginController = SC.ObjectController.create(
     var password = this.get('passwordValue');
     var passwordHash = SHA256(password);
     
-    var a = [this, 'userGetCallback', passwordHash];
+    var query = SC.Query.local(Geniverse.User, {conditions: 'username = "' + username + '"'});
+    var users = Geniverse.store.find(query);
+    var self = this;
+    this.set('waitForStoreTimer', SC.Timer.schedule({
+			action: function() {
+			  if (users.get('status') & SC.Record.READY == SC.Record.READY) {
+			    SC.Logger.info("User query ready. Checking password.");
+  			  var user = users.firstObject();
+  			  if (typeof user == 'undefined') {
+  			    // no user exists for that username. create one
+  			    SC.Logger.info("No User exists for that login. Creating account.");
+  			    user = self.createAccount(username, password);
+  			  }
+          self.checkUserPassword(user, passwordHash, false);
+    			this.invalidate();
+  		  } else {
+  		    SC.Logger.info("User query still not ready. Status is: " + users.get('status'));
+  		  }
+			},
+			interval: 200,
+			repeats: YES
+		}));
+
     
-    SC.Logger.log("making request");
-    var request = SC.Request.getUrl("/rails/users/" + username).header({
-      'Accept': 'application/json'
-    }).json();
-    request.notify.apply(request, a);
-    request.send();
+    // var a = [this, 'userGetCallback', passwordHash];
+    
+    // SC.Logger.log("making request");
+    // var request = SC.Request.getUrl("/rails/users/" + username).header({
+    //   'Accept': 'application/json'
+    // }).json();
+    // request.notify.apply(request, a);
+    // request.send();
     
     this.set('textAreaValue', '');
+  },
+  
+  checkUserPassword: function(user, passwordHash, isHash) {
+    var username = user.username;
+    var rails_password_hash = '';
+    if (isHash) {
+      rails_password_hash = user.password_hash;
+    } else {
+      rails_password_hash = user.get('passwordHash');
+    }
+    SC.Logger.log("hash from rails = "+rails_password_hash);
+    SC.Logger.log("hash from user = "+passwordHash);
+    if (rails_password_hash === passwordHash){
+      SC.Logger.log("passwords match!");
+      if (isHash) {
+        Geniverse.userController.createUser(username);
+      } else {
+        Geniverse.userController.set('content', user);
+      }
+    } else {
+      alert("Passwords do not match");
+    }
   },
   
   userGetCallback: function (response, passwordHash){
@@ -65,16 +111,7 @@ Geniverse.loginController = SC.ObjectController.create(
       alert("No user of that name");
     } else {
       var user = response.get('body').user;
-      var username = user.username;
-      var rails_password_hash = user.password_hash;
-      SC.Logger.log("hash from rails = "+rails_password_hash);
-      SC.Logger.log("hash from user = "+passwordHash);
-      if (rails_password_hash === passwordHash){
-        SC.Logger.log("passwords match!");
-        Geniverse.userController.createUser(username);
-      } else {
-        alert("Passwords do not match");
-      }
+      Geniverse.loginController.checkUserPassword(user, passwordHash, true);
     }
     SC.Logger.log('I got called back! response = '+response.get('body'));
       SC.Logger.log('I got called back! response = '+response.get('body').user);
@@ -105,14 +142,16 @@ Geniverse.loginController = SC.ObjectController.create(
   createAccount: function (username, password){
     var passwordHash = SHA256(password);
     
-    var a = [this, 'userCreateCallback', passwordHash];
+    return Geniverse.store.createRecord(Geniverse.User, {username: username, passwordHash: passwordHash});
     
-    SC.Logger.log("making create request");
-    var request = SC.Request.postUrl("/rails/users").header({
-      'Accept': 'application/json'
-    }).json();
-    request.notify.apply(request, a)
-    .send({user: {username: username, password_hash: passwordHash}});
+    // var a = [this, 'userCreateCallback', passwordHash];
+    // 
+    // SC.Logger.log("making create request");
+    // var request = SC.Request.postUrl("/rails/users").header({
+    //   'Accept': 'application/json'
+    // }).json();
+    // request.notify.apply(request, a)
+    // .send({user: {username: username, password_hash: passwordHash}});
     
   },
   
