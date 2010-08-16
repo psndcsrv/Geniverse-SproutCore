@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     obj.class.reflect_on_all_associations(:belongs_to).each do |assoc|
       name = assoc.name.to_s
       attr_key = assoc.options[:foreign_key] || (name + "_id")
-      attrs[name] = polymorphic_path(obj.send(name))
+      attrs[name] = polymorphic_path(obj.send(name)) if obj.send(name)
       attrs.delete(attr_key)
     end
     
