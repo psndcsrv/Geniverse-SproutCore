@@ -118,7 +118,7 @@ Geniverse.RailsDataSource = SC.DataSource.extend(
       var modelName = recordType.modelName;
       var modelHash = {};
       modelHash[modelName] = store.readDataHash(storeKey);
-      SC.Logger.dir(modelHash);
+      // SC.Logger.dir(modelHash);
       delete modelHash[modelName]['guid'];    // remove guid property before sending to rails
 
       SC.Logger.group('Geniverse.RailsDataSource.createRecord()');
