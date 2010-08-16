@@ -13,33 +13,39 @@
 */
 Geniverse.Dragon = SC.Record.extend(
 /** @scope Geniverse.Dragon.prototype */ {
-	gOrganism: SC.Record.attr(Object),
+  
+  // All the attributes that we want to be sure to persist
   name: SC.Record.attr(String),
 	sex: SC.Record.attr(Number),
 	alleles: SC.Record.attr(String),
 	imageURL: SC.Record.attr(String),
-	characteristics: SC.Record.attr(Array),
-	metaInfo: SC.Record.attr(Object),
-	mother: SC.Record.toOne(Geniverse.Dragon),
-	father: SC.Record.toOne(Geniverse.Dragon),
+	mother: SC.Record.toOne("Geniverse.Dragon"),
+	father: SC.Record.toOne("Geniverse.Dragon"),
 	bred: SC.Record.attr(Boolean),
+	
+	// attributes that don't need to be persisted
+	gOrganism: null,
+	characteristics: null,
+	metaInfo: null,
 	
 	setAttributes: function() {
 		var gOrg = this.get('gOrganism');
-		this.set('name', gOrg.name);
-		this.set('sex', gOrg.sex);
-		this.set('alleles', gOrg.alleles);
-		this.set('imageURL', gOrg.imageURL);
-		if (gOrg.characteristics !== null){
-		  this.set('characteristics', gOrg.characteristics.array);
-	  } else {
-	    var self = this;
-	    GenGWT.getCharacteristics(gOrg, function(characteristics){
-	      gOrg.characteristics = characteristics;
-	      self.set('characteristics', gOrg.characteristics.array);
-	    });
-	  }
-		this.set('metaInfo', gOrg.metaInfo);
+		if (gOrg !== null && (typeof gOrg.sex !== "undefined")) {
+  		this.set('name', gOrg.name);
+  		this.set('sex', gOrg.sex);
+  		this.set('alleles', gOrg.alleles);
+  		this.set('imageURL', gOrg.imageURL);
+  		if (gOrg.characteristics !== null){
+  		  this.set('characteristics', gOrg.characteristics.array);
+  	  } else {
+  	    var self = this;
+  	    GenGWT.getCharacteristics(gOrg, function(characteristics){
+  	      gOrg.characteristics = characteristics;
+  	      self.set('characteristics', gOrg.characteristics.array);
+  	    });
+  	  }
+  		this.set('metaInfo', gOrg.metaInfo);
+  	}
 	}.observes('gOrganism'),
 	
 	// some computed properties
@@ -77,4 +83,4 @@ Geniverse.Dragon = SC.Record.extend(
 Geniverse.Dragon.modelName = "dragon";
 Geniverse.Dragon.modelsName = "dragons";
 
-Geniverse.railsBackedTypes.push(Geniverse.Dragon);
+Geniverse.railsBackedTypes.push(Geniverse.Dragon.modelName);

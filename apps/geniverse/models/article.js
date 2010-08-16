@@ -24,3 +24,6 @@ Geniverse.Article = SC.Record.extend(
 
 Geniverse.Article.modelName = "article";
 Geniverse.Article.modelsName = "articles";
+
+// TODO enable if we want to use the automated rails backend code to persist changes to activities
+// Geniverse.railsBackedTypes.push(Geniverse.Article.modelName);
