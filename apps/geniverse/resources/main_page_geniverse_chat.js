@@ -66,13 +66,31 @@ Geniverse.mainChatExamplePage = SC.Page.design({
     	
       mainAppView: SC.View.create({
         
-        childViews: 'breedView listViews chatView allArticlesView'.w(),
+        childViews: 'breedView breedingPenView listViews chatView allArticlesView'.w(),
         
         breedView: Geniverse.BreedDragonView.design({
           layout: { top: Geniverse.marginSize, left: Geniverse.marginSize, height: 230, width: 450 },
           initParentsImmediately: NO
         }),
         
+        // Breeding pen with eggs
+        breedingPenView: CC.AutoScrollView.design({
+          hasHorizontalScroller: NO,
+          layout: { left: Geniverse.marginSize + 75, top: 260, width: 300, height: 240 },
+          backgroundColor: 'white',
+          contentView: SC.GridView.design({
+            contentBinding: 'Geniverse.eggsController.arrangedObjects',
+            selectionBinding: 'Geniverse.eggsController.selection',
+            rowHeight: 60,
+            columnWidth: 60,
+            canEditContent: NO,
+            exampleView: Geniverse.OrganismView,
+            isSelectable: YES,
+            dragDataTypes: ['dragon']
+          }),
+          autoScrollTriggerBinding: 'Geniverse.eggsController.length'
+        }),
+
         listViews: SC.TabView.design({ 
           layout: { left: Geniverse.marginSize, bottom: 10, height: 220, width: 450 },
           items: [ 
@@ -162,7 +180,42 @@ Geniverse.mainChatExamplePage = SC.Page.design({
 			isSelectable: YES,
 			dragDataTypes: ['dragon']
     }),
-    autoScrollTriggerBinding: 'Geniverse.bredOrganismsController.length'
+    autoScrollTriggerBinding: 'Geniverse.bredOrganismsController.length',
+    isDropTarget: YES,
+    acceptDragOperation: function(drag, op) {
+      SC.Logger.log('ENTER bredDragonsScrollView.acceptDragOperation');
+      var dragon = this._getSourceDragon(drag);
+      dragon.set('isEgg', false);
+
+      this.invokeLast(function () {
+        SC.RunLoop.begin();
+        Geniverse.eggsController.get('content').reload();
+        Geniverse.bredOrganismsController.get('content').reload();
+        SC.RunLoop.end();
+      });
+      return op ;
+    },
+    computeDragOperations: function(drag, evt) {
+      SC.Logger.log('ENTER bredDragonsScrollView.computeDragOperations');
+      return SC.DRAG_ANY ;
+    },
+    dragEntered: function(drag, evt) {
+      SC.Logger.log('ENTER bredDragonsScrollView.dragEntered');
+      this.$().addClass('drop-target') ;
+    },
+    dragExited: function(drag, evt) {
+      SC.Logger.log('ENTER bredDragonsScrollView.dragExited');
+      this.$().removeClass('drop-target') ;
+    },
+    _getSourceDragon: function(dragEvt) {
+      var sourceDragon;
+      if ((""+dragEvt.get('source').constructor === 'Geniverse.OrganismView')){
+        sourceDragon = dragEvt.get('source').get('organism');
+      } else {
+        sourceDragon = dragEvt.get('source').get('selection').get('firstObject');
+      }
+      return sourceDragon;
+    }
   }),
 
 	allDragonsScrollView: CC.AutoScrollView.design({
