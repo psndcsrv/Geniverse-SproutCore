@@ -15,6 +15,9 @@
 require('resources/main_page_applet_demo');
 require('resources/main_page_geniverse_chat');
 
+Geniverse.EGGS_QUERY = SC.Query.local('Geniverse.Dragon',
+    { conditions: 'bred = true AND isEgg = true', orderBy: 'storeKey'});
+
 Geniverse.main = function main() {
 
   // Step 1: Instantiate Your Views
@@ -33,7 +36,7 @@ Geniverse.main = function main() {
   fetchDragons = function() {
     if (Geniverse.loginController.get('loggedIn')) {
       var user = Geniverse.userController.get('content');
-      var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true AND user = {user}', user: user, orderBy: 'storeKey'});
+      var query = SC.Query.local(Geniverse.Dragon,{conditions: 'bred = true AND isEgg = false AND user = {user}', user: user, orderBy: 'storeKey'});
       var bred_organisms = Geniverse.store.find(query);
       Geniverse.bredOrganismsController.set('content', bred_organisms);
       Geniverse.loginController.removeObserver('loggedIn', fetchDragons);
@@ -41,6 +44,9 @@ Geniverse.main = function main() {
   };
   // wait until after the login so we can load just the current user's organisms
   Geniverse.loginController.addObserver('loggedIn', fetchDragons);
+
+  var eggs = Geniverse.store.find(Geniverse.EGGS_QUERY);
+  Geniverse.eggsController.set('content', eggs);
   
   var allDragonsQuery = SC.Query.local(Geniverse.Dragon,{conditions: 'sent = true', orderBy: 'storeKey'});
   var all_organisms = Geniverse.store.find(allDragonsQuery);
