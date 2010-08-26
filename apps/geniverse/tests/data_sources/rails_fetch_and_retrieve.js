@@ -39,7 +39,7 @@ test("do we get activities back from rails", function() {
     { target: activities,
       callback: function(){
         statusEquals(activities, SC.Record.READY_CLEAN, "Next state was clean");
-        ok(activities.get('length') > 0, 'we should have at least one activity after the activities become "clean"');        
+        ok(activities.get('length') > 0, 'we should have at least one activity after the activities become "clean"');
       }      
     }
   ]);
