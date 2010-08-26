@@ -31,6 +31,8 @@ Geniverse.loginController = SC.ObjectController.create(
   
   showRetypeField: NO,
   
+  loggedIn: NO,
+  
   test: 35,
   
   welcomeMessage: function(){
@@ -43,85 +45,58 @@ Geniverse.loginController = SC.ObjectController.create(
   }.property('username'),
   
   login: function (){
-    console.log("login");
+    SC.Logger.log("login");
     var username = this.get('textAreaValue');
     var password = this.get('passwordValue');
     var passwordHash = SHA256(password);
+    var self = this;
     
-    var a = [this, 'userGetCallback', passwordHash];
+    var userFound = function(user) {
+      if (typeof user == 'undefined') {
+		    // no user exists for that username. create one
+		    SC.Logger.info("No User exists for that login. Creating account.");
+		    user = Geniverse.userController.createUser(username, password);
+		  }
+      self.checkUserPassword(user, passwordHash);
+    };
     
-    console.log("making request");
-    var request = SC.Request.getUrl("/rails/users/" + username).header({
-      'Accept': 'application/json'
-    }).json();
-    request.notify.apply(request, a);
-    request.send();
+    Geniverse.userController.findUser(username, userFound);
     
     this.set('textAreaValue', '');
   },
   
-  userGetCallback: function (response, passwordHash){
-    if (response.isError){
-      alert("No user of that name");
+  autoLogin: function(username) {
+    var self = this;
+    
+    var userFound = function(user) {
+      if (typeof user == 'undefined') {
+		    // no user exists for that username
+		    SC.Logger.info("No User exists for that login. Please log in again.");
+		    Geniverse.appController.logout();
+		  } else {
+		    self.finishLogin(user);
+		  }
+    };
+    
+    Geniverse.userController.findUser(username, userFound);
+  },
+  
+  checkUserPassword: function(user, passwordHash) {
+    var username = user.username;
+    var rails_password_hash = user.get('passwordHash');
+    SC.Logger.log("hash from rails = "+rails_password_hash);
+    SC.Logger.log("hash from user = "+passwordHash);
+    if (rails_password_hash === passwordHash){
+      SC.Logger.log("passwords match!");
+      this.finishLogin(user);
     } else {
-      var user = response.get('body').user;
-      var username = user.username;
-      var rails_password_hash = user.password_hash;
-      console.log("hash from rails = "+rails_password_hash);
-      console.log("hash from user = "+passwordHash);
-      if (rails_password_hash === passwordHash){
-        console.log("passwords match!");
-        Geniverse.userController.createUser(username);
-      } else {
-        alert("Passwords do not match");
-      }
-    }
-    console.log('I got called back! response = '+response.get('body'));
-      console.log('I got called back! response = '+response.get('body').user);
-    console.log("password is "+response.get('body').user.password_hash);
-    
-    window.foo = response;
-    
-    
-    //Geniverse.userController.createUser(username);
-  },
-  
-  register: function (){
-    if (!this.get('showRetypeField')){
-      this.set('showRetypeField', YES);
-    } else {
-      if (this.get('passwordValue') === this.get('retypePasswordValue')){
-        var username = this.get('textAreaValue');
-      //  alert("Welcome "+username + "!");
-      //  Geniverse.userController.createUser(username, this.get('passwordValue'));
-        this.createAccount(username, this.get('passwordValue'));
-        
-      } else {
-        alert("The two passwords do not match");
-      }
+      alert("Passwords do not match");
     }
   },
   
-  createAccount: function (username, password){
-    var passwordHash = SHA256(password);
-    
-    var a = [this, 'userCreateCallback', passwordHash];
-    
-    console.log("making create request");
-    var request = SC.Request.postUrl("/rails/users").header({
-      'Accept': 'application/json'
-    }).json();
-    request.notify.apply(request, a)
-    .send({user: {username: username, password_hash: passwordHash}});
-    
-  },
-  
-  userCreateCallback: function (response){
-    console.log("got a response! "+response);
-      console.log("body =  "+response.get('body'));
-    if (response.isError){
-      alert("Error on creation");
-    }
+  finishLogin: function(user) {
+    Geniverse.userController.set('content', user);
+    Geniverse.loginController.set('loggedIn', YES);
   }
 
 }) ;

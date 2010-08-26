@@ -1,0 +1,48 @@
+<p>
+  <b>ID:</b>
+  <%=h @dragon.id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @dragon.user_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @dragon.name %>
+</p>
+
+<p>
+  <b>Sex:</b>
+  <%=h @dragon.sex %>
+</p>
+
+<p>
+  <b>Alleles:</b>
+  <%=h @dragon.alleles %>
+</p>
+
+<p>
+  <b>ImageURL:</b>
+  <%=h @dragon.imageURL %>
+</p>
+
+<p>
+  <b>Mother:</b>
+  <%=h @dragon.mother_id %>
+</p>
+
+<p>
+  <b>Father:</b>
+  <%=h @dragon.father_id %>
+</p>
+
+<p>
+  <b>Bred:</b>
+  <%=h @dragon.bred %>
+</p>
+
+
+<%= link_to 'Edit', edit_dragon_path(@dragon) %> |
+<%= link_to 'Back', dragons_path %>

@@ -10,7 +10,7 @@
 
 module("Geniverse.RailsDataSource_fetch_and_retrieve", { 
   setup: function() {
-    console.log("setting store");
+    SC.Logger.log("setting store");
     this.store = SC.Store.create().from('Geniverse.RailsDataSource');
     Geniverse.set('store', this.store); 
   }
@@ -21,7 +21,7 @@ test("does the source that core.js associates with Geniverse store exist", funct
   // setup a spy
   var fetchCalled = false;
   var railsDataSource = this.store._getDataSource();
-  console.log("railsDataSource = "+railsDataSource);
+  SC.Logger.log("railsDataSource = "+railsDataSource);
   // reassign fetch prop to new function
   railsDataSource.fetch = function() {
     fetchCalled = true;
@@ -39,7 +39,7 @@ test("do we get activities back from rails", function() {
     { target: activities,
       callback: function(){
         statusEquals(activities, SC.Record.READY_CLEAN, "Next state was clean");
-        ok(activities.get('length') > 0, 'we should have at least one activity after the activities become "clean"');        
+        ok(activities.get('length') > 0, 'we should have at least one activity after the activities become "clean"');
       }      
     }
   ]);

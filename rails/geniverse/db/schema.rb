@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100706153950) do
+ActiveRecord::Schema.define(:version => 20100816181212) do
 
   create_table "activities", :force => true do |t|
     t.string   "initial_alleles"
@@ -20,5 +20,27 @@ ActiveRecord::Schema.define(:version => 20100706153950) do
     t.datetime "updated_at"
     t.string   "title"
   end
+
+  create_table "dragons", :force => true do |t|
+    t.string   "name"
+    t.integer  "sex"
+    t.string   "alleles"
+    t.string   "imageURL"
+    t.integer  "mother_id"
+    t.integer  "father_id"
+    t.boolean  "bred"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "username"
+    t.string   "password_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["username", "password_hash"], :name => "index_users_on_username_and_password_hash"
 
 end

@@ -20,7 +20,7 @@ class Chatter
   @@messages = TEXT.scan(/.*?[\.\?\!]/m)
   @@currentMessage = 0
   
-  def init(browser)
+  def init(browser, left = true)
     @errors = []
     @browser = browser
     puts "Setting up #{@browser}"
@@ -31,7 +31,7 @@ class Chatter
     
     @driver.navigate.to "http://geniverse.dev.concord.org/sproutcore/gentest"
     # maximize the window
-    @driver.execute_script("window.moveTo(0, 0); if (window.screen) { window.resizeTo(window.screen.availWidth, window.screen.availHeight); } else { window.resizeTo('1024','768'); }; return true")
+    @driver.execute_script("window.moveTo(0, 0); if (window.screen) { window.moveTo(" + (left ? "0" : "window.screen.availWidth/2") + ", 0); window.resizeTo(window.screen.availWidth/2, window.screen.availHeight); } else { window.resizeTo('1024','768'); }; return true")
   end
   
   def quit
@@ -130,10 +130,10 @@ begin
   @start_time = Time.now
   puts "#{@start_time}: Starting up"
   chatter1 = Chatter.new
-  chatter1.init("firefox")
+  chatter1.init("firefox", true)
 
   chatter2 = Chatter.new
-  chatter2.init("internet_explorer")
+  chatter2.init("internet_explorer", false)
 
   chatter1.login('chat1')
   chatter2.login('chat2')

@@ -32,3 +32,4 @@ Geniverse.Activity = SC.Record.extend(
 Geniverse.Activity.modelName = "activity";
 Geniverse.Activity.modelsName = "activities";
 
+Geniverse.railsBackedTypes.push(Geniverse.Activity.modelName);

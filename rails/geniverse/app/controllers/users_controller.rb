@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }
+      format.json { render :json => custom_array_hash(@users) }
     end
   end
 
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
-      format.json { render :json => @user }
+      format.json { render :json => custom_item_hash(@user) }
     end
   end
 
@@ -46,13 +47,17 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
-    @user = User.new(params[:user])
+    user_params = params[:user]
+    user_params[:password_hash] = user_params[:passwordHash] if user_params.has_key? :passwordHash
+    user_params.delete(:passwordHash)
+    
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
         format.html { redirect_to(@user, :notice => 'User was successfully created.') }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
-        format.json { render :json => @user, :status => :created, :location => @user }
+        format.json { render :json => custom_item_hash(@user), :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }

@@ -1,0 +1,36 @@
+<h1>Listing dragons</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>User</th>
+    <th>Name</th>
+    <th>Sex</th>
+    <th>Alleles</th>
+    <th>ImageURL</th>
+    <th>Mother</th>
+    <th>Father</th>
+    <th>Bred</th>
+  </tr>
+
+<% @dragons.each do |dragon| %>
+  <tr>
+    <td><%=h dragon.id %></td>
+    <td><%=h dragon.user_id %></td>
+    <td><%=h dragon.name %></td>
+    <td><%=h dragon.sex %></td>
+    <td><%=h dragon.alleles %></td>
+    <td><%=h dragon.imageURL %></td>
+    <td><%=h dragon.mother_id %></td>
+    <td><%=h dragon.father_id %></td>
+    <td><%=h dragon.bred %></td>
+    <td><%= link_to 'Show', dragon %></td>
+    <td><%= link_to 'Edit', edit_dragon_path(dragon) %></td>
+    <td><%= link_to 'Destroy', dragon, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New dragon', new_dragon_path %>

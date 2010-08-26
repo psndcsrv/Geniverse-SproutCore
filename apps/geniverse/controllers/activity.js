@@ -15,7 +15,6 @@ Geniverse.activityController = SC.ObjectController.create(
 
   startActivity: function() {
     var chatroom = CcChat.chatRoomController.get('channel');
-		Geniverse.breedDragonController.initParentsWhenGWTLoads();
 		
     if (this.get('sendBredDragons')){
       CcChat.chatController.subscribeToChannel(chatroom+'/org', this.receiveDragon);

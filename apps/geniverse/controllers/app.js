@@ -30,7 +30,7 @@ Geniverse.appController = SC.ObjectController.create(
     var username = Geniverse.userDefaults.readDefault('username');
     if (username !== undefined && username !== null && username.length > 0){
       SC.Logger.log("automatically logging in as "+username);
-      Geniverse.userController.createUser(username);      // this will kick-off login
+      Geniverse.loginController.autoLogin(username);      // this will kick-off login
     } else {
       SC.RunLoop.begin();
   		Geniverse.userDefaults.writeDefault('chatroom', '');  // if no username, make sure room is also cleared
