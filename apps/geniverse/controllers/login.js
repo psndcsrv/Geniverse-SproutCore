@@ -72,6 +72,7 @@ Geniverse.loginController = SC.ObjectController.create(
       if (typeof user == 'undefined') {
 		    // no user exists for that username
 		    SC.Logger.info("No User exists for that login. Please log in again.");
+		    Geniverse.appController.logout();
 		  } else {
 		    self.finishLogin(user);
 		  }
