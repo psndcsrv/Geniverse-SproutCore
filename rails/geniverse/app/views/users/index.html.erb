@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <%= if (@users.size > 0) %>
+    <% if (@users.size > 0) %>
       <% @users[0].attributes.keys.sort.each do |attr| %>
         <th><%=h attr.humanize %></th>
       <% end %>
