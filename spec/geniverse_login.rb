@@ -14,7 +14,7 @@
 #         :port => 4444, 
 #         :browser => '{"username": "scytacki",' +
 #           # put a valid access-key in here:
-#                       '"access-key": "b19adfe1-37e5-4277-a90b-d2f29cd69440",' +
+#                       '"access-key": "",' +
 #                       '"os": "Windows 2003",' +
 #                       '"browser": "safari",' +
 #                       '"browser-version": "4.",' +
@@ -29,13 +29,13 @@ client = Selenium::Client::Driver.new \
         :host => 'localhost',
         :port => 4444, 
         :browser => :firefox,
-        :url => "http://geniverse.dev.concord.org/sproutcore/", 
+        :url => "http://0.0.0.0:4020", 
         :timeout_in_seconds => 90
         
         
 
-App = Application.new \
-        :app_root_path => "/geniverse-chat", 
+App = MainApplication.new \
+        :app_root_path => "/geniverse", 
         :app_name => "Geniverse",
         :driver => client
 
@@ -49,15 +49,16 @@ App.window.move_to 1, 1 # Have a slight offset for Firefox so that the window wi
 App.window.resize_to 1024, 768 
 
 
-App.define 'appContainer', 'mainChatExamplePage.mainPane.appContainer', View
-App.define 'topBar', 'mainChatExamplePage.mainPane.topBar', View
+App.define_path 'appContainer', 'mainChatExamplePage.mainPane.appContainer', View
+App.define_path 'topBar', 'mainChatExamplePage.mainPane.topBar', View
 
 
 describe "App Controller Test" do
   
 
   before(:all) do    
-    @login_field = App['appContainer.loginView.inputView.textFieldView', 'SC.TextFieldView']
+    @login_field = App['appContainer.loginView.nameField', 'SC.TextFieldView']
+    @password_field = App['appContainer.loginView.passwordField', 'SC.TextFieldView']
     @login_button = App['appContainer.loginView.loginButtonView', 'SC.ButtonView']
     @welcome_label = App['topBar.welcomeLabelView', 'SC.LabelView']
     @logout_button = App['topBar.logoutButton', 'SC.ButtonView']
@@ -75,6 +76,7 @@ describe "App Controller Test" do
     # @welcome_label.should have_text_align 'right' # check that we can test for arbitrary SC properties
     
     @login_field.type "Test"
+    @password_field.type "Test"
     @login_button.click
     @welcome_label.should have_value /^Welcome Test.*/
     @welcome_label.should be_visible_in_window
