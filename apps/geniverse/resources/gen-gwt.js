@@ -70,6 +70,7 @@ GenGWT = {
     },
 
     isLoaded: function() {
-	    return (typeof(generateDragonWithSex) != "undefined");
+      SC.Logger.log("Checking if loaded. Is:  " + (typeof(generateDragonWithCallback) != "undefined"));
+	    return (typeof(generateDragonWithCallback) != "undefined");
 		}
 };

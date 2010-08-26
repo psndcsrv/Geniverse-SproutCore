@@ -33,7 +33,7 @@ Geniverse.Dragon = SC.Record.extend(
   gOrganismDefined: function() {
     var gOrg = this.get('gOrganism');
     var defined = (gOrg !== null && (typeof gOrg != 'undefined') && (typeof gOrg.alleles != 'undefined')) ? YES : NO;
-    SC.Logger.info('gOrganism is defined: ' + defined);
+    // SC.Logger.info('gOrganism is defined: ' + defined);
     // SC.Logger.dir(this);
     return defined;
   }.property('gOrganism').cacheable(),
@@ -42,15 +42,15 @@ Geniverse.Dragon = SC.Record.extend(
     var self = this;
     this.invokeLast(function() {
       // SC.Logger.group('Dragon init');
-      SC.Logger.info('gOrganism: ', typeof self.get('gOrganism'));
+      // SC.Logger.info('gOrganism: ', typeof self.get('gOrganism'));
       if (self.get('gOrganismDefined') == NO) {
-        SC.Logger.info('gOrganism not defined. asking GWT for gOrganism');
+        // SC.Logger.info('gOrganism not defined. asking GWT for gOrganism');
         Geniverse.gwtController.generateGOrganismWithAlleles(self.get('alleles'), self.get('sex'), function(gOrg) {
-          SC.Logger.info('created gOrg for loaded Dragon');
+          // SC.Logger.info('created gOrg for loaded Dragon');
           self.set('gOrganism', gOrg);
         });
       } else {
-        SC.Logger.info('gOrganism already defined. must be a session-generated dragon.');
+        // SC.Logger.info('gOrganism already defined. must be a session-generated dragon.');
         // SC.Logger.dir(self);
       }
       // SC.Logger.groupEnd();
@@ -59,7 +59,7 @@ Geniverse.Dragon = SC.Record.extend(
   
   setAttributes: function() {
     var gOrg = this.get('gOrganism');
-    SC.Logger.info('gOrganism changed: ', typeof gOrg);
+    // SC.Logger.info('gOrganism changed: ', typeof gOrg);
     if (this.get('gOrganismDefined')) {
       // this.set('name', gOrg.name);  // GWT doesn't create meaningful names, so no sense in overriding an existing name
       this.set('sex', gOrg.sex);

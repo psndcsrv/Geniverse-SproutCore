@@ -25,18 +25,9 @@ Geniverse.breedDragonController = SC.Controller.create(
   
   breedButtonTitle: 'Breed',
   
-  initParentsWhenGWTLoads: function() {
-    if (this.get('loadTimer') !== null){
-      this.get('loadTimer').invalidate();
-    }
-    
-    this.set('loadTimer', SC.Timer.schedule({
-      target: this,
-      action: 'initParents',
-      interval: 200,
-      repeats: YES
-    }));
-  },
+  initParentsImmediately: YES,
+  
+  gwtReadyBinding: 'Geniverse.gwtController.isReady',
   
   initParents: function() {
     var self = this;
@@ -52,37 +43,40 @@ Geniverse.breedDragonController = SC.Controller.create(
         self.set('father', dragon);
         SC.RunLoop.end();
     }
-    if (typeof(generateDragonWithSex) != "undefined") {
-      SC.Logger.log('found gwt');
+    if (this.get('gwtReady') == YES && this.get('initParentsImmediately') == YES) {
+      SC.Logger.log('gwt ready. initializing parents');
       var allelesF = Geniverse.activityController.getInitialAlleles('f');
       if (allelesF !== undefined && allelesF !== null){
         Geniverse.gwtController.generateDragonWithAlleles(allelesF, 1, 'Mother', setMother);
-        var allelesM = Geniverse.activityController.getInitialAlleles('m');
-        Geniverse.gwtController.generateDragonWithAlleles(allelesM, 0, 'Father', setFather);
       } else {
         Geniverse.gwtController.generateDragon(1, 'Mother', setMother);
+      }
+      
+      var allelesM = Geniverse.activityController.getInitialAlleles('m');
+      if (allelesM !== undefined && allelesM !== null){
+        Geniverse.gwtController.generateDragonWithAlleles(allelesM, 0, 'Father', setFather);
+      } else {
         Geniverse.gwtController.generateDragon(0, 'Father', setFather);
       }
-      if (this.get('loadTimer') !== null){
-        this.get('loadTimer').invalidate();
-      }
+      
     }
-  },
+  }.observes('gwtReady'),
   
   breed: function() {
     var self = this;
     this.set('breedButtonTitle', 'Generating...');
     Geniverse.eggsController.removeAllEggs(); //clear the breeding pen
+    var handleChild = function(child) {
+      SC.RunLoop.begin();
+      child.set('isEgg', true);
+      self.set('child', child);
+      if (self.get('breedButtonTitle') !== 'Breed') {
+        self.set('breedButtonTitle', 'Breed');
+      }
+      SC.RunLoop.end();
+    };
     for (var i = 0; i < 20; ++i) {
-      Geniverse.gwtController.breedOrganism(this.get('mother'), this.get('father'), function handleChild(child) {
-        SC.RunLoop.begin();
-        child.set('isEgg', true);
-        self.set('child', child);
-        if (self.get('breedButtonTitle') !== 'Breed') {
-          self.set('breedButtonTitle', 'Breed');
-        }
-        SC.RunLoop.end();
-      });
+      Geniverse.gwtController.breedOrganism(this.get('mother'), this.get('father'), handleChild);
     }
   }
 });

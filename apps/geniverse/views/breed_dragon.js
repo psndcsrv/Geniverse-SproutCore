@@ -27,14 +27,6 @@ Geniverse.BreedDragonView = SC.View.extend(
 	initParentsImmediately: YES,
 	initParentsImmediatelyBinding: 'Geniverse.breedDragonController.initParentsImmediately',
 	
-	init: function() {
-    if (this.get('initParentsImmediately')){
-		  Geniverse.breedDragonController.initParentsWhenGWTLoads();
-	  }
-		
-		sc_super();
-	},
-	
 	fatherView: Geniverse.OrganismView.design({
 		layout: {top: 18, right: 0, width: 180, height: 150},
 	  classNames: "fatherView",

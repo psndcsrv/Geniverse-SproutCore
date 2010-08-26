@@ -15,6 +15,36 @@ Geniverse.gwtController = SC.Controller.create(
 /** @scope Geniverse.gwtController.prototype */
 {
   bredOrganisms: [],
+  
+  isReady: NO,
+  
+  loadTimer: null,
+  
+  setupTimer: function() {
+	  if (this.get('loadTimer') !== null) {
+	    this.get('loadTimer').invalidate();
+    }
+    
+    this.set('loadTimer', SC.Timer.schedule({
+      target: this,
+      action: function() { 
+        if (typeof(GenGWT) != "undefined" && GenGWT.isLoaded()) {
+          this.set('isReady', YES);
+          this.get('loadTimer').invalidate();
+        }
+      },
+      interval: 200,
+      repeats: YES
+    }));
+	},
+	
+  init: function() {
+		sc_super();
+		
+		if (typeof(GenGWT) == "undefined" || ! GenGWT.isLoaded()) {
+		  this.setupTimer();
+		}
+	},
 
   breedOrganism: function(mother, father, handleChildFunction) {
     var self = this;
@@ -58,7 +88,7 @@ Geniverse.gwtController = SC.Controller.create(
   },
   
   generateDragonWithAlleles: function(alleles, sex, name, callback) {
-    SC.Logger.log("Generating dragon with "+alleles);
+    // SC.Logger.log("Generating dragon with "+alleles);
     // alert('generating dragon');
     var self = this;
     var handleGOrg = function(gOrg) {
@@ -72,7 +102,7 @@ Geniverse.gwtController = SC.Controller.create(
   },
   
   generateGOrganismWithAlleles: function(alleles, sex, callback) {
-    SC.Logger.log("Generating gOrg with "+alleles);
+    // SC.Logger.log("Generating gOrg with "+alleles);
     GenGWT.generateDragonWithAlleleStringAndSex(alleles, sex, callback);
   }
 
